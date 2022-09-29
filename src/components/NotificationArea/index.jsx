@@ -2,8 +2,10 @@ import { Button } from "@mui/material";
 import React from "react";
 import { Stack } from "@mui/material";
 import Inter from "@fontsource/inter";
+import { useNavigate } from "react-router-dom";
 
 export default function NotificationArea(props) {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -31,6 +33,7 @@ export default function NotificationArea(props) {
               color: "white",
               fontFamily: "Inter",
             }}
+            onClick = {()=>navigate("/viewNotification")}
           >
             View
           </Button>

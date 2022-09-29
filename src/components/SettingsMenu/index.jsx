@@ -5,6 +5,8 @@ import MenuItem from "@mui/material/MenuItem";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import AddCameraForm from "../AddCameraForm";
+import Link from "@mui/material/Link";
 
 export default function SettingsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -16,6 +18,8 @@ export default function SettingsMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleAddCamera = () => {};
 
   return (
     <div>
@@ -37,9 +41,13 @@ export default function SettingsMenu() {
           "aria-labelledby": "settings-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Add Camera</MenuItem>
-        <MenuItem onClick={navigate("../account")}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem component={AddCameraForm} onClick={handleClose}>Add Camera</MenuItem>
+        <MenuItem component={Link} href="../account">
+          My account
+        </MenuItem>
+        <MenuItem onClick={handleClose} component={Link} href="../">
+          Logout
+        </MenuItem>
       </Menu>
     </div>
   );

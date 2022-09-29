@@ -6,6 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import ADD_SUB from "../../assets/images/addSubscriber.svg";
 
 export default function AddSubscriberBtn(props) {
   const [email, setEmail] = React.useState("");
@@ -14,7 +15,7 @@ export default function AddSubscriberBtn(props) {
  
 
   const newUsers = [...users];
-  console.log("new:",newUsers);
+  // console.log("new:",newUsers);
   
 //   console.log("new:"+newUsers);
 
@@ -62,6 +63,7 @@ export default function AddSubscriberBtn(props) {
             To add new subscriber to this software, please enter the email
             address here.
           </DialogContentText>
+          <img src={ADD_SUB} style={{ width: "20vw" , alignSelf:"center"}}/>
           <TextField
             autoFocus
             margin="dense"

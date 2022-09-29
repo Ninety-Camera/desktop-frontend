@@ -75,6 +75,7 @@ export default function Dashboard() {
                   backgroundColor: "#F50057",
                   color: "white",
                   fontWeight: 700,
+                  width: 200,
                   height: "80%",
                   justifyContent: "center",
                   id: "startStopBtn",
@@ -83,31 +84,11 @@ export default function Dashboard() {
                   },
                   alignItems: "center",
                 }}
+                startIcon={state? <StopIcon /> : <PlayArrowIcon/>}
               >
-                {state ? (
-                  <Stack direction="row" spacing={1}>
-                    <div>
-                      <StopIcon></StopIcon>
-                    </div>
-                    <div>Stop</div>
-                  </Stack >
-                ) : (
-                  <Stack direction="row" spacing={1}>
-                    <div>
-                      <PlayArrowIcon />
-                    </div>
-                    <div>Start</div>
-                  </Stack>
-                )}
+                {state? "Stop Recording" : "Start Recording"}
               </Button>
             </div>
-            {/* <div style={{ justifyContent: "center", flex: "right" }}>
-              <Tooltip title="Settings" placement="left-start">
-                <IconButton>
-                  <SettingsIcon />
-                </IconButton>
-              </Tooltip>
-            </div> */}
             <SettingsMenu/>
           </Stack>
         </div>

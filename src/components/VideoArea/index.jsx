@@ -21,11 +21,13 @@ export default function VideoArea(props) {
       }}
     >
       <Stack direction={alignment} spacing={5}>
-        
         {videosList.map((videoClip) => {
-          
           return (
-            <Stack direction={alignment == "row" ? "column": "row"} spacing={1} key={videosList.indexOf(videoClip)}>
+            <Stack
+              direction={alignment == "row" ? "column" : "row"}
+              spacing={1}
+              key={videosList.indexOf(videoClip)}
+            >
               <video
                 src={videoClip.sourcePath}
                 width="320"
@@ -34,7 +36,6 @@ export default function VideoArea(props) {
                 loop
               ></video>
               <div>{videoClip.date + " at " + videoClip.hour}</div>
-             
             </Stack>
           );
         })}

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Formik } from "formik";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
 import Link from "@mui/material/Link";
 import LOGIN_IMAGE from "../../assets/images/login.svg";
 import { Stack } from "@mui/material";
@@ -41,7 +41,8 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function SignIn() {
-//   const navigate = useNavigate();
+  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -102,7 +103,7 @@ export default function SignIn() {
                       variant="contained"
                       size="large"
                       onClick={handleSubmit}
-                      // onClick={()=> navigate("/dashboard")} //should remove later
+                      onClick={() => navigate("/dashboard")} //should remove later
                       disabled={loading}
                       sx={{ backgroundColor: "#6C63FF" }}
                     >
@@ -117,10 +118,10 @@ export default function SignIn() {
           <HeightBox height={15} />
           <div style={{ fontSize: 15, width: 350 }}>
             <Stack direction="row" justifyContent="center" spacing={1}>
-              {/* <p style={{ margin: 0 }}>Don't have an account?</p> */}
-              {/* <Link href="/forgetPassword" underline="hover" color="black">
-                Forget Password?
-              </Link> */}
+              <p style={{ margin: 0 }}>Don't have an account?</p>
+              <Link href="/register" underline="hover" color="black">
+                Create Account
+              </Link>
             </Stack>
           </div>
           <HeightBox height={15} />

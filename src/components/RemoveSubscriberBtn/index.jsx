@@ -15,6 +15,7 @@ import { blue } from "@mui/material/colors";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemButton from "@mui/material/ListItemButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton } from "@mui/material";
 
 // const emails = ["username@gmail.com", "user02@gmail.com"];
 
@@ -43,9 +44,9 @@ function SimpleDialog(props) {
             </ListItemAvatar>
             <ListItemText primary={user.email} />
             <ListItemIcon>
-              <Button onClick={() => handleListItemClick(users.indexOf(user))}>
+              <IconButton disabled={!(users.indexOf(user))}onClick={() => handleListItemClick(users.indexOf(user))}>
                 <DeleteIcon />
-              </Button>
+              </IconButton>
             </ListItemIcon>
           </ListItem>
         ))}
