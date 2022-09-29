@@ -17,20 +17,23 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Label } from "@mui/icons-material";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const username = "Test User";
 const password = "12345";
 const email = "user@gmail.com";
 
 export default function Account() {
+    const navigate = useNavigate();
   const [editable, setEditable] = useState(false);
   const [editablePW, setEditablePW] = useState(false);
   const [open, setOpen] = useState(false);
   const [passwordCrt, setPasswordCrt] = useState("");
 
   const handleBtnClick = () => {
+    if (editable) {
+      //should implement
+    }
     setEditable(!editable);
   };
 
@@ -52,7 +55,11 @@ export default function Account() {
   return (
     <React.Fragment>
       <Stack direction="column" spacing={1}>
-        <BlackHorizontalBar phrase={"Ninety Camera"} />
+        <BlackHorizontalBar
+          title={"Ninety Camera"}
+          buttonText={"Dashboard"}
+          buttonAction={() => navigate("/dashboard")}
+        />
         <div
           style={{
             color: "#6C63FF",
@@ -65,7 +72,14 @@ export default function Account() {
           My Account
         </div>
         <Stack direction="row" spacing={3}>
-          <div style={{width: "50%", justifyContent: "center", alignItems: "center", paddingLeft: "10%"}}>
+          <div
+            style={{
+              width: "50%",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingLeft: "10%",
+            }}
+          >
             <Card
               sx={{
                 width: 500,

@@ -11,6 +11,7 @@ export default function NotificationArea(props) {
       style={{
         backgroundColor: "#F50057",
         width: "90%",
+        padding: 10,
         justifyContent: "center",
         borderRadius: 4,
         justifyItems: "center",
@@ -18,23 +19,28 @@ export default function NotificationArea(props) {
         textAlign: "center",
       }}
     >
-      <Stack direction="row" spacing={1}>
-        <div style={{ flex: "left", justifyContent: "center", padding: 5, fontFamily: 'inter', color: "white", fontSize: 15}}>
+      <Stack
+        direction="row"
+        spacing={1}
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <div
+          style={{
+            flex: "left",
+            justifyContent: "center",
+            padding: 5,
+            fontFamily: "inter",
+            color: "white",
+            fontSize: 15,
+            fontWeight: 800,
+          }}
+        >
           {props.date + " at " + props.time}
         </div>
         <div style={{ flex: "right", justifyContent: "center" }}>
-          <Button
-            sx={{
-              backgroundColor: "#6C63FF",
-              "&:hover": {
-                backgroundColor: "#5C63FF",
-              },
-              height: "80%",
-              color: "white",
-              fontFamily: "Inter",
-            }}
-            onClick = {()=>navigate("/viewNotification")}
-          >
+          
+          <Button color="primary" variant="contained" onClick = {()=>navigate("/viewNotification")}>
             View
           </Button>
         </div>

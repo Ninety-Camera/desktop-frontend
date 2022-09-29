@@ -23,8 +23,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function BlackHorizontalBar(props) {
-  const navigate = useNavigate();
-  const { title, buttonText, buttonAction } = props;
+  const { title, buttonText, buttonAction, showButton = true } = props;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#2F2E41" }}>
@@ -32,15 +31,17 @@ export default function BlackHorizontalBar(props) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {title}
           </Typography>
-          <CustomButton
-            type="submit"
-            variant="contained"
-            size="large"
-            sx={{ backgroundColor: "#6C63FF" }}
-            onClick={buttonAction}
-          >
-            {buttonText}
-          </CustomButton>
+          {showButton && (
+            <CustomButton
+              type="submit"
+              variant="contained"
+              size="large"
+              sx={{ backgroundColor: "#6C63FF" }}
+              onClick={buttonAction}
+            >
+              {buttonText}
+            </CustomButton>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

@@ -18,6 +18,7 @@ import AddSubscriberBtn from "../../components/AddSubscriberBtn";
 import RemoveSubscriber from "../../components/RemoveSubscriberBtn";
 import { Navigate, useNavigate } from "react-router-dom";
 import SettingsMenu from "../../components/SettingsMenu";
+import HeightBox from "../../components/HeightBox";
 
 const notifications = [
   { date: "20/02/2022", time: "09:34" },
@@ -36,6 +37,8 @@ const videoList = [
   { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
   { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
   { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
+  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
+  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
 ];
 
 const users = [
@@ -46,65 +49,69 @@ const users = [
 ];
 
 export default function Dashboard() {
-  const [state, setState] = useState(false);
+  const [systemState, setSystemState] = useState("RUNNING");
   const navigate = useNavigate();
 
-  // console.log("dash:"+users);
-  const toggle = () => {
-    setState(!state);
-  };
   return (
-    <React.Fragment>
+    <div style={{ overflow: "hidden" }}>
       <Stack direction="column">
-        <BlackHorizontalBar phrase={"Ninety Camera"} />
+        <BlackHorizontalBar title="Ninety Camera" showButton={false} />
+        <HeightBox height={10} />
         <div
           style={{
-            color: "#6C63FF",
-            fontWeight: 700,
-            fontSize: 25,
-            padding: 20,
+            paddingLeft: 40,
             justifyContent: "center",
           }}
         >
-          <Stack direction="row" spacing={2}>
-            <div style={{ justifyContent: "center" }}>Dashboard</div>
+          <Stack direction="row" spacing={5} alignItems="center">
+            <h2
+              style={{
+                color: "#6C63FF",
+                fontWeight: 700,
+                fontSize: 35,
+              }}
+            >
+              Dashboard
+            </h2>
             <div>
               <Button
-                onClick={toggle}
-                sx={{
-                  backgroundColor: "#F50057",
-                  color: "white",
-                  fontWeight: 700,
-                  width: 200,
-                  height: "80%",
-                  justifyContent: "center",
-                  id: "startStopBtn",
-                  "&:hover": {
-                    backgroundColor: "#D50057",
-                  },
-                  alignItems: "center",
+                variant="contained"
+                color={systemState === "RUNNING" ? "secondary" : "primary"}
+                startIcon={
+                  systemState === "RUNNING" ? <StopIcon /> : <PlayArrowIcon />
+                }
+                style={{ textTransform: "none" }}
+                onClick={() => {
+                  if (systemState === "RUNNING") {
+                    setSystemState("STOP");
+                  } else {
+                    setSystemState("RUNNING");
+                  }
                 }}
-                startIcon={state? <StopIcon /> : <PlayArrowIcon/>}
+                
               >
-                {state? "Stop Recording" : "Start Recording"}
+                {systemState === "RUNNING"
+                  ? "Stop Processing"
+                  : "Start Processing"}
               </Button>
             </div>
-            <SettingsMenu/>
+
+            <SettingsMenu />
           </Stack>
         </div>
-        <div style={{ padding: 20 }}>
+        <div style={{ paddingLeft: 40, paddingRight: 40 }}>
           <VideoArea videosList={videoList} alignment={"row"} />
         </div>
+        <HeightBox height={10} />
         <h1 style={{ paddingLeft: 40 }}>Recent Intrusions</h1>
         <div style={{ padding: 20, justifyContent: "center" }}>
           <Stack direction="row" spacing={2}>
             <div
               style={{
                 width: "100%",
-                height: 202,
+                maxHeight: 1000,
                 justifyContent: "center",
                 paddingLeft: 20,
-
                 overflowY: "scroll",
               }}
             >
@@ -129,7 +136,7 @@ export default function Dashboard() {
                     alignItems: "center",
                   }}
                 >
-                  <Stack direction="row" spacing={2}>
+                  <Stack direction="row" spacing={2} alignItems="center">
                     <AddSubscriberBtn users={users} />
                     <RemoveSubscriber users={users} />
                   </Stack>
@@ -137,7 +144,7 @@ export default function Dashboard() {
                 <div style={{ justifyContent: "center", alignItems: "center" }}>
                   <Button
                     sx={{
-                      width: "91%",
+                      width: 655,
                       height: 100,
                       backgroundColor: "#6C63FF",
                       fontFamily: "Inter",
@@ -151,7 +158,12 @@ export default function Dashboard() {
                     // onClick={navigate("../viewVideos")}
                     href="../viewVideos"
                   >
-                    <Stack direction="column" spacing={1}>
+                    <Stack
+                      direction="column"
+                      spacing={1}
+                      justifyContent="center"
+                      alignItems="center"
+                    >
                       <div>View Previous Videos </div>
                       <div>
                         <PlayCircleIcon />
@@ -164,7 +176,7 @@ export default function Dashboard() {
           </Stack>
         </div>
       </Stack>
-    </React.Fragment>
+    </div>
   );
 }
 
