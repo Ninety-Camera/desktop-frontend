@@ -38,7 +38,7 @@ export default function SettingsMenu() {
         }}
       >
         <MenuItem onClick={handleClose}>Add Camera</MenuItem>
-        <MenuItem onClick={navigate("../account")}>My account</MenuItem>
+        {/* <MenuItem onClick={navigate("./account")}>My account</MenuItem> */}
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
     </div>

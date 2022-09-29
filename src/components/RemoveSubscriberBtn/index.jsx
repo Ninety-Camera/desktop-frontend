@@ -62,7 +62,7 @@ SimpleDialog.propTypes = {
 
 export default function RemoveSubscriber(props) {
   const [users, setUsers] = React.useState(props.users);
-  console.log("remove", users);
+
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(users[0].email);
 
@@ -77,10 +77,6 @@ export default function RemoveSubscriber(props) {
 
   return (
     <div>
-      {/* <Typography variant="subtitle1" component="div">
-        Selected: {selectedValue}
-      </Typography> */}
-      <br />
       <Button
         variant="outlined"
         onClick={handleClickOpen}
