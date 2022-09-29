@@ -1,55 +1,48 @@
 import { findByLabelText } from "@testing-library/react";
 import React from "react";
-import { Button, Box, Divider, Typography } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import { styled } from "@mui/system";
 import "@fontsource/inter";
-// import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+const CustomButton = styled(Button)(({ theme }) => ({
+  // color: theme.palette.getContrastText([500]),
+  backgroundColor: "#6C63FF",
+  fontFamily: "Inter",
+  fontSize: 15,
+  fontWeight: 700,
+  "&:hover": {
+    backgroundColor: "#5C63FF",
+  },
+}));
 
 export default function BlackHorizontalBar(props) {
-  // const navigate = useNavigate();
-  const { phrase } = props;
+  const navigate = useNavigate();
+  const { title, buttonText, buttonAction } = props;
   return (
-    <Box
-      style={{
-        height: 70,
-        backgroundColor: "#2F2E41",
-        color: "white",
-        fontSize: 30,
-        fontFamily: "inter",
-        fontStyle: "normal",
-        fontWeight: 700,
-        lineHeight: 48,
-        paddingLeft: 50,
-        display: "flex",
-        alignItems: "center",
-        position: "sticky",
-        top: "0%",
-        width: "100%",
-        textAlign: "center",
-        
-        // justifyContent: "center",
-      }}
-    >
-      <Typography  sx={{ my: 2 , fontSize: 30,
-        fontFamily: "inter",
-        fontStyle: "normal",
-        fontWeight: 700,}}>
-      {phrase}
-      </Typography>
-      
-
-      {/* <Divider/>
-      <Button
-        variant="contained"
-        sx={{
-          background: "#6C63FF",
-          width: "8%",
-          height: "60%",
-          align: "right",
-        }}
-        // onClick={() => navigate("/dashboard")}
-      >
-        Log out
-      </Button> */}
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" sx={{ backgroundColor: "#2F2E41" }}>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            {title}
+          </Typography>
+          <CustomButton
+            type="submit"
+            variant="contained"
+            size="large"
+            sx={{ backgroundColor: "#6C63FF" }}
+            onClick={buttonAction}
+          >
+            {buttonText}
+          </CustomButton>
+        </Toolbar>
+      </AppBar>
     </Box>
   );
 }
