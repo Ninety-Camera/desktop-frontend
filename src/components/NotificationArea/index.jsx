@@ -2,8 +2,10 @@ import { Button } from "@mui/material";
 import React from "react";
 import { Stack } from "@mui/material";
 import Inter from "@fontsource/inter";
+import { useNavigate } from "react-router-dom";
 
 export default function NotificationArea(props) {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -37,7 +39,8 @@ export default function NotificationArea(props) {
           {props.date + " at " + props.time}
         </div>
         <div style={{ flex: "right", justifyContent: "center" }}>
-          <Button color="primary" variant="contained">
+          
+          <Button color="primary" variant="contained" onClick = {()=>navigate("/viewNotification")}>
             View
           </Button>
         </div>
