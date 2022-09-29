@@ -1,199 +1,169 @@
-import React, { useState } from "react";
-import "@fontsource/inter";
-import { Stack, Button, Typography, Box } from "@mui/material";
-import BlackHorizontalBar from "../../components/BlackHorizontalBar";
-import CustomButton from "../../components/Custombutton";
+import * as React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import { useLocation } from "react-router-dom";
+import CssBaseline from "@mui/material/CssBaseline";
+import MuiDrawer from "@mui/material/Drawer";
+import Box from "@mui/material/Box";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import VIDEOCLIP1 from "../../assets/video1.mp4";
-import NotificationBars from "../../components/NotificationBars";
-import NotificationArea from "../../components/NotificationArea";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import PauseCircleIcon from "@mui/icons-material/PauseCircle";
-import SettingsIcon from "@mui/icons-material/Settings";
-import VideoArea from "../../components/VideoArea";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import StopIcon from "@mui/icons-material/Stop";
-import AddSubscriberBtn from "../../components/AddSubscriberBtn";
-import RemoveSubscriber from "../../components/RemoveSubscriberBtn";
-import { Navigate, useNavigate } from "react-router-dom";
-import SettingsMenu from "../../components/SettingsMenu";
-import HeightBox from "../../components/HeightBox";
+import Badge from "@mui/material/Badge";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import MainListItems from "./listItems";
+import { Button } from "@mui/material";
+import { DASHBOARD_ROUTES } from "../../constants";
+import CameraSection from "./sections/camera";
+import IntrusionSection from "./sections/intrusion";
+import Settings from "./sections/settings";
+import ProcessedVideo from "./sections/processedVideo";
+const drawerWidth = 240;
 
-const notifications = [
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-];
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(["width", "margin"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
 
-const videoList = [
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-];
-
-const users = [
-  { email: "user1@mail.com", role: "owner" },
-  { email: "user2@mail.com", role: "additional" },
-  { email: "user3@mail.com", role: "additional" },
-  { email: "user4@mail.com", role: "additional" },
-];
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  "& .MuiDrawer-paper": {
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    boxSizing: "border-box",
+    ...(!open && {
+      overflowX: "hidden",
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      width: theme.spacing(7),
+      [theme.breakpoints.up("sm")]: {
+        width: theme.spacing(9),
+      },
+    }),
+  },
+}));
 
 export default function Dashboard() {
-  const [systemState, setSystemState] = useState("RUNNING");
   const navigate = useNavigate();
+  const [open, setOpen] = React.useState(true);
+  const [openPane, setOpenPane] = React.useState(<CameraSection />);
+  const location = useLocation();
+
+  React.useEffect(() => {
+    const params = location.pathname.split("/");
+
+    if (params.length === 3) {
+      const subComponent = params[2];
+      switch (subComponent) {
+        case DASHBOARD_ROUTES.CAMERA:
+          setOpenPane(<CameraSection />);
+          break;
+        case DASHBOARD_ROUTES.INTRUSIONS:
+          setOpenPane(<IntrusionSection />);
+          break;
+        case DASHBOARD_ROUTES.SETTINGS:
+          setOpenPane(<Settings />);
+          break;
+        case DASHBOARD_ROUTES.PROCESSEDVIDEOS:
+          setOpenPane(<ProcessedVideo />);
+          break;
+        default:
+          break;
+      }
+    }
+  }, [location]);
+
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
 
   return (
-    <div style={{ overflow: "hidden" }}>
-      <Stack direction="column">
-        <BlackHorizontalBar title="Ninety Camera" showButton={false} />
-        <HeightBox height={10} />
-        <div
-          style={{
-            paddingLeft: 40,
-            justifyContent: "center",
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar position="absolute" open={open}>
+        <Toolbar
+          sx={{
+            pr: "24px", // keep right padding when drawer closed
           }}
         >
-          <Stack direction="row" spacing={5} alignItems="center">
-            <h2
-              style={{
-                color: "#6C63FF",
-                fontWeight: 700,
-                fontSize: 35,
-              }}
-            >
-              Dashboard
-            </h2>
-            <div>
-              <Button
-                variant="contained"
-                color={systemState === "RUNNING" ? "secondary" : "primary"}
-                startIcon={
-                  systemState === "RUNNING" ? <StopIcon /> : <PlayArrowIcon />
-                }
-                style={{ textTransform: "none" }}
-                onClick={() => {
-                  if (systemState === "RUNNING") {
-                    setSystemState("STOP");
-                  } else {
-                    setSystemState("RUNNING");
-                  }
-                }}
-                
-              >
-                {systemState === "RUNNING"
-                  ? "Stop Processing"
-                  : "Start Processing"}
-              </Button>
-            </div>
-
-            <SettingsMenu />
-          </Stack>
-        </div>
-        <div style={{ paddingLeft: 40, paddingRight: 40 }}>
-          <VideoArea videosList={videoList} alignment={"row"} />
-        </div>
-        <HeightBox height={10} />
-        <h1 style={{ paddingLeft: 40 }}>Recent Intrusions</h1>
-        <div style={{ padding: 20, justifyContent: "center" }}>
-          <Stack direction="row" spacing={2}>
-            <div
-              style={{
-                width: "100%",
-                maxHeight: 1000,
-                justifyContent: "center",
-                paddingLeft: 20,
-                overflowY: "scroll",
-              }}
-            >
-              <Stack direction="column" spacing={1}>
-                {notifications.map((notification) => {
-                  return (
-                    <NotificationArea
-                      key={notifications.indexOf(notification)}
-                      date={notification.date}
-                      time={notification.time}
-                    />
-                  );
-                })}
-              </Stack>
-            </div>
-            <div style={{ width: "100%", justifyContent: "center" }}>
-              <Stack direction="column" spacing={1}>
-                <div
-                  style={{
-                    width: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <AddSubscriberBtn users={users} />
-                    <RemoveSubscriber users={users} />
-                  </Stack>
-                </div>
-                <div style={{ justifyContent: "center", alignItems: "center" }}>
-                  <Button
-                    sx={{
-                      width: 655,
-                      height: 100,
-                      backgroundColor: "#6C63FF",
-                      fontFamily: "Inter",
-                      color: "white",
-                      fontSize: 15,
-                      fontWeight: 700,
-                      "&:hover": {
-                        backgroundColor: "#6f63EE",
-                      },
-                    }}
-                    // onClick={navigate("../viewVideos")}
-                    href="../viewVideos"
-                  >
-                    <Stack
-                      direction="column"
-                      spacing={1}
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <div>View Previous Videos </div>
-                      <div>
-                        <PlayCircleIcon />
-                      </div>
-                    </Stack>
-                  </Button>
-                </div>
-              </Stack>
-            </div>
-          </Stack>
-        </div>
-      </Stack>
-    </div>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={toggleDrawer}
+            sx={{
+              marginRight: "36px",
+              ...(open && { display: "none" }),
+            }}
+          >
+            <MenuIcon color="inherit" />
+          </IconButton>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            sx={{ flexGrow: 1 }}
+          >
+            Dashboard
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer variant="permanent" open={open}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            px: [1],
+          }}
+        >
+          <IconButton onClick={toggleDrawer}>
+            <ChevronLeftIcon color="secondary" />
+          </IconButton>
+        </Toolbar>
+        <Divider />
+        <List component="nav">
+          <MainListItems />
+        </List>
+      </Drawer>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          height: "100vh",
+          overflow: "auto",
+        }}
+      >
+        <Toolbar />
+        {openPane}
+      </Box>
+    </Box>
   );
 }
-
-// function StopButton() {
-//   return (
-//     <div>
-//       <StopIcon></StopIcon>
-//       "Stop"
-//     </div>
-//   );
-// }
-
-// function StartButton() {
-//   return (
-//     <div>
-//       <StartButton />
-//       "Start"
-//     </div>
-//   );
-// }

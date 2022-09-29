@@ -61,7 +61,7 @@ export default function SignIn() {
   const [resetPWMail, setResetPWMail] = useState("");
 
   function signInUser(data) {
-    navigate("/dashboard");
+    navigate("/dashboard/camera");
   }
 
   const handleClickOpen = () => {
