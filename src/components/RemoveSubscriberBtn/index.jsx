@@ -62,10 +62,14 @@ SimpleDialog.propTypes = {
 };
 
 export default function RemoveSubscriber(props) {
-  const [users, setUsers] = React.useState(props.users);
+
+  // const [users, setUsers] = React.useState(props.users);
+  React.useEffect(()=> {
+
+  },[props.users])
 
   const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState(users[0].email);
+  const [selectedValue, setSelectedValue] = React.useState(props.users[0].email);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -82,8 +86,8 @@ export default function RemoveSubscriber(props) {
         variant="outlined"
         onClick={handleClickOpen}
         sx={{
-          width: 320,
-          height: 100,
+          width: 200,
+          // height: 100,
           backgroundColor: "#F50057",
           fontFamily: "Inter",
           color: "white",
@@ -100,8 +104,8 @@ export default function RemoveSubscriber(props) {
         selectedValue={selectedValue}
         open={open}
         onClose={handleClose}
-        users={users}
-        setUsers={setUsers}
+        users={props.users}
+        setUsers={props.setUsers}
       />
     </div>
   );

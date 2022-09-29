@@ -14,6 +14,12 @@ import * as Yup from "yup";
 import SnackBarComponent from "../../components/SnackBarComponent";
 import BlackHorizontalBar from "../../components/BlackHorizontalBar";
 import "@fontsource/inter";
+import {
+  Dialog,
+  DialogContent,
+  DialogActions,
+  DialogContentText,
+} from "@mui/material";
 
 const CustomTextField = styled(TextField)({
   width: 350,
@@ -40,6 +46,8 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(8).max(15).label("Password"),
 });
 
+const user = [{ username: "user@gmail.com", password: "1234" }];
+
 export default function SignIn() {
   const navigate = useNavigate();
 
@@ -49,10 +57,29 @@ export default function SignIn() {
     type: "success",
     message: "",
   });
+  const [open, setOpen] = useState(false);
+  const [resetPWMail, setResetPWMail] = useState("");
 
   function signInUser(data) {
     navigate("/dashboard/camera");
   }
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCheck = () => {
+    if (user[0].username === resetPWMail) {
+      handleClose();
+      alert("An email has sent to your given email address!");
+    } else {
+      alert("Invalid email address!");
+    }
+  };
 
   return (
     <div style={{ overflow: "hidden" }}>
@@ -119,9 +146,35 @@ export default function SignIn() {
                       >
                         {loading ? <CircularProgress /> : "Sign In"}
                       </CustomButton>
-                      <Button variant="text" style={{ textTransform: "none" }}>
+                      <Button
+                        variant="text"
+                        style={{ textTransform: "none" }}
+                        onClick={handleClickOpen}
+                      >
                         Forgot Password?
                       </Button>
+                      <Dialog open={open} onClose={handleClose}>
+                        <DialogContent>
+                          <DialogContentText>
+                            Please Enter your email here to reset password
+                          </DialogContentText>
+
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="resetPWMail"
+                            label="e-mail Address"
+                            type="email"
+                            fullWidth
+                            variant="standard"
+                            onChange={(e) => setResetPWMail(e.target.value)}
+                          />
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleClose}>Cancel</Button>
+                          <Button onClick={handleCheck}>Continue</Button>
+                        </DialogActions>
+                      </Dialog>
                     </React.Fragment>
                   );
                 }}
