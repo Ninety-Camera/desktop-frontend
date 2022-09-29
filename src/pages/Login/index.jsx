@@ -51,7 +51,7 @@ export default function SignIn() {
   });
 
   function signInUser(data) {
-    navigate("/dashboard");
+    navigate("/dashboard/camera");
   }
 
   return (
