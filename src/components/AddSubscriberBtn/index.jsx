@@ -11,10 +11,10 @@ import ADD_SUB from "../../assets/images/addSubscriber.svg";
 export default function AddSubscriberBtn(props) {
   const [email, setEmail] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const [users, setUsers] = React.useState(props.users);
+  // const [users, setUsers] = React.useState(props.users);
 
-  const newUsers = [...users];
-  console.log("new:", newUsers);
+  // const newUsers = [...users];
+  // console.log("new:", newUsers);
 
   //   console.log("new:"+newUsers);
 
@@ -28,9 +28,9 @@ export default function AddSubscriberBtn(props) {
 
   const handleAdd = () => {
     // this.newUsers.push({email: {email}, role: "additional"})
-    setUsers((current) => [
+    props.setUsers((current) => [
       ...current,
-      { email: { email }, role: "additional" },
+      { email: email , role: "additional" },
     ]);
     handleClose();
   };
@@ -41,8 +41,8 @@ export default function AddSubscriberBtn(props) {
         variant="outlined"
         onClick={handleClickOpen}
         sx={{
-          width: 320,
-          height: 100,
+          width: 200,
+          // height: 100,
           backgroundColor: "#6C63FF",
           fontFamily: "Inter",
           color: "white",
@@ -62,7 +62,7 @@ export default function AddSubscriberBtn(props) {
             To add new subscriber to this software, please enter the email
             address here.
           </DialogContentText>
-          <img src={ADD_SUB} style={{ width: "20vw" , alignSelf:"center"}}/>
+          <img src={ADD_SUB} style={{ width: "20vw", alignSelf: "center" }} />
           <TextField
             autoFocus
             margin="dense"

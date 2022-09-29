@@ -25,7 +25,7 @@ const password = "12345";
 const email = "user@gmail.com";
 
 export default function Account() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [editable, setEditable] = useState(false);
   const [editablePW, setEditablePW] = useState(false);
   const [open, setOpen] = useState(false);
@@ -40,6 +40,13 @@ export default function Account() {
 
   const handleClickOpen = () => {
     setOpen(true);
+  };
+
+  const divStyles = {
+    overflow: "hidden",
+    width: "60%",
+    marginLeft: "auto",
+    marginRight: "auto",
   };
 
   const handleClose = () => {
@@ -75,10 +82,10 @@ export default function Account() {
         <Stack direction="row" spacing={3}>
           <div
             style={{
-              width: "50%",
-              justifyContent: "center",
-              alignItems: "center",
-              paddingLeft: "10%",
+              overflow: "hidden",
+              width: "60%",
+              marginLeft: "auto",
+              marginRight: "auto",
             }}
           >
             <Card
@@ -93,11 +100,7 @@ export default function Account() {
               <CardContent>
                 <Stack direction="column" spacing={1}>
                   <div
-                    style={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
+                    style={divStyles}
                   >
                     <Stack direction="row" spacing={2}>
                       <Typography>Username</Typography>
@@ -107,7 +110,7 @@ export default function Account() {
                       ></TextField>
                     </Stack>
                   </div>
-                  <div>
+                  <div style={divStyles}>
                     <Stack direction="row" spacing={2}>
                       <Typography>Password</Typography>
                       <TextField
@@ -142,13 +145,13 @@ export default function Account() {
                       <Button onClick={handleCheck}>Continue</Button>
                     </DialogActions>
                   </Dialog>
-                  <div>
+                  <div style={divStyles}>
                     <Stack direction="row" spacing={2}>
                       <Typography>Primary Account</Typography>
                       <Typography type="email">{email}</Typography>
                     </Stack>
                   </div>
-                  <div>
+                  <div style={divStyles}>
                     <Stack direction="row" spacing={2}>
                       <Typography>Other Accounts</Typography>
                       <div>
