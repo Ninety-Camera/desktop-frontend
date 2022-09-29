@@ -64,7 +64,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function Register() {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -74,30 +74,37 @@ export default function Register() {
   });
 
   return (
-    <div style={{ maxWidth: "100%" }}>
-      <BlackHorizontalBar phrase="Ninety Camera" />
+    <div style={{ overflow: "hidden" }}>
+      <BlackHorizontalBar
+        title="Ninety Camera"
+        buttonText="Login"
+        buttonAction={() => navigate("/")}
+      />
       <HeightBox height={40} />
-      <Stack direction="row" spacing={15}>
+      <Stack
+        direction="row"
+        spacing={15}
+        justifyContent="center"
+        alignItems="center"
+      >
         <div style={{ padding: 100 }}>
-          <img src={REGISTER_IMAGE} alt="" style={{ width: "40vw" }} />
+          <img src={REGISTER_IMAGE} alt="" style={{ width: "30vw" }} />
         </div>
         <div style={{ paddingLeft: "100px", paddingTop: 50 }}>
-          <h2 style={{ fontSize: 48, fontFamily: "Inter", margin: 0 }}>
+          <h2 style={{ fontSize: 40, fontFamily: "Inter", margin: 0 }}>
             Register With Us
           </h2>
           <HeightBox height={30} />
           <Stack direction="column" spacing={2}>
             <Formik
               initialValues={{
+                firstName: "",
+                lastName: "",
                 email: "",
                 password: "",
+                confirmPassword: "",
               }}
-              onSubmit={(values) => {
-                const data = {
-                  email: values.email,
-                  password: values.password,
-                };
-              }}
+              onSubmit={(values) => {}}
               validationSchema={validationSchema}
             >
               {(formikProps) => {
@@ -110,7 +117,11 @@ export default function Register() {
                       label="First Name"
                       variant="outlined"
                       error={errors.firstName && touched.firstName}
-                      helperText={errors.firstName || ""}
+                      helperText={
+                        touched.firstName && errors.firstName
+                          ? errors.firstName
+                          : ""
+                      }
                       onChange={(event) => handleChange("firstName")(event)}
                     />
 
@@ -118,7 +129,11 @@ export default function Register() {
                       label="Last Name"
                       variant="outlined"
                       error={errors.lastName && touched.lastName}
-                      helperText={errors.lastName || ""}
+                      helperText={
+                        touched.lastName && errors.lastName
+                          ? errors.lastName
+                          : ""
+                      }
                       onChange={(event) => handleChange("lastName")(event)}
                     />
 
@@ -126,7 +141,9 @@ export default function Register() {
                       label="email"
                       variant="outlined"
                       error={errors.email && touched.email}
-                      helperText={errors.email || ""}
+                      helperText={
+                        touched.email && errors.email ? errors.email : ""
+                      }
                       onChange={(event) => handleChange("email")(event)}
                     />
 
@@ -135,7 +152,11 @@ export default function Register() {
                       variant="outlined"
                       type="password"
                       error={errors.password && touched.password}
-                      helperText={errors.password || ""}
+                      helperText={
+                        touched.password && errors.password
+                          ? errors.password
+                          : ""
+                      }
                       onChange={(event) => handleChange("password")(event)}
                     />
 
@@ -144,7 +165,11 @@ export default function Register() {
                       variant="outlined"
                       type="password"
                       error={errors.confirmPassword && touched.confirmPassword}
-                      helperText={errors.confirmPassword || ""}
+                      helperText={
+                        touched.confirmPassword && errors.confirmPassword
+                          ? errors.confirmPassword
+                          : ""
+                      }
                       onChange={(event) =>
                         handleChange("confirmPassword")(event)
                       }
@@ -159,7 +184,7 @@ export default function Register() {
                       disabled={loading}
                       sx={{ backgroundColor: "#6C63FF" }}
                     >
-                      {loading ? <CircularProgress /> : "Sign Up"}
+                      {loading ? <CircularProgress /> : "Register"}
                     </CustomButton>
                   </React.Fragment>
                 );
@@ -167,15 +192,6 @@ export default function Register() {
             </Formik>
           </Stack>
 
-          <HeightBox height={15} />
-          <div style={{ fontSize: 15, width: 350 }}>
-            <Stack direction="row" justifyContent="center" spacing={1}>
-              <p style={{ margin: 0 }}>Already have an account?</p>
-              <Link href="/" underline="hover" color="black">
-                Login
-              </Link>
-            </Stack>
-          </div>
           <HeightBox height={15} />
         </div>
       </Stack>
