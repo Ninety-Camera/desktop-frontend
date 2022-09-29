@@ -56,7 +56,11 @@ export default function SignIn() {
 
   return (
     <div style={{ overflow: "hidden" }}>
-      <BlackHorizontalBar phrase="Ninety Camera" />
+      <BlackHorizontalBar
+        title="Ninety Camera"
+        buttonText="Register"
+        buttonAction={() => navigate("/register")}
+      />
       <div>
         <Stack
           direction="row"
