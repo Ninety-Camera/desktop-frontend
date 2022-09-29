@@ -18,6 +18,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { Navigate, useNavigate } from "react-router-dom";
+import { Avatar } from "@mui/material";
 
 const username = "Test User";
 const password = "12345";
@@ -173,4 +174,13 @@ export default function Account() {
       </Stack>
     </React.Fragment>
   );
+}
+
+function stringAvatar(name) {
+  return {
+    sx: {
+      bgcolor: "#6C63FF",
+    },
+    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+  };
 }
