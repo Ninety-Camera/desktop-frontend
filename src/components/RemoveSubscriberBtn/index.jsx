@@ -86,19 +86,19 @@ export default function RemoveSubscriber(props) {
         variant="outlined"
         onClick={handleClickOpen}
         sx={{
-          width: 150,
+          width: 50,
           // height: 100,
           backgroundColor: "#F50057",
           fontFamily: "Inter",
           color: "white",
-          fontSize: 15,
+          fontSize: 12,
           fontWeight: 700,
           "&:hover": {
             backgroundColor: "#D50057",
           },
         }}
       >
-        Remove Subscriber
+        Remove
       </Button>
       <SimpleDialog
         selectedValue={selectedValue}
