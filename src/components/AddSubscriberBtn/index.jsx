@@ -41,12 +41,12 @@ export default function AddSubscriberBtn(props) {
         variant="outlined"
         onClick={handleClickOpen}
         sx={{
-          width: 150,
+          width: 50,
           // height: 100,
           backgroundColor: "#6C63FF",
           fontFamily: "Inter",
           color: "white",
-          fontSize: 15,
+          fontSize: 12,
           fontWeight: 700,
           "&:hover": {
             backgroundColor: "#6f63EE",
@@ -54,7 +54,7 @@ export default function AddSubscriberBtn(props) {
           
         }}
       >
-        Add Subscriber
+        Add
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add Subscriber</DialogTitle>

@@ -144,6 +144,10 @@ export default function Settings() {
                         </Typography>
                       );
                     })}
+                    <Stack direction="row" spacing={1}>
+                      <AddSubscriberBtn users={users} setUsers={setUsers} />
+                      <RemoveSubscriber users={users} setUsers={setUsers} />
+                    </Stack>
                   </Stack>
                 </div>
               </Stack>
@@ -151,20 +155,18 @@ export default function Settings() {
           </Stack>
         </div>
         {/* <HeightBox height={20}/> */}
-        <div style={{
+        <div
+          style={{
             overflow: "hidden",
             width: "35%",
             marginLeft: "auto",
             marginRight: "auto",
-          }}>
+          }}
+        >
           <Stack direction="column" spacing={2}>
-          <Stack direction="row" spacing={1} >
-            <AddSubscriberBtn users={users} setUsers={setUsers} />
-            <RemoveSubscriber users={users} setUsers={setUsers} />
-          </Stack>
-          <Button onClick={handleBtnClick} sx={{ width: "65%" }}>
-            {editable ? "Save" : "Edit"}
-          </Button>
+            <Button onClick={handleBtnClick} sx={{ width: "65%" }} >
+              {editable ? "Save" : "Edit"}
+            </Button>
           </Stack>
         </div>
       </Stack>
