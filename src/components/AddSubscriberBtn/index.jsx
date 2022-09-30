@@ -41,7 +41,7 @@ export default function AddSubscriberBtn(props) {
         variant="outlined"
         onClick={handleClickOpen}
         sx={{
-          width: 200,
+          width: 150,
           // height: 100,
           backgroundColor: "#6C63FF",
           fontFamily: "Inter",
@@ -51,6 +51,7 @@ export default function AddSubscriberBtn(props) {
           "&:hover": {
             backgroundColor: "#6f63EE",
           },
+          
         }}
       >
         Add Subscriber
