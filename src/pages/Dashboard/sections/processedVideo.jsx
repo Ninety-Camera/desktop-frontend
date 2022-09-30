@@ -1,5 +1,4 @@
 import React from "react";
-import VideoArea from "../../../components/VideoArea";
 import VIDEOCLIP1 from "../../../assets/video1.mp4";
 import { Grid } from "@mui/material";
 
@@ -31,7 +30,7 @@ export default function ProcessedVideo() {
                 fontSize: 20,
                 margin: 0,
                 textAlign: "center",
-                // fontWeight: 800,
+                
               }}
             >{`On ${videoClip.date} at ${videoClip.hour}`}</p>
           </Grid>
