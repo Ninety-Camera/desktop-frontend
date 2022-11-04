@@ -48,8 +48,8 @@ export default function CameraSection() {
                 }}
               >
                 {systemState === "RUNNING"
-                  ? "Stop Processing"
-                  : "Start Processing"}
+                  ? "Stop Monitoring"
+                  : "Start Monitoring"}
               </Button>
             </div>
 

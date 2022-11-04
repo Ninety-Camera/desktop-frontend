@@ -44,7 +44,7 @@ export default function AddCameraForm() {
   }, [open]);
 
   return (
-    <div>
+    <div data-testid = "addCameraForm">
       <Button onClick={handleClickOpen("paper")}>Add Camera</Button>
       {/* <Button onClick={handleClickOpen('body')}>scroll=body</Button> */}
       <Dialog
