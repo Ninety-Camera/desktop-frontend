@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Block } from "@mui/icons-material";
 
 const images = [INTRUDER_IMG1, INTRUDER_IMG2];
-const time = "09:34";
+const time = "09:34 pm";
 const date = "02/12/2021";
 
 export default function ViewNotification(props) {
@@ -24,23 +24,29 @@ export default function ViewNotification(props) {
         <div
           style={{
             overflow: "hidden",
-            width: "60%",
+            width: "80%",
+            left: "10%",
             marginLeft: "auto",
             marginRight: "auto",
           }}
         >
           {" "}
-          <img
-            src={INTRUDER_IMG1}
-            alt=""
-            style={{ display: "Block",
-            marginLeft: "auto",
-            marginRight: "auto",
-            width: "40%", padding:10}}
-          ></img>
-          <h1>
-            Someone intrudes your residence around {time} on {date}
-          </h1>
+          <Stack direction="row" spacing={2}>
+            <img
+              src={INTRUDER_IMG1}
+              alt=""
+              style={{
+                display: "Block",
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: "20%",
+                padding: 10,
+              }}
+            ></img>
+            <h1>
+              Someone intrudes your residence around {time} on {date}
+            </h1>
+          </Stack>
           <p>Here are some evidence for you !</p>
           <h2>Screenshots of the intruder</h2>
           <div

@@ -40,13 +40,16 @@ export default function SettingsMenu() {
         MenuListProps={{
           "aria-labelledby": "settings-button",
         }}
-        sx={{color: "#6C63FF"}}
+        sx={{ color: "#6C63FF" }}
       >
         <MenuItem component={AddCameraForm} onClick={handleClose}>ADD CAMERA</MenuItem>
-        <MenuItem component={Link} sx={{color: "#6C63FF"}} href="../account">
-          MY ACCOUNT
-        </MenuItem>
-        <MenuItem onClick={handleClose} component={Link} sx={{color: "#6C63FF"}} href="../">
+        
+        <MenuItem
+          onClick={handleClose}
+          component={Link}
+          sx={{ color: "#6C63FF" }}
+          href="../"
+        >
           LOG OUT
         </MenuItem>
       </Menu>
