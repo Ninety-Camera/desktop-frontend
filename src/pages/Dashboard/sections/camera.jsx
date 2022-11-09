@@ -14,6 +14,11 @@ const videoList = [
     date: "20/02/2022",
     hour: "12:00",
   },
+  {
+    sourcePath: "http://localhost:5000/video_feed/cam2",
+    date: "20/02/2022",
+    hour: "12:00",
+  },
 ];
 
 export default function CameraSection() {
