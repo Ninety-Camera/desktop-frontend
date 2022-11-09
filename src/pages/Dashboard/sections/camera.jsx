@@ -9,7 +9,7 @@ import SettingsMenu from "../../../components/SettingsMenu";
 import HeightBox from "../../../components/HeightBox";
 import io from "socket.io-client";
 
-const socket = io();
+const socket = io("http://localhost:5000");
 
 const videoList = [
   { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
