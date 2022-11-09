@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import "@fontsource/inter";
 import { Stack, Button } from "@mui/material";
 import VIDEOCLIP1 from "../../../assets/video1.mp4";
@@ -7,9 +7,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import SettingsMenu from "../../../components/SettingsMenu";
 import HeightBox from "../../../components/HeightBox";
-import io from "socket.io-client";
 
-const socket = io("http://localhost:5000");
 
 const videoList = [
   { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
@@ -22,37 +20,6 @@ const videoList = [
 
 export default function CameraSection() {
   const [systemState, setSystemState] = useState("RUNNING");
-
-  const [isConnected, setIsConnected] = useState(socket.connected);
-  const [lastPong, setLastPong] = useState(null);
-
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Connected succesfully!");
-      setIsConnected(true);
-      socket.on("message", (data) => {
-        console.log(data);
-      });
-    });
-
-    socket.on("disconnect", () => {
-      setIsConnected(false);
-    });
-
-    socket.on("pong", () => {
-      setLastPong(new Date().toISOString());
-    });
-
-    return () => {
-      socket.off("connect");
-      socket.off("disconnect");
-      socket.off("pong");
-    };
-  }, []);
-
-  const sendPing = () => {
-    socket.emit("ping");
-  };
 
   return (
     <div style={{ overflow: "hidden" }}>
