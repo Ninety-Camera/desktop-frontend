@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "@fontsource/inter";
 import { Stack, Button } from "@mui/material";
 import VIDEOCLIP1 from "../../../assets/video1.mp4";
@@ -8,14 +8,12 @@ import StopIcon from "@mui/icons-material/Stop";
 import SettingsMenu from "../../../components/SettingsMenu";
 import HeightBox from "../../../components/HeightBox";
 
-
 const videoList = [
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
-  { sourcePath: VIDEOCLIP1, date: "20/02/2022", hour: "12:00" },
+  {
+    sourcePath: "http://localhost:5000/video_feed/cam1",
+    date: "20/02/2022",
+    hour: "12:00",
+  },
 ];
 
 export default function CameraSection() {

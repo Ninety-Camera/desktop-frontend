@@ -14,7 +14,7 @@ export default function VideoArea(props) {
         return (
           <Grid item xs="auto" key={videosList.indexOf(videoClip)}>
             <img
-              src="http://localhost:5000/video_feed"
+              src={videoClip.sourcePath}
               width={320}
               height={240}
               alt="Image"
