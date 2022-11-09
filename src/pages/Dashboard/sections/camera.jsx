@@ -30,6 +30,9 @@ export default function CameraSection() {
     socket.on("connect", () => {
       console.log("Connected succesfully!");
       setIsConnected(true);
+      socket.on("message", (data) => {
+        console.log(data);
+      });
     });
 
     socket.on("disconnect", () => {
