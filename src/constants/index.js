@@ -4,3 +4,7 @@ export const DASHBOARD_ROUTES = {
   SETTINGS: "settings",
   PROCESSEDVIDEOS: "processed",
 };
+
+export const HOSTED_URL = "https://ninetycamera.azurewebsites.net/api/";
+
+export const LOCAL_URL = "http://localhost:45000/";

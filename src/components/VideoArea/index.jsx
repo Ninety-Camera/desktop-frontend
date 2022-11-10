@@ -13,13 +13,12 @@ export default function VideoArea(props) {
       {videosList.map((videoClip) => {
         return (
           <Grid item xs="auto" key={videosList.indexOf(videoClip)}>
-            <video
+            <img
               src={videoClip.sourcePath}
               width={320}
               height={240}
-              controls
-              loop
-            ></video>
+              alt="Image"
+            />
             <p
               style={{
                 color: "#6C63FF",
