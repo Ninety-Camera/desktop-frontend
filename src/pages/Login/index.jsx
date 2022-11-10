@@ -92,7 +92,7 @@ export default function SignIn() {
         backgroundImage: `url(${LOGIN_IMAGE})`,
         // backgroundRepeat: "no-repeat",
         backgroundSize: "contain",
-        height: 675,
+        height: 775,
         width: 1550,
       }}
     >

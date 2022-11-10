@@ -10,7 +10,7 @@ import Link from "@mui/material/Link";
 
 export default function SettingsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -42,8 +42,10 @@ export default function SettingsMenu() {
         }}
         sx={{ color: "#6C63FF" }}
       >
-        <MenuItem component={AddCameraForm} onClick={handleClose}>ADD CAMERA</MenuItem>
-        
+        <MenuItem component={AddCameraForm} onClick={handleClose}>
+          ADD CAMERA
+        </MenuItem>
+
         <MenuItem
           onClick={handleClose}
           component={Link}

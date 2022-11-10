@@ -30,13 +30,13 @@ export default function AddSubscriberBtn(props) {
     // this.newUsers.push({email: {email}, role: "additional"})
     props.setUsers((current) => [
       ...current,
-      { email: email , role: "additional" },
+      { email: email, role: "additional" },
     ]);
     handleClose();
   };
 
   return (
-    <div>
+    <div data-testid="addSubscriberBtn">
       <Button
         variant="outlined"
         onClick={handleClickOpen}
@@ -51,7 +51,6 @@ export default function AddSubscriberBtn(props) {
           "&:hover": {
             backgroundColor: "#6f63EE",
           },
-          
         }}
       >
         Add
