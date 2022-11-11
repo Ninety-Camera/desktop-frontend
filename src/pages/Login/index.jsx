@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Formik } from "formik";
@@ -13,7 +13,6 @@ import { Stack } from "@mui/material";
 import HeightBox from "../../components/HeightBox";
 import * as Yup from "yup";
 import SnackBarComponent from "../../components/SnackBarComponent";
-import BlackHorizontalBar from "../../components/BlackHorizontalBar";
 import "@fontsource/inter";
 import {
   Dialog,
@@ -21,6 +20,8 @@ import {
   DialogActions,
   DialogContentText,
 } from "@mui/material";
+import { loginUser } from "../../reducers/userSlice";
+
 
 const CustomTextField = styled(TextField)({
   width: "100%",
@@ -40,19 +41,39 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string()
+  email: Yup.string().required().email().label("Email").min(3).max(36),
+  password: Yup.string()
     .required()
-    .email("Must be a valid email")
-    .label("email")
-    .min(3)
-    .max(36),
-  password: Yup.string().required().min(8).max(15).label("Password"),
+    .min(8)
+    .max(15)
+    .matches(/\d+/, "Password should contain at least one number")
+    .matches(
+      /[a-z]+/,
+      "Password should contain at least one lowercase character"
+    )
+    .matches(
+      /[A-Z]+/,
+      "Password should contain at least one uppercase character"
+    )
+    .matches(
+      /[!@#$%^&*()-+]+/,
+      "Password should contain at least one special character"
+    )
+    .label("Password"),
 });
-
-const user = [{ username: "user@gmail.com", password: "1234" }];
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (userState?.auth && userState?.CCTV_System?.id) {
+      navigate("/dashboard/camera");
+    } else if (userState?.auth && userState?.CCTV_System === null) {
+      navigate("/system");
+    }
+  }, [userState]);
 
   const [loading, setLoading] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -64,7 +85,8 @@ export default function SignIn() {
   const [resetPWMail, setResetPWMail] = useState("");
 
   function signInUser(data) {
-    navigate("/dashboard/camera");
+    console.log(data);
+    dispatch(loginUser(data));
   }
 
   const handleClickOpen = () => {
@@ -76,32 +98,21 @@ export default function SignIn() {
   };
 
   const handleCheck = () => {
-    if (user[0].username === resetPWMail) {
-      handleClose();
-      alert("An email has sent to your given email address!");
-    } else {
-      alert("Invalid email address!");
-    }
+    console.log(resetPWMail);
+    navigate("/resetPW");
   };
 
   return (
     <div
       style={{
         overflow: "hidden",
-        background: "6C63FF",
+        background: "#6C63FF",
         backgroundImage: `url(${LOGIN_IMAGE})`,
-        // backgroundRepeat: "no-repeat",
         backgroundSize: "contain",
-        height: 675,
+        height: 775,
         width: 1550,
       }}
     >
-      {/* <BlackHorizontalBar
-        title="Ninety Camera"
-        buttonText="Register"
-        buttonAction={() => navigate("/register")}
-      /> */}
-      <div></div>
       <Paper
         variant="outlined"
         sx={{
@@ -110,6 +121,7 @@ export default function SignIn() {
           top: "20%",
           left: "38%",
           elevation: 15,
+          // border: "10px solid #6013FF",
         }}
       >
         <div style={{ paddingLeft: "10%", paddingTop: 50, width: "80%" }}>
@@ -208,6 +220,7 @@ export default function SignIn() {
                           fullWidth
                           variant="standard"
                           onChange={(e) => setResetPWMail(e.target.value)}
+                          
                         />
                       </DialogContent>
                       <DialogActions>
@@ -219,6 +232,7 @@ export default function SignIn() {
                 );
               }}
             </Formik>
+            
           </Stack>
 
           <HeightBox height={15} />

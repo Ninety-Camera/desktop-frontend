@@ -13,15 +13,17 @@ export default function SnackBarComponent(props) {
     setOpen(false);
   }
   return (
-    <Snackbar
-      open={open}
-      autoHideDuration={6000}
-      onClose={handleClose}
-      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-    >
-      <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
-        {message}
-      </Alert>
-    </Snackbar>
+    <div data-testid="snackBarComponent">
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
+    </div>
   );
 }

@@ -25,7 +25,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 export default function BlackHorizontalBar(props) {
   const { title, buttonText, buttonAction, showButton = true } = props;
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box data-testid="blackHorizontalBar" sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#2F2E41" }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

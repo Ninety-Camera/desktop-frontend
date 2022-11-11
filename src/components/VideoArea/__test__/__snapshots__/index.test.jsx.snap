@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5 css-1qgewj0-MuiGrid-root"
+>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+  >
+    <video
+      controls={true}
+      height={240}
+      loop={true}
+      src="video1.mp4"
+      width={320}
+    />
+    <p
+      style={
+        Object {
+          "color": "#6C63FF",
+          "fontSize": 20,
+          "fontWeight": 800,
+          "margin": 0,
+          "textAlign": "center",
+        }
+      }
+    >
+      CCTV - 1
+    </p>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+  >
+    <video
+      controls={true}
+      height={240}
+      loop={true}
+      src="video1.mp4"
+      width={320}
+    />
+    <p
+      style={
+        Object {
+          "color": "#6C63FF",
+          "fontSize": 20,
+          "fontWeight": 800,
+          "margin": 0,
+          "textAlign": "center",
+        }
+      }
+    >
+      CCTV - 2
+    </p>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+  >
+    <video
+      controls={true}
+      height={240}
+      loop={true}
+      src="video1.mp4"
+      width={320}
+    />
+    <p
+      style={
+        Object {
+          "color": "#6C63FF",
+          "fontSize": 20,
+          "fontWeight": 800,
+          "margin": 0,
+          "textAlign": "center",
+        }
+      }
+    >
+      CCTV - 3
+    </p>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+  >
+    <video
+      controls={true}
+      height={240}
+      loop={true}
+      src="video1.mp4"
+      width={320}
+    />
+    <p
+      style={
+        Object {
+          "color": "#6C63FF",
+          "fontSize": 20,
+          "fontWeight": 800,
+          "margin": 0,
+          "textAlign": "center",
+        }
+      }
+    >
+      CCTV - 4
+    </p>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+  >
+    <video
+      controls={true}
+      height={240}
+      loop={true}
+      src="video1.mp4"
+      width={320}
+    />
+    <p
+      style={
+        Object {
+          "color": "#6C63FF",
+          "fontSize": 20,
+          "fontWeight": 800,
+          "margin": 0,
+          "textAlign": "center",
+        }
+      }
+    >
+      CCTV - 5
+    </p>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+  >
+    <video
+      controls={true}
+      height={240}
+      loop={true}
+      src="video1.mp4"
+      width={320}
+    />
+    <p
+      style={
+        Object {
+          "color": "#6C63FF",
+          "fontSize": 20,
+          "fontWeight": 800,
+          "margin": 0,
+          "textAlign": "center",
+        }
+      }
+    >
+      CCTV - 6
+    </p>
+  </div>
+</div>
+`;

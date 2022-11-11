@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Formik } from "formik";
 import { styled } from "@mui/system";
@@ -13,8 +13,8 @@ import { Stack } from "@mui/material";
 import HeightBox from "../../components/HeightBox";
 import * as Yup from "yup";
 import SnackBarComponent from "../../components/SnackBarComponent";
-import BlackHorizontalBar from "../../components/BlackHorizontalBar";
 import "@fontsource/inter";
+import { registerUser } from "../../reducers/userSlice";
 
 const CustomTextField = styled(TextField)({
   width: "100%",
@@ -35,12 +35,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().label("First Name"),
   lastName: Yup.string().required().label("Last Name"),
-  email: Yup.string()
-    .required()
-    .email("Must be a valid email")
-    .label("email")
-    .min(3)
-    .max(36),
+  email: Yup.string().required().email().label("email").min(3).max(36),
   password: Yup.string()
     .required()
     .min(8)
@@ -67,6 +62,8 @@ const validationSchema = Yup.object().shape({
 
 export default function Register() {
   const navigate = useNavigate();
+  const userState = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -74,6 +71,15 @@ export default function Register() {
     type: "success",
     message: "",
   });
+
+  useEffect(() => {
+    if (userState?.auth) {
+      navigate("/system");
+    } else if (userState?.dataStatus === "error") {
+      // Error occured
+      // Show the snack error message
+    }
+  }, [userState]);
 
   return (
     <div
@@ -94,9 +100,6 @@ export default function Register() {
           justifyContent="center"
           alignItems="center"
         >
-          {/* <div style={{ padding: 100 }}>
-          <img src={REGISTER_IMAGE} alt="" style={{ width: "30vw" }} />
-        </div> */}
           <Paper
             variant="outlined"
             sx={{
@@ -130,7 +133,15 @@ export default function Register() {
                     password: "",
                     confirmPassword: "",
                   }}
-                  onSubmit={(values) => {}}
+                  onSubmit={(values) => {
+                    const user = {
+                      firstName: values.firstName,
+                      lastName: values.lastName,
+                      email: values.email,
+                      password: values.password,
+                    };
+                    dispatch(registerUser(user));
+                  }}
                   validationSchema={validationSchema}
                 >
                   {(formikProps) => {
