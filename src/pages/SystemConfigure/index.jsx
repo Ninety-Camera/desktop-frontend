@@ -21,6 +21,7 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/system";
 import CircularProgress from "@mui/material/CircularProgress";
 import BGIMAGE from "../../assets/images/systemBG.jpg";
+import { Formik } from "formik";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   // color: theme.palette.getContrastText([500]),
@@ -86,7 +87,6 @@ export default function SystemConfigure() {
           marginRight: "auto",
           position: "absolute",
           left: "10%",
-
         }}
       >
         <h1>Add your cameras here...</h1>
@@ -131,67 +131,110 @@ export default function SystemConfigure() {
                     />
                   </RadioGroup>
                 </div>
-                
+
                 {cameraType === "webCamera" ? (
-                  <div>
-                    <Stack direction="column" spacing={1}>
-                      <Typography>Select camera</Typography>
-                      <Stack direction="row" spacing={1}>
-                        <IconButton>
-                          <AddAPhotoIcon />
-                        </IconButton>
+                  <Formik
+                    initialValues={{
+                      cameraID: "",
+                    }}
+                    onSubmit={(values) => {
+                      console.log(values);
+                    }}
+                  >
+                    {(formik) => (
+                      <Stack direction="column" spacing={1}>
+                        <Typography>Select camera</Typography>
+                        <Stack direction="row" spacing={1}>
+                          <IconButton>
+                            <AddAPhotoIcon />
+                          </IconButton>
+                          <TextField
+                            variant="standard"
+                            id="cameraID"
+                            label="id"
+                            onChange={handleIDChange}
+                          />
+                        </Stack>
+                        <HeightBox height={15} />
+
+                        <div style={{ width: "50%" }}>
+                          <Stack direction="row">
+                            <CustomButton
+                              // type="submit"
+                              variant="contained"
+                              size="large"
+                              onClick={handleAdd}
+                              disabled={loading}
+                              sx={{ backgroundColor: "#6C63FF" }}
+                            >
+                              {/* {loading ? <CircularProgress /> : "Sign In"} */}
+                              ADD
+                            </CustomButton>
+                            <Button
+                              sx={{ width: "100%" }}
+                              variant="text"
+                              style={{ textTransform: "none" }}
+                              // onClick={() => navigate("/register")}
+                            >
+                              Cancel
+                            </Button>
+                          </Stack>
+                        </div>
+                      </Stack>
+                    )}
+                  </Formik>
+                ) : (
+                  <Formik
+                    initialValues={{
+                      link: "",
+                      username: "",
+                      password: "",
+                    }}
+                    onSubmit={(values) => {
+                      console.log(values);
+                    }}
+                  >
+                    {(formik) => (
+                      <Stack direction="column" spacing={1}>
+                        
+                        <TextField variant="standard" id="link" label="link" onChange={handleIDChange} />
                         <TextField
                           variant="standard"
-                          id="cameraID"
-                          label="id"
-                          onChange={handleIDChange}
+                          id="username"
+                          label="Username"
                         />
+                        <TextField
+                          variant="standard"
+                          type="password"
+                          id="password"
+                          label="Password"
+                        />
+                        <HeightBox height={15} />
+                        <div style={{ width: "50%" }}>
+                          <Stack direction="row">
+                            <CustomButton
+                              
+                              variant="contained"
+                              size="large"
+                              onClick={handleAdd}
+                              disabled={loading}
+                              sx={{ backgroundColor: "#6C63FF" }}
+                            >
+                              ADD
+                            </CustomButton>
+                            <Button
+                              sx={{ width: "100%" }}
+                              variant="text"
+                              style={{ textTransform: "none" }}
+                            >
+                              Cancel
+                            </Button>
+                          </Stack>
+                        </div>
                       </Stack>
-                    </Stack>
-                  </div>
-                ) : (
-                  <div>
-                    <Stack direction="column" spacing={1}>
-                      {/* Select camera */}
-                      <TextField variant="standard" id="link" label="link" />
-                      <TextField
-                        variant="standard"
-                        id="username"
-                        label="Username"
-                      />
-                      <TextField
-                        variant="standard"
-                        id="password"
-                        label="Password"
-                      />
-                    </Stack>
-                  </div>
+                    )}
+                  </Formik>
                 )}
-                <HeightBox height={15} />
-                {/* <Button onClick={handleAdd}>Add</Button> */}
-                <div style={{ width: "50%" }}>
-                  <Stack direction="row">
-                    <CustomButton
-                      // type="submit"
-                      variant="contained"
-                      size="large"
-                      onClick={handleAdd}
-                      disabled={loading}
-                      sx={{ backgroundColor: "#6C63FF" }}
-                    >
-                      {/* {loading ? <CircularProgress /> : "Sign In"} */}
-                      ADD
-                    </CustomButton>
-                    <Button
-                      sx={{ width: "100%" }}
-                      variant="text"
-                      style={{ textTransform: "none" }}
-                      // onClick={() => navigate("/register")}
-                    >
-                      Cancel
-                    </Button>
-                  </Stack>
-                </div>
               </FormControl>
             </Stack>
           </form>
@@ -208,7 +251,7 @@ export default function SystemConfigure() {
         >
           <h2> Total number of cameras {cameras.length}</h2>
           <TableContainer component={Paper} sx={{ padding: "5%" }}>
-            <Table sx={{ minWidth: 400 }} aria-label="simple table">
+            <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>Camera ID</TableCell>
