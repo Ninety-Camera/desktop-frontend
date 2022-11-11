@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { loginUser } from "../../reducers/userSlice";
 
+
 const CustomTextField = styled(TextField)({
   width: "100%",
   height: "5%",
@@ -84,6 +85,7 @@ export default function SignIn() {
   const [resetPWMail, setResetPWMail] = useState("");
 
   function signInUser(data) {
+    console.log(data);
     dispatch(loginUser(data));
   }
 
@@ -95,13 +97,16 @@ export default function SignIn() {
     setOpen(false);
   };
 
-  const handleCheck = () => {};
+  const handleCheck = () => {
+    console.log(resetPWMail);
+    navigate("/resetPW");
+  };
 
   return (
     <div
       style={{
         overflow: "hidden",
-        background: "6C63FF",
+        background: "#6C63FF",
         backgroundImage: `url(${LOGIN_IMAGE})`,
         backgroundSize: "contain",
         height: 775,
@@ -116,6 +121,7 @@ export default function SignIn() {
           top: "20%",
           left: "38%",
           elevation: 15,
+          // border: "10px solid #6013FF",
         }}
       >
         <div style={{ paddingLeft: "10%", paddingTop: 50, width: "80%" }}>
@@ -214,6 +220,7 @@ export default function SignIn() {
                           fullWidth
                           variant="standard"
                           onChange={(e) => setResetPWMail(e.target.value)}
+                          
                         />
                       </DialogContent>
                       <DialogActions>
@@ -225,6 +232,7 @@ export default function SignIn() {
                 );
               }}
             </Formik>
+            
           </Stack>
 
           <HeightBox height={15} />

@@ -11,12 +11,7 @@ import ADD_SUB from "../../assets/images/addSubscriber.svg";
 export default function AddSubscriberBtn(props) {
   const [email, setEmail] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  // const [users, setUsers] = React.useState(props.users);
-
-  // const newUsers = [...users];
-  // console.log("new:", newUsers);
-
-  //   console.log("new:"+newUsers);
+ 
 
   const handleClickOpen = () => {
     setOpen(true);

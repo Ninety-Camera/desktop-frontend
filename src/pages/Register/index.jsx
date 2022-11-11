@@ -100,9 +100,6 @@ export default function Register() {
           justifyContent="center"
           alignItems="center"
         >
-          {/* <div style={{ padding: 100 }}>
-          <img src={REGISTER_IMAGE} alt="" style={{ width: "30vw" }} />
-        </div> */}
           <Paper
             variant="outlined"
             sx={{
