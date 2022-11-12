@@ -59,6 +59,16 @@ export default function SystemConfigure() {
     },
   ]);
 
+  const handleCancel = () => {
+    if (cameraType === "webCamera") {
+      document.getElementById("cameraID").value = "";
+    } else {
+      document.getElementById("link").value = "";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = ""; 
+    }
+  };
+
   const handleChange = (event) => {
     setCameraType(event.target.value);
   };
@@ -145,6 +155,7 @@ export default function SystemConfigure() {
                   };
                   console.log(webCam);
                   document.getElementById("cameraID").value = "";
+                  values.cameraID = "";
                 }}
               >
                 {(formikProps) => {
@@ -182,14 +193,13 @@ export default function SystemConfigure() {
                             disabled={loading}
                             sx={{ backgroundColor: "#6C63FF" }}
                           >
-                            {/* {loading ? <CircularProgress /> : "Sign In"} */}
                             ADD
                           </CustomButton>
                           <Button
                             sx={{ width: "100%" }}
                             variant="text"
                             style={{ textTransform: "none" }}
-                            // onClick={() => navigate("/register")}
+                            onClick={handleCancel}
                           >
                             Cancel
                           </Button>
@@ -212,7 +222,6 @@ export default function SystemConfigure() {
                   password: Yup.string().required().label("Password"),
                 })}
                 onSubmit={(values) => {
-                  // setCameraID(values.link);
                   setCameras((current) => [
                     ...current,
                     { cameraID: values.link, cameraType: "IP Camera" },
@@ -228,6 +237,9 @@ export default function SystemConfigure() {
                   document.getElementById("link").value = "";
                   document.getElementById("username").value = "";
                   document.getElementById("password").value = "";
+                  values.link = "";
+                  values.password = "";
+                  values.username = "";
                 }}
               >
                 {(formikProps) => {
@@ -262,7 +274,7 @@ export default function SystemConfigure() {
                         type="password"
                         id="password"
                         label="Password"
-                        error={errors.password && touched.passsword}
+                        error={errors.password && touched.password}
                         helperText={
                           touched.password && errors.password
                             ? errors.password
@@ -287,6 +299,7 @@ export default function SystemConfigure() {
                             sx={{ width: "100%" }}
                             variant="text"
                             style={{ textTransform: "none" }}
+                            onClick = {handleCancel}
                           >
                             Cancel
                           </Button>

@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
@@ -22,14 +22,12 @@ import {
 } from "@mui/material";
 import { loginUser } from "../../reducers/userSlice";
 
-
 const CustomTextField = styled(TextField)({
   width: "100%",
   height: "5%",
 });
 
 const CustomButton = styled(Button)(({ theme }) => ({
-  // color: theme.palette.getContrastText([500]),
   width: "100%",
   backgroundColor: "#6C63FF",
   fontFamily: "Inter",
@@ -97,10 +95,6 @@ export default function SignIn() {
     setOpen(false);
   };
 
-  const handleCheck = () => {
-    console.log(resetPWMail);
-    navigate("/resetPW");
-  };
 
   return (
     <div
@@ -121,7 +115,6 @@ export default function SignIn() {
           top: "20%",
           left: "38%",
           elevation: 15,
-          // border: "10px solid #6013FF",
         }}
       >
         <div style={{ paddingLeft: "10%", paddingTop: 50, width: "80%" }}>
@@ -204,7 +197,34 @@ export default function SignIn() {
                         {loading ? <CircularProgress /> : "Sign In"}
                       </CustomButton>
                     </Stack>
+                  </React.Fragment>
+                );
+              }}
+            </Formik>
 
+            <Formik
+              initialValues={{
+                resetPasswordMail: "",
+              }}
+              validationSchema={Yup.object().shape({
+                resetPasswordMail: Yup.string()
+                  .required()
+                  .email()
+                  .label("e-mail Address")
+                  .min(3)
+                  .max(36),
+              })}
+              onSubmit={(values) => {
+                // setResetPWMail(values.resetPasswordMail);
+                console.log(values.resetPasswordMail);
+                navigate("/resetPW");
+              }}
+            >
+              {(formikProps) => {
+                const { errors, handleSubmit, handleChange, touched } =
+                  formikProps;
+                return (
+                  <React.Fragment>
                     <Dialog open={open} onClose={handleClose}>
                       <DialogContent>
                         <DialogContentText>
@@ -214,36 +234,38 @@ export default function SignIn() {
                         <TextField
                           autoFocus
                           margin="dense"
-                          id="resetPWMail"
+                          id="resetPasswordMail"
                           label="e-mail Address"
                           type="email"
                           fullWidth
                           variant="standard"
-                          onChange={(e) => setResetPWMail(e.target.value)}
-                          
+                          error={
+                            errors.resetPasswordMail &&
+                            touched.resetPasswordMail
+                          }
+                          helperText={
+                            touched.resetPasswordMail
+                              ? errors.resetPasswordMail
+                              : ""
+                          }
+                          onChange={(event) =>
+                            handleChange("resetPasswordMail")(event)
+                          }
                         />
                       </DialogContent>
                       <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleCheck}>Continue</Button>
+                        <Button type="submit" onClick={handleSubmit}>
+                          Continue
+                        </Button>
                       </DialogActions>
                     </Dialog>
                   </React.Fragment>
                 );
               }}
             </Formik>
-            
           </Stack>
 
-          <HeightBox height={15} />
-          <div style={{ fontSize: 15, width: 350 }}>
-            <Stack direction="row" justifyContent="center" spacing={1}>
-              {/* <p style={{ margin: 0 }}>Don't have an account?</p> */}
-              {/* <Link href="/forgetPassword" underline="hover" color="black">
-                Forget Password?
-              </Link> */}
-            </Stack>
-          </div>
           <HeightBox height={15} />
         </div>
       </Paper>
