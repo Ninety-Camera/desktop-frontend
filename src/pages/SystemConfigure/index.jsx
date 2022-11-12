@@ -22,9 +22,19 @@ import { styled } from "@mui/system";
 import CircularProgress from "@mui/material/CircularProgress";
 import BGIMAGE from "../../assets/images/systemBG.jpg";
 import { Formik } from "formik";
+import * as Yup from "yup";
+
+const webCamValidationSchema = Yup.object().shape({
+  cameraID: Yup.string().required().label("id"),
+});
+
+const iPCamValidationSchema = Yup.object().shape({
+  link: Yup.string().required().label("Link"),
+  username: Yup.string().required().label("Username"),
+  password: Yup.string().required().label("Password"),
+});
 
 const CustomButton = styled(Button)(({ theme }) => ({
-  // color: theme.palette.getContrastText([500]),
   width: "100%",
   backgroundColor: "#6C63FF",
   fontFamily: "Inter",
@@ -37,7 +47,6 @@ const CustomButton = styled(Button)(({ theme }) => ({
 
 export default function SystemConfigure() {
   const [cameraType, setCameraType] = React.useState("webCamera");
-  const [cameraID, setCameraID] = React.useState();
   const [loading, setLoading] = React.useState(false);
   const [cameras, setCameras] = React.useState([
     {
@@ -52,20 +61,6 @@ export default function SystemConfigure() {
 
   const handleChange = (event) => {
     setCameraType(event.target.value);
-  };
-
-  const handleIDChange = (event) => {
-    setCameraID(event.target.value);
-  };
-
-  const handleAdd = () => {
-    // this.newUsers.push({email: {email}, role: "additional"})
-    setCameras((current) => [
-      ...current,
-      { cameraID: cameraID, cameraType: cameraType },
-    ]);
-    //addCamera(cameraID, cameraType)
-    document.getElementById("cameraID").value = "";
   };
 
   return (
@@ -93,17 +88,17 @@ export default function SystemConfigure() {
       </div>
       <Stack direction="row" spacing={5}>
         <div style={{ width: "50%", alignContent: "center" }}>
-          <form action="">
-            <Stack
-              direction="column"
-              spacing={2}
-              sx={{
-                width: "30%",
-                position: "absolute",
-                top: "20%",
-                left: "10%",
-              }}
-            >
+          <Stack
+            direction="column"
+            spacing={2}
+            sx={{
+              width: "30%",
+              position: "absolute",
+              top: "20%",
+              left: "10%",
+            }}
+          >
+            <form action="">
               <FormControl sx={{ padding: "5%" }}>
                 <div>
                   <FormLabel
@@ -131,113 +126,178 @@ export default function SystemConfigure() {
                     />
                   </RadioGroup>
                 </div>
-
-                {cameraType === "webCamera" ? (
-                  <Formik
-                    initialValues={{
-                      cameraID: "",
-                    }}
-                    onSubmit={(values) => {
-                      console.log(values);
-                    }}
-                  >
-                    {(formik) => (
-                      <Stack direction="column" spacing={1}>
-                        <Typography>Select camera</Typography>
-                        <Stack direction="row" spacing={1}>
-                          <IconButton>
-                            <AddAPhotoIcon />
-                          </IconButton>
-                          <TextField
-                            variant="standard"
-                            id="cameraID"
-                            label="id"
-                            onChange={handleIDChange}
-                          />
-                        </Stack>
-                        <HeightBox height={15} />
-
-                        <div style={{ width: "50%" }}>
-                          <Stack direction="row">
-                            <CustomButton
-                              // type="submit"
-                              variant="contained"
-                              size="large"
-                              onClick={handleAdd}
-                              disabled={loading}
-                              sx={{ backgroundColor: "#6C63FF" }}
-                            >
-                              {/* {loading ? <CircularProgress /> : "Sign In"} */}
-                              ADD
-                            </CustomButton>
-                            <Button
-                              sx={{ width: "100%" }}
-                              variant="text"
-                              style={{ textTransform: "none" }}
-                              // onClick={() => navigate("/register")}
-                            >
-                              Cancel
-                            </Button>
-                          </Stack>
-                        </div>
-                      </Stack>
-                    )}
-                  </Formik>
-                ) : (
-                  <Formik
-                    initialValues={{
-                      link: "",
-                      username: "",
-                      password: "",
-                    }}
-                    onSubmit={(values) => {
-                      console.log(values);
-                    }}
-                  >
-                    {(formik) => (
-                      <Stack direction="column" spacing={1}>
-                        
-                        <TextField variant="standard" id="link" label="link" onChange={handleIDChange} />
-                        <TextField
-                          variant="standard"
-                          id="username"
-                          label="Username"
-                        />
-                        <TextField
-                          variant="standard"
-                          type="password"
-                          id="password"
-                          label="Password"
-                        />
-                        <HeightBox height={15} />
-                        <div style={{ width: "50%" }}>
-                          <Stack direction="row">
-                            <CustomButton
-                              
-                              variant="contained"
-                              size="large"
-                              onClick={handleAdd}
-                              disabled={loading}
-                              sx={{ backgroundColor: "#6C63FF" }}
-                            >
-                              ADD
-                            </CustomButton>
-                            <Button
-                              sx={{ width: "100%" }}
-                              variant="text"
-                              style={{ textTransform: "none" }}
-                            >
-                              Cancel
-                            </Button>
-                          </Stack>
-                        </div>
-                      </Stack>
-                    )}
-                  </Formik>
-                )}
               </FormControl>
-            </Stack>
-          </form>
+            </form>
+            {cameraType === "webCamera" ? (
+              <Formik
+                initialValues={{
+                  cameraID: "",
+                }}
+                validationSchema={webCamValidationSchema}
+                onSubmit={(values) => {
+                  setCameras((current) => [
+                    ...current,
+                    { cameraID: values.cameraID, cameraType: "Web Camera" },
+                  ]);
+                  const webCam = {
+                    cameraID: values.cameraID,
+                    cameraType: cameraType,
+                  };
+                  console.log(webCam);
+                  document.getElementById("cameraID").value = "";
+                }}
+              >
+                {(formikProps) => {
+                  const { errors, handleSubmit, handleChange, touched } =
+                    formikProps;
+                  return (
+                    <Stack direction="column" spacing={1}>
+                      <Typography>Select camera</Typography>
+                      <Stack direction="row" spacing={1}>
+                        <IconButton>
+                          <AddAPhotoIcon />
+                        </IconButton>
+                        <TextField
+                          variant="standard"
+                          id="cameraID"
+                          label="id"
+                          error={errors.cameraID && touched.cameraID}
+                          helperText={
+                            touched.cameraID && errors.cameraID
+                              ? errors.cameraID
+                              : ""
+                          }
+                          onChange={(event) => handleChange("cameraID")(event)}
+                        />
+                      </Stack>
+                      <HeightBox height={15} />
+
+                      <div style={{ width: "50%" }}>
+                        <Stack direction="row">
+                          <CustomButton
+                            type="submit"
+                            variant="contained"
+                            size="large"
+                            onClick={handleSubmit}
+                            disabled={loading}
+                            sx={{ backgroundColor: "#6C63FF" }}
+                          >
+                            {/* {loading ? <CircularProgress /> : "Sign In"} */}
+                            ADD
+                          </CustomButton>
+                          <Button
+                            sx={{ width: "100%" }}
+                            variant="text"
+                            style={{ textTransform: "none" }}
+                            // onClick={() => navigate("/register")}
+                          >
+                            Cancel
+                          </Button>
+                        </Stack>
+                      </div>
+                    </Stack>
+                  );
+                }}
+              </Formik>
+            ) : (
+              <Formik
+                initialValues={{
+                  link: "",
+                  username: "",
+                  password: "",
+                }}
+                validationSchema={Yup.object().shape({
+                  link: Yup.string().required().label("Link"),
+                  username: Yup.string().required().label("Username"),
+                  password: Yup.string().required().label("Password"),
+                })}
+                onSubmit={(values) => {
+                  // setCameraID(values.link);
+                  setCameras((current) => [
+                    ...current,
+                    { cameraID: values.link, cameraType: "IP Camera" },
+                  ]);
+                  const iPCam = {
+                    cameraID: values.link,
+                    link: values.link,
+                    username: values.username,
+                    password: values.password,
+                    cameraType: cameraType,
+                  };
+                  console.log(iPCam);
+                  document.getElementById("link").value = "";
+                  document.getElementById("username").value = "";
+                  document.getElementById("password").value = "";
+                }}
+              >
+                {(formikProps) => {
+                  const { errors, handleSubmit, handleChange, touched } =
+                    formikProps;
+                  return (
+                    <Stack direction="column" spacing={1}>
+                      <TextField
+                        variant="standard"
+                        id="link"
+                        label="Link"
+                        error={errors.link && touched.link}
+                        helperText={
+                          touched.link && errors.link ? errors.link : ""
+                        }
+                        onChange={(event) => handleChange("link")(event)}
+                      />
+                      <TextField
+                        variant="standard"
+                        id="username"
+                        label="Username"
+                        error={errors.username && touched.username}
+                        helperText={
+                          touched.username && errors.username
+                            ? errors.username
+                            : ""
+                        }
+                        onChange={(event) => handleChange("username")(event)}
+                      />
+                      <TextField
+                        variant="standard"
+                        type="password"
+                        id="password"
+                        label="Password"
+                        error={errors.password && touched.passsword}
+                        helperText={
+                          touched.password && errors.password
+                            ? errors.password
+                            : ""
+                        }
+                        onChange={(event) => handleChange("password")(event)}
+                      />
+                      <HeightBox height={15} />
+                      <div style={{ width: "50%" }}>
+                        <Stack direction="row">
+                          <CustomButton
+                            type="submit"
+                            variant="contained"
+                            size="large"
+                            onClick={handleSubmit}
+                            disabled={loading}
+                            sx={{ backgroundColor: "#6C63FF" }}
+                          >
+                            ADD
+                          </CustomButton>
+                          <Button
+                            sx={{ width: "100%" }}
+                            variant="text"
+                            style={{ textTransform: "none" }}
+                          >
+                            Cancel
+                          </Button>
+                        </Stack>
+                      </div>
+                    </Stack>
+                  );
+                }}
+              </Formik>
+            )}
+          </Stack>
         </div>
         <div
           style={{
