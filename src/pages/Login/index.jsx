@@ -20,7 +20,7 @@ import {
   DialogActions,
   DialogContentText,
 } from "@mui/material";
-import { loginUser } from "../../reducers/userSlice";
+import { getLocalUser, loginUser } from "../../reducers/userSlice";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Helmet } from "react-helmet";
 import Alert from "@mui/material/Alert";
@@ -69,7 +69,15 @@ export default function SignIn() {
   const userState = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (userState?.auth && userState?.CCTV_System?.id) {
+    dispatch(getLocalUser());
+  }, []);
+
+  useEffect(() => {
+    if (
+      userState?.auth &&
+      userState?.CCTV_System?.id &&
+      userState?.role === "OWNER"
+    ) {
       navigate("/dashboard/camera");
     } else if (userState?.auth && userState?.CCTV_System === null) {
       navigate("/system");
@@ -89,7 +97,7 @@ export default function SignIn() {
       console.log(error);
       setLoading(false);
       setLoginError("Login Error!");
-      // alert(error.message); 
+      // alert(error.message);
     }
   }
 
@@ -136,7 +144,11 @@ export default function SignIn() {
             >
               Welcome Back!
             </h2>
-            {loginError  ? (<Typography textAlign="center" sx={{color:"red"}}>{loginError}</Typography>):null}
+            {loginError ? (
+              <Typography textAlign="center" sx={{ color: "red" }}>
+                {loginError}
+              </Typography>
+            ) : null}
           </div>
           <HeightBox height={10} />
 

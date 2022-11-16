@@ -10,7 +10,18 @@ export default {
   async registerUser(data) {
     return resolver(await axiosClient.post("user/register", data));
   },
-  async registerMobileDevice(data) {
-    return resolver(await axiosClient.post("user/mobile/register", data));
+  async getCCTVSystem(userId, token) {
+    return resolver(
+      await axiosClient.get(`user/system/${userId}`, {
+        headers: { Authorization: token },
+      })
+    );
+  },
+  async checkUserToken(token) {
+    return resolver(
+      await axiosClient.get("user", {
+        headers: { Authorization: token },
+      })
+    );
   },
 };
