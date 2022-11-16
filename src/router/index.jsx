@@ -8,6 +8,7 @@ import ViewVideos from "../pages/ViewVideos";
 import Account from "../pages/Account";
 import SystemConfigure from "../pages/SystemConfigure";
 import ViewNotification from "../pages/ViewNotification";
+import ResetPassword from "../pages/ResetPW";
 
 export default function Router() {
   const userState = useSelector((state) => state.user);
@@ -20,6 +21,7 @@ export default function Router() {
           element={userState?.auth ? <Dashboard /> : <Navigate to="/" />}
         />
         <Route path="/register" element={<Register />} />
+        <Route path="/resetPW" element={<ResetPassword />} />
         <Route
           path="/viewVideos"
           element={userState?.auth ? <ViewVideos /> : <Navigate to="/" />}

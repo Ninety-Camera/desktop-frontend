@@ -6,22 +6,72 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import INTRUDER_IMG1 from "../../../assets/images/Intruder1.jpg";
+import INTRUDER_IMG2 from "../../../assets/images/intruder2.webp";
 
 const notifications = [
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
-  { date: "20/02/2022", time: "09:34" },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
+  {
+    date: "20/02/2022",
+    time: "09:34",
+    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
+  },
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -61,7 +111,15 @@ export default function IntrusionSection() {
             {notifications.map((notification) => (
               <StyledTableRow key={notifications.indexOf(notification)}>
                 <StyledTableCell component="th" scope="row">
-                  Intrusion Alert on {notification.date} at {notification.time}
+                  <Stack direction="row" spacing={5}>
+                    <img
+                      src={INTRUDER_IMG1}
+                      alt=""
+                      style={{ width: "2vw" }}
+                    ></img>
+                    Intrusion Alert on {notification.date} at{" "}
+                    {notification.time}
+                  </Stack>
                 </StyledTableCell>
                 <StyledTableCell>
                   <Button onClick={() => navigate("/viewNotification")}>
