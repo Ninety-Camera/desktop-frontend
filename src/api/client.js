@@ -1,10 +1,11 @@
 /* eslint-disable no-param-reassign */
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios from "axios";
 import { HOSTED_URL, LOCAL_URL } from "../constants";
 
 export const localAxiosClient = axios.create({
   baseURL: LOCAL_URL,
 });
+
 
 // eslint-disable-next-line import/prefer-default-export
 export const axiosClient = axios.create({
