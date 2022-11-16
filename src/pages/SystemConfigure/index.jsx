@@ -92,9 +92,10 @@ export default function SystemConfigure() {
           marginRight: "auto",
           position: "absolute",
           left: "10%",
+          top: "5%",
         }}
       >
-        {/* <Typography
+        <Typography
           component="h1"
           variant="h6"
           color="inherit"
@@ -102,8 +103,8 @@ export default function SystemConfigure() {
           sx={{ flexGrow: 1 }}
         >
           Add your cameras here...
-        </Typography> */}
-        <h1>Add your cameras here...</h1>
+        </Typography>
+        {/* <h1>Add your cameras here...</h1> */}
       </div>
       <Stack direction="row" spacing={5}>
         <div style={{ width: "50%", alignContent: "center" }}>

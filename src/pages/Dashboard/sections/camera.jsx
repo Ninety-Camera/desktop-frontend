@@ -39,7 +39,6 @@ export default function CameraSection() {
             <div>
               <ToggleBtn state={systemState} setState={setSystemState} />
             </div>
-
             <SettingsMenu />
           </Stack>
         </div>

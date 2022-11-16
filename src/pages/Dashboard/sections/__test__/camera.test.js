@@ -5,6 +5,7 @@ import Camera from "../camera";
 import "@testing-library/jest-dom/extend-expect";
 import renderer from "react-test-renderer";
 import { useState } from "react";
+import { act } from "react-dom/test-utils";
 
 afterEach(cleanup);
 
@@ -18,4 +19,9 @@ it("matches snapshot", () => {
   expect(tree).toMatchSnapshot();
 });
 
-it
+it("Toggle Button changes values properly", ()=>{
+    const onChange = jest.fn();
+    act(()=>{
+        
+    });
+});

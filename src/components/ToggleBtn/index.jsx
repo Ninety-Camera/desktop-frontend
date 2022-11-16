@@ -4,25 +4,25 @@ import { Button } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 
-export default function ToggleBtn() {
-  const [systemState, setSystemState] = useState("RUNNING");
+export default function ToggleBtn(props) {
+  //const [systemState, setSystemState] = useState("RUNNING");
 
   return (
     <Button
       variant="contained"
-      color={systemState === "RUNNING" ? "secondary" : "primary"}
-      startIcon={systemState === "RUNNING" ? <StopIcon /> : <PlayArrowIcon />}
+      color={props.state === "RUNNING" ? "secondary" : "primary"}
+      startIcon={props.state === "RUNNING" ? <StopIcon /> : <PlayArrowIcon />}
       style={{ textTransform: "none" }}
       onClick={() => {
-        if (systemState === "RUNNING") {
-          setSystemState("STOP");
+        if (props.state === "RUNNING") {
+          props.setState("STOP");
         } else {
-          setSystemState("RUNNING");
+            props.setState("RUNNING");
         }
       }}
       data-testid="toggleBtn"
     >
-      {systemState === "RUNNING" ? "Stop Monitoring" : "Start Monitoring"}
+      {props.state === "RUNNING" ? "Stop Monitoring" : "Start Monitoring"}
     </Button>
   );
 }

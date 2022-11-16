@@ -16,6 +16,7 @@ import SnackBarComponent from "../../components/SnackBarComponent";
 import "@fontsource/inter";
 import { registerUser } from "../../reducers/userSlice";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 const CustomTextField = styled(TextField)({
   width: "100%",
@@ -64,7 +65,7 @@ export default function Register() {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const user={};
   const [loading, setLoading] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackMessage, setSnackMessage] = useState({
@@ -74,19 +75,31 @@ export default function Register() {
 
   useEffect(() => {
     if (userState?.auth) {
+      // call the flask backend with the user details
+      if (user) {
+        console.log("Inside");
+        axios
+          .post("http://localhost:5000/registerUser", user)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
       navigate("/system");
     } else if (userState?.dataStatus === "error") {
       // Error occured
       setSnackMessage({ type: "error", message: "Error occured!" });
     }
-  }, [userState]);
+  }, [userState, user]);
 
   function handleClick() {
     setLoading(true);
   }
 
-  async function signUpUser(user){
-    
+  async function signUpUser(user) {
     console.log(user);
     try {
       await dispatch(registerUser(user)).unwrap();
@@ -95,7 +108,6 @@ export default function Register() {
       setLoading(false);
       // setLoginError("Login Error!");
       alert(error.message);
-      
     }
   }
 
@@ -164,8 +176,7 @@ export default function Register() {
                       password: values.password,
                     };
                     signUpUser(user);
-                    
-                    
+                    console.log(user);
                   }}
                   validationSchema={validationSchema}
                 >
