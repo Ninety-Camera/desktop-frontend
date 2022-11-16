@@ -159,7 +159,7 @@ export default function Settings() {
                         <Stack direction="row" spacing={5}>
                           <TextField
                             InputProps={{ readOnly: !editable }}
-                            defaultValue={name}
+                            defaultValue={profile.name}
                             sx={{ width: "90%" }}
                             variant="standard"
                           ></TextField>

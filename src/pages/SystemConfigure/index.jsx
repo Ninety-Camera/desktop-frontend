@@ -87,7 +87,7 @@ export default function SystemConfigure() {
       </Helmet>
       <div
         style={{
-          alignContent: "center",
+          // alignContent: "center",
           marginLeft: "auto",
           marginRight: "auto",
           position: "absolute",
@@ -95,16 +95,9 @@ export default function SystemConfigure() {
           top: "5%",
         }}
       >
-        <Typography
-          component="h1"
-          variant="h6"
-          color="inherit"
-          noWrap
-          sx={{ flexGrow: 1 }}
-        >
-          Add your cameras here...
+        <Typography variant="h3" gutterBottom sx={{ alignSelf: "center" }}>
+          <b>Add your cameras here...</b>
         </Typography>
-        {/* <h1>Add your cameras here...</h1> */}
       </div>
       <Stack direction="row" spacing={5}>
         <div style={{ width: "50%", alignContent: "center" }}>
@@ -261,6 +254,7 @@ export default function SystemConfigure() {
                         variant="standard"
                         id="link"
                         label="Link"
+                        
                         error={errors.link && touched.link}
                         helperText={
                           touched.link && errors.link ? errors.link : ""
@@ -332,7 +326,10 @@ export default function SystemConfigure() {
             borderLeft: "1px solid #6C63FF",
           }}
         >
-          <h2> Total number of cameras {cameras.length}</h2>
+          <Typography variant="h4" gutterBottom>
+            Total number of cameras - {cameras.length}
+          </Typography>
+          {/* <h2> Total number of cameras {cameras.length}</h2> */}
           <TableContainer component={Paper} sx={{ padding: "5%" }}>
             <Table aria-label="simple table">
               <TableHead>

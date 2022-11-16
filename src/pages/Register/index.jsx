@@ -77,18 +77,7 @@ export default function Register() {
   useEffect(() => {
     if (userState?.auth) {
       // call the flask backend with the user details
-      if (user) {
-        console.log("Inside");
-        axios
-          .post("http://localhost:5000/registerUser", user)
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-
+      
       navigate("/system");
     } else if (userState?.dataStatus === "error") {
       // Error occured
@@ -110,6 +99,17 @@ export default function Register() {
       // setLoginError("Login Error!");
       alert(error.message);
     }
+    // if (user) {
+    //   console.log("Inside");
+    //   axios
+    //     .post("http://localhost:5000/registerUser", user)
+    //     .then(function (response) {
+    //       console.log(response);
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     });
+    // }
   }
 
   return (
