@@ -7,4 +7,12 @@ export default {
   async validateSystemId(systemId) {
     return resolver(await axiosClient.get(`cctv/validate/${systemId}`));
   },
+  async getSubscribedUsers(systemId) {
+    return resolver(await axiosClient.get(`cctv/subscribed/${systemId}`));
+  },
+  async deleteSubscribedUser(userId) {
+    return resolver(
+      await axiosClient.delete("cctv/subscribed/user", { userId: userId })
+    );
+  },
 };
