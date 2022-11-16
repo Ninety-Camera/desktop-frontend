@@ -73,13 +73,14 @@ export default function SignIn() {
   }, []);
 
   useEffect(() => {
+    console.log("User state is: ", userState);
     if (
       userState?.auth &&
       userState?.CCTV_System?.id &&
       userState?.role === "OWNER"
     ) {
       navigate("/dashboard/camera");
-    } else if (userState?.auth && userState?.CCTV_System === null) {
+    } else if (userState?.auth && !userState?.CCTV_System?.id) {
       navigate("/system");
     }
   }, [userState]);
