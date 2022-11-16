@@ -23,6 +23,12 @@ export default function ProcessedVideo() {
               height={240}
               controls
               loop
+              alt="CCTV video"
+              onError={(event) => {
+                event.target.src =
+                  "https://www.svgrepo.com/show/343419/computer-error.svg";
+                event.onerror = null;
+              }}
             ></video>
             <p
               style={{
@@ -30,7 +36,6 @@ export default function ProcessedVideo() {
                 fontSize: 20,
                 margin: 0,
                 textAlign: "center",
-                
               }}
             >{`On ${videoClip.date} at ${videoClip.hour}`}</p>
           </Grid>

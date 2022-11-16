@@ -15,6 +15,7 @@ import * as Yup from "yup";
 import SnackBarComponent from "../../components/SnackBarComponent";
 import "@fontsource/inter";
 import { registerUser } from "../../reducers/userSlice";
+import { Helmet } from "react-helmet";
 
 const CustomTextField = styled(TextField)({
   width: "100%",
@@ -77,22 +78,37 @@ export default function Register() {
       navigate("/system");
     } else if (userState?.dataStatus === "error") {
       // Error occured
-      // Show the snack error message
+      setSnackMessage({ type: "error", message: "Error occured!" });
     }
   }, [userState]);
 
+  function handleClick() {
+    setLoading(true);
+  }
+
+  async function signUpUser(user){
+    
+    console.log(user);
+    try {
+      await dispatch(registerUser(user)).unwrap();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      // setLoginError("Login Error!");
+      alert(error.message);
+      
+    }
+  }
+
   return (
-    <div
-      style={{
-        overflow: "hidden",
-        background: "6C63FF",
-        backgroundImage: `url(${REGISTER_IMAGE})`,
-        // backgroundRepeat: "no-repeat",
-        backgroundSize: "contain",
-        height: 775,
-        width: 1550,
-      }}
-    >
+    <div>
+      <Helmet>
+        <style>
+          {"body { background-image: " +
+            `url(${REGISTER_IMAGE})` +
+            "; overflow: hidden; background-repeat: no-repeat; background-size: cover}"}
+        </style>
+      </Helmet>
       <Stack direction="column">
         <Stack
           direction="row"
@@ -103,6 +119,7 @@ export default function Register() {
           <Paper
             variant="outlined"
             sx={{
+              minWidth: 400,
               width: "30%",
               position: "absolute",
               top: "10%",
@@ -122,6 +139,12 @@ export default function Register() {
                 >
                   Register With Us
                 </h2>
+                <SnackBarComponent
+                  type={snackMessage.type}
+                  message={snackMessage.message}
+                  open={openSnackBar}
+                  setOpen={setOpenSnackBar}
+                />
               </div>
               <HeightBox height={30} />
               <Stack direction="column" spacing={2}>
@@ -134,13 +157,16 @@ export default function Register() {
                     confirmPassword: "",
                   }}
                   onSubmit={(values) => {
+                    handleClick();
                     const user = {
                       firstName: values.firstName,
                       lastName: values.lastName,
                       email: values.email,
                       password: values.password,
                     };
-                    dispatch(registerUser(user));
+                    signUpUser(user);
+                    
+                    
                   }}
                   validationSchema={validationSchema}
                 >

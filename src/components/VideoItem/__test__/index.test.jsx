@@ -1,29 +1,25 @@
 import React from "react";
 import { render, screen, cleanup } from "@testing-library/react";
 import ReactDom from "react-dom";
-import BlackHorizontalBar from "..";
+import VideoItem from "..";
 import "@testing-library/jest-dom/extend-expect";
 import renderer from "react-test-renderer";
 import { useState } from "react";
+import VIDEOCLIP1 from "../../../assets/video1.mp4";
+
+const videoClip = VIDEOCLIP1;
 
 afterEach(cleanup);
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
-  ReactDom.render(<BlackHorizontalBar />, div);
+  ReactDom.render(<VideoItem videoClip={videoClip} index={1} />, div);
 });
 
-it("renders form correctly", () => {
-  //use for props passing
-  const { getByTestId } = render(
-    <BlackHorizontalBar title="Ninety Camera" buttonText="Register" />
-  );
-  expect(getByTestId("blackHorizontalBar")).toHaveTextContent("Register");
-});
 
 it("matches snapshot", () => {
   const tree = renderer
-    .create(<BlackHorizontalBar title="Ninety Camera" buttonText="Register" />)
+    .create(<VideoItem videoClip={videoClip} index={1} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

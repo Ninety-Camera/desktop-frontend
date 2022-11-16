@@ -7,146 +7,482 @@ exports[`matches snapshot 1`] = `
   <div
     className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
   >
-    <video
-      controls={true}
+    <img
+      alt="CCTV video"
       height={240}
-      loop={true}
+      onError={[Function]}
       src="video1.mp4"
       width={320}
     />
-    <p
-      style={
-        Object {
-          "color": "#6C63FF",
-          "fontSize": 20,
-          "fontWeight": 800,
-          "margin": 0,
-          "textAlign": "center",
-        }
-      }
+    <div
+      className="css-aj204s-MuiStack-root"
     >
-      CCTV - 1
-    </p>
+      <p
+        style={
+          Object {
+            "color": "#6C63FF",
+            "fontSize": 20,
+            "fontWeight": 800,
+            "margin": 0,
+            "textAlign": "center",
+          }
+        }
+      >
+        CCTV - 1
+      </p>
+      <div
+        style={
+          Object {
+            "justifyContent": "center",
+            "marginLeft": "auto",
+            "marginRight": "auto",
+          }
+        }
+      >
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+          data-testid="toggleBtn"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          style={
+            Object {
+              "textTransform": "none",
+            }
+          }
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="StopIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M6 6h12v12H6z"
+              />
+            </svg>
+          </span>
+          Stop Monitoring
+        </button>
+      </div>
+    </div>
   </div>
   <div
     className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
   >
-    <video
-      controls={true}
+    <img
+      alt="CCTV video"
       height={240}
-      loop={true}
+      onError={[Function]}
       src="video1.mp4"
       width={320}
     />
-    <p
-      style={
-        Object {
-          "color": "#6C63FF",
-          "fontSize": 20,
-          "fontWeight": 800,
-          "margin": 0,
-          "textAlign": "center",
-        }
-      }
+    <div
+      className="css-aj204s-MuiStack-root"
     >
-      CCTV - 2
-    </p>
+      <p
+        style={
+          Object {
+            "color": "#6C63FF",
+            "fontSize": 20,
+            "fontWeight": 800,
+            "margin": 0,
+            "textAlign": "center",
+          }
+        }
+      >
+        CCTV - 2
+      </p>
+      <div
+        style={
+          Object {
+            "justifyContent": "center",
+            "marginLeft": "auto",
+            "marginRight": "auto",
+          }
+        }
+      >
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+          data-testid="toggleBtn"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          style={
+            Object {
+              "textTransform": "none",
+            }
+          }
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="StopIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M6 6h12v12H6z"
+              />
+            </svg>
+          </span>
+          Stop Monitoring
+        </button>
+      </div>
+    </div>
   </div>
   <div
     className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
   >
-    <video
-      controls={true}
+    <img
+      alt="CCTV video"
       height={240}
-      loop={true}
+      onError={[Function]}
       src="video1.mp4"
       width={320}
     />
-    <p
-      style={
-        Object {
-          "color": "#6C63FF",
-          "fontSize": 20,
-          "fontWeight": 800,
-          "margin": 0,
-          "textAlign": "center",
-        }
-      }
+    <div
+      className="css-aj204s-MuiStack-root"
     >
-      CCTV - 3
-    </p>
+      <p
+        style={
+          Object {
+            "color": "#6C63FF",
+            "fontSize": 20,
+            "fontWeight": 800,
+            "margin": 0,
+            "textAlign": "center",
+          }
+        }
+      >
+        CCTV - 3
+      </p>
+      <div
+        style={
+          Object {
+            "justifyContent": "center",
+            "marginLeft": "auto",
+            "marginRight": "auto",
+          }
+        }
+      >
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+          data-testid="toggleBtn"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          style={
+            Object {
+              "textTransform": "none",
+            }
+          }
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="StopIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M6 6h12v12H6z"
+              />
+            </svg>
+          </span>
+          Stop Monitoring
+        </button>
+      </div>
+    </div>
   </div>
   <div
     className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
   >
-    <video
-      controls={true}
+    <img
+      alt="CCTV video"
       height={240}
-      loop={true}
+      onError={[Function]}
       src="video1.mp4"
       width={320}
     />
-    <p
-      style={
-        Object {
-          "color": "#6C63FF",
-          "fontSize": 20,
-          "fontWeight": 800,
-          "margin": 0,
-          "textAlign": "center",
-        }
-      }
+    <div
+      className="css-aj204s-MuiStack-root"
     >
-      CCTV - 4
-    </p>
+      <p
+        style={
+          Object {
+            "color": "#6C63FF",
+            "fontSize": 20,
+            "fontWeight": 800,
+            "margin": 0,
+            "textAlign": "center",
+          }
+        }
+      >
+        CCTV - 4
+      </p>
+      <div
+        style={
+          Object {
+            "justifyContent": "center",
+            "marginLeft": "auto",
+            "marginRight": "auto",
+          }
+        }
+      >
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+          data-testid="toggleBtn"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          style={
+            Object {
+              "textTransform": "none",
+            }
+          }
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="StopIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M6 6h12v12H6z"
+              />
+            </svg>
+          </span>
+          Stop Monitoring
+        </button>
+      </div>
+    </div>
   </div>
   <div
     className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
   >
-    <video
-      controls={true}
+    <img
+      alt="CCTV video"
       height={240}
-      loop={true}
+      onError={[Function]}
       src="video1.mp4"
       width={320}
     />
-    <p
-      style={
-        Object {
-          "color": "#6C63FF",
-          "fontSize": 20,
-          "fontWeight": 800,
-          "margin": 0,
-          "textAlign": "center",
-        }
-      }
+    <div
+      className="css-aj204s-MuiStack-root"
     >
-      CCTV - 5
-    </p>
+      <p
+        style={
+          Object {
+            "color": "#6C63FF",
+            "fontSize": 20,
+            "fontWeight": 800,
+            "margin": 0,
+            "textAlign": "center",
+          }
+        }
+      >
+        CCTV - 5
+      </p>
+      <div
+        style={
+          Object {
+            "justifyContent": "center",
+            "marginLeft": "auto",
+            "marginRight": "auto",
+          }
+        }
+      >
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+          data-testid="toggleBtn"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          style={
+            Object {
+              "textTransform": "none",
+            }
+          }
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="StopIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M6 6h12v12H6z"
+              />
+            </svg>
+          </span>
+          Stop Monitoring
+        </button>
+      </div>
+    </div>
   </div>
   <div
     className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
   >
-    <video
-      controls={true}
+    <img
+      alt="CCTV video"
       height={240}
-      loop={true}
+      onError={[Function]}
       src="video1.mp4"
       width={320}
     />
-    <p
-      style={
-        Object {
-          "color": "#6C63FF",
-          "fontSize": 20,
-          "fontWeight": 800,
-          "margin": 0,
-          "textAlign": "center",
-        }
-      }
+    <div
+      className="css-aj204s-MuiStack-root"
     >
-      CCTV - 6
-    </p>
+      <p
+        style={
+          Object {
+            "color": "#6C63FF",
+            "fontSize": 20,
+            "fontWeight": 800,
+            "margin": 0,
+            "textAlign": "center",
+          }
+        }
+      >
+        CCTV - 6
+      </p>
+      <div
+        style={
+          Object {
+            "justifyContent": "center",
+            "marginLeft": "auto",
+            "marginRight": "auto",
+          }
+        }
+      >
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+          data-testid="toggleBtn"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          style={
+            Object {
+              "textTransform": "none",
+            }
+          }
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="StopIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M6 6h12v12H6z"
+              />
+            </svg>
+          </span>
+          Stop Monitoring
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 `;

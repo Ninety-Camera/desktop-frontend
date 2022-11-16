@@ -7,6 +7,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import SettingsMenu from "../../../components/SettingsMenu";
 import HeightBox from "../../../components/HeightBox";
+import ToggleBtn from "../../../components/ToggleBtn";
 
 const videoList = [
   {
@@ -36,25 +37,7 @@ export default function CameraSection() {
         >
           <Stack direction="row" spacing={5} alignItems="center">
             <div>
-              <Button
-                variant="contained"
-                color={systemState === "RUNNING" ? "secondary" : "primary"}
-                startIcon={
-                  systemState === "RUNNING" ? <StopIcon /> : <PlayArrowIcon />
-                }
-                style={{ textTransform: "none" }}
-                onClick={() => {
-                  if (systemState === "RUNNING") {
-                    setSystemState("STOP");
-                  } else {
-                    setSystemState("RUNNING");
-                  }
-                }}
-              >
-                {systemState === "RUNNING"
-                  ? "Stop Monitoring"
-                  : "Start Monitoring"}
-              </Button>
+              <ToggleBtn state={systemState} setState={setSystemState} />
             </div>
 
             <SettingsMenu />

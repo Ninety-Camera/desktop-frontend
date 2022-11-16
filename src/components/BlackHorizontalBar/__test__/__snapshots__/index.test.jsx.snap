@@ -6,18 +6,13 @@ exports[`matches snapshot 1`] = `
   data-testid="blackHorizontalBar"
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic css-qa7luj-MuiPaper-root-MuiAppBar-root"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionFixed mui-fixed css-11b3ww9-MuiPaper-root-MuiAppBar-root"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular css-hyum1k-MuiToolbar-root"
     >
-      <div
-        className="MuiTypography-root MuiTypography-h6 css-1juivf6-MuiTypography-root"
-      >
-        Ninety Camera
-      </div>
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge css-hb4fzq-MuiButtonBase-root-MuiButton-root"
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-dclvwo-MuiButtonBase-root-MuiIconButton-root"
         disabled={false}
         onBlur={[Function]}
         onContextMenu={[Function]}
@@ -33,6 +28,7 @@ exports[`matches snapshot 1`] = `
         onTouchStart={[Function]}
         tabIndex={0}
         type="submit"
+        variant="contained"
       >
         Register
       </button>

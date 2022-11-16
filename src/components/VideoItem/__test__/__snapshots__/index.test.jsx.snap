@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+Array [
+  <img
+    alt="CCTV video"
+    height={240}
+    onError={[Function]}
+    width={320}
+  />,
+  <div
+    className="css-aj204s-MuiStack-root"
+  >
+    <p
+      style={
+        Object {
+          "color": "#6C63FF",
+          "fontSize": 20,
+          "fontWeight": 800,
+          "margin": 0,
+          "textAlign": "center",
+        }
+      }
+    >
+      CCTV - 2
+    </p>
+    <div
+      style={
+        Object {
+          "justifyContent": "center",
+          "marginLeft": "auto",
+          "marginRight": "auto",
+        }
+      }
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+        data-testid="toggleBtn"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "textTransform": "none",
+          }
+        }
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="StopIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M6 6h12v12H6z"
+            />
+          </svg>
+        </span>
+        Stop Monitoring
+      </button>
+    </div>
+  </div>,
+]
+`;

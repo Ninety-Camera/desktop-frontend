@@ -16,7 +16,6 @@ import SETTING_IMG from "../../../assets/images/profile.svg";
 import SaveIcon from "@mui/icons-material/Save";
 import Paper from "@mui/material/Paper";
 import HeightBox from "../../../components/HeightBox";
-// import HeightBox from "../../../components/HeightBox";
 
 const name = "Test User";
 const password = "12345";
@@ -57,6 +56,7 @@ export default function Settings() {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleCheck = () => {
     if (password === passwordCrt) {
       setEditablePW(true);
@@ -65,6 +65,7 @@ export default function Settings() {
       alert("Invalid Password");
     }
   };
+
   return (
     <div>
       <Stack direction="row" spacing={2}>
@@ -75,26 +76,29 @@ export default function Settings() {
               width: "60%",
               position: "absolute",
               top: "20%",
-              left: "20%",
+              left: "25%",
               elevation: 15,
               borderRadius: 5,
             }}
           >
             <div style={{}}>
-              <div
-                style={{
+              <Paper
+                sx={{
                   width: "100%",
                   padding: "2%",
                   borderTopLeftRadius: 15,
                   borderTopRightRadius: 15,
+                  borderBottomRightRadius: 0,
+                  borderBottomLeftRadius: 0,
                   backgroundColor: "#6C63FF",
                   color: "white",
+                  elevation: 15,
                 }}
               >
                 <Typography sx={{ fontSize: 20, fontWeight: 50 }}>
                   Device Id : ahd123
                 </Typography>
-              </div>
+              </Paper>
               <HeightBox height={10}></HeightBox>
               <Stack direction="row" spacing={0}>
                 <div
@@ -119,10 +123,6 @@ export default function Settings() {
                             {editable ? <SaveIcon /> : <EditIcon />}
                           </IconButton>
                         </Stack>
-
-                        {/* <IconButton onClick={handleBtnClick}>
-                          {editable ? <SaveIcon /> : <EditIcon />}
-                        </IconButton> */}
                       </Stack>
                     </div>
                     <div style={divStyles}>
@@ -178,11 +178,8 @@ export default function Settings() {
                       <div
                         style={{
                           overflow: "hidden",
-                          // width: "120%",
-                          // marginLeft: "auto",
                           marginRight: "auto",
                           paddingLeft: "5%",
-                          // paddingTop: "10%",
                         }}
                       >
                         <Stack direction="column" spacing={2}>
@@ -202,7 +199,7 @@ export default function Settings() {
                       </div>
                       <div style={{ marginLeft: "auto", marginRight: "30%" }}>
                         <Stack direction="row" spacing={1}>
-                          <AddSubscriberBtn users={users} setUsers={setUsers} />
+                          <AddSubscriberBtn users={users} setUsers={setUsers} deviceID = "ahd1234"/>
                           <RemoveSubscriber users={users} setUsers={setUsers} />
                         </Stack>
                       </div>
@@ -213,22 +210,6 @@ export default function Settings() {
               <HeightBox height={10}></HeightBox>
             </div>
           </Paper>
-
-          {/* <HeightBox height={20}/> */}
-          {/* <div
-              style={{
-                overflow: "hidden",
-                width: "35%",
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
-            >
-              <Stack direction="column" spacing={2}>
-            <Button onClick={handleBtnClick} sx={{ width: "65%" }} >
-              {editable ? "Save" : "Edit"}
-            </Button>
-          </Stack>
-            </div> */}
         </div>
       </Stack>
       <HeightBox height={20} />

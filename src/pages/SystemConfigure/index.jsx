@@ -23,6 +23,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import BGIMAGE from "../../assets/images/systemBG.jpg";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const webCamValidationSchema = Yup.object().shape({
   cameraID: Yup.string().required().label("id"),
@@ -48,6 +50,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 export default function SystemConfigure() {
   const [cameraType, setCameraType] = React.useState("webCamera");
   const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
   const [cameras, setCameras] = React.useState([
     {
       cameraID: "123",
@@ -65,7 +68,7 @@ export default function SystemConfigure() {
     } else {
       document.getElementById("link").value = "";
       document.getElementById("username").value = "";
-      document.getElementById("password").value = ""; 
+      document.getElementById("password").value = "";
     }
   };
 
@@ -74,17 +77,14 @@ export default function SystemConfigure() {
   };
 
   return (
-    <div
-      style={{
-        alignContent: "center",
-        marginLeft: "auto",
-        marginRight: "auto",
-        backgroundImage: `url(${BGIMAGE})`,
-        backgroundSize: "contain",
-        height: 775,
-        width: 1550,
-      }}
-    >
+    <div>
+      <Helmet>
+        <style>
+          {"body { background-image: " +
+            `url(${BGIMAGE})` +
+            "; overflow: hidden; background-repeat: no-repeat; background-size: cover}"}
+        </style>
+      </Helmet>
       <div
         style={{
           alignContent: "center",
@@ -94,6 +94,15 @@ export default function SystemConfigure() {
           left: "10%",
         }}
       >
+        {/* <Typography
+          component="h1"
+          variant="h6"
+          color="inherit"
+          noWrap
+          sx={{ flexGrow: 1 }}
+        >
+          Add your cameras here...
+        </Typography> */}
         <h1>Add your cameras here...</h1>
       </div>
       <Stack direction="row" spacing={5}>
@@ -299,7 +308,7 @@ export default function SystemConfigure() {
                             sx={{ width: "100%" }}
                             variant="text"
                             style={{ textTransform: "none" }}
-                            onClick = {handleCancel}
+                            onClick={handleCancel}
                           >
                             Cancel
                           </Button>

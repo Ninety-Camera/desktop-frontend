@@ -26,22 +26,20 @@ export default function BlackHorizontalBar(props) {
   const { title, buttonText, buttonAction, showButton = true } = props;
   return (
     <Box data-testid="blackHorizontalBar" sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "#2F2E41" }}>
+      <AppBar position="fixed" >
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {title}
-          </Typography>
           {showButton && (
-            <CustomButton
+            <IconButton
               type="submit"
               variant="contained"
               size="large"
-              sx={{ backgroundColor: "#6C63FF" }}
+              sx={{ backgroundColor: "#6C63FF" , color: "white"}}
               onClick={buttonAction}
             >
               {buttonText}
-            </CustomButton>
+            </IconButton>
           )}
+          
         </Toolbar>
       </AppBar>
     </Box>

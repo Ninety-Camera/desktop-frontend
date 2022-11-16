@@ -7,17 +7,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ADD_SUB from "../../assets/images/addSubscriber.svg";
+import ReactDOM from "react-dom";
+import QRCode from "react-qr-code";
 
 export default function AddSubscriberBtn(props) {
   const [email, setEmail] = React.useState("");
   const [open, setOpen] = React.useState(false);
- 
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
+    //should refresh the list of users
     setOpen(false);
   };
 
@@ -54,10 +56,9 @@ export default function AddSubscriberBtn(props) {
         <DialogTitle>Add Subscriber</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To add new subscriber to this software, please enter the email
-            address here.
+        Scan the QR code below!
           </DialogContentText>
-          <img src={ADD_SUB} style={{ width: "20vw", alignSelf: "center" }} />
+          {/* <img src={ADD_SUB} style={{ width: "20vw", alignSelf: "center" }} />
           <TextField
             autoFocus
             margin="dense"
@@ -67,11 +68,26 @@ export default function AddSubscriberBtn(props) {
             fullWidth
             variant="standard"
             onChange={(e) => setEmail(e.target.value)}
-          />
+          /> */}
+          <div
+            style={{
+              height: "auto",
+              margin: "0 auto",
+              maxWidth: 64,
+              width: "100%",
+            }}
+          >
+            <QRCode
+              size={256}
+              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+              value={props.deviceID}
+              viewBox={`0 0 256 256`}
+            />
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleAdd}>Add</Button>
+          {/* <Button onClick={handleAdd}>Add</Button> */}
         </DialogActions>
       </Dialog>
     </div>

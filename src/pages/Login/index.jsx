@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import LOGIN_IMAGE from "../../assets/images/loginBG.svg";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import HeightBox from "../../components/HeightBox";
 import * as Yup from "yup";
 import SnackBarComponent from "../../components/SnackBarComponent";
@@ -21,6 +21,9 @@ import {
   DialogContentText,
 } from "@mui/material";
 import { loginUser } from "../../reducers/userSlice";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Helmet } from "react-helmet";
+import Alert from "@mui/material/Alert";
 
 const CustomTextField = styled(TextField)({
   width: "100%",
@@ -73,18 +76,22 @@ export default function SignIn() {
     }
   }, [userState]);
 
-  const [loading, setLoading] = useState(false);
-  const [openSnackBar, setOpenSnackBar] = useState(false);
-  const [snackMessage, setSnackMessage] = useState({
-    type: "success",
-    message: "",
-  });
+  const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = useState(false);
   const [resetPWMail, setResetPWMail] = useState("");
+  const [loginError, setLoginError] = useState("");
 
-  function signInUser(data) {
+  async function signInUser(data) {
     console.log(data);
-    dispatch(loginUser(data));
+    try {
+      await dispatch(loginUser(data)).unwrap();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setLoginError("Login Error!");
+      // alert(error.message);
+      
+    }
   }
 
   const handleClickOpen = () => {
@@ -94,22 +101,23 @@ export default function SignIn() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  function handleClick() {
+    setLoading(true);
+  }
 
   return (
-    <div
-      style={{
-        overflow: "hidden",
-        background: "#6C63FF",
-        backgroundImage: `url(${LOGIN_IMAGE})`,
-        backgroundSize: "contain",
-        height: 775,
-        width: 1550,
-      }}
-    >
+    <div>
+      <Helmet>
+        <style>
+          {"body { background-image: " +
+            `url(${LOGIN_IMAGE})` +
+            "; overflow: hidden; background-repeat: no-repeat; background-size: cover}"}
+        </style>
+      </Helmet>
       <Paper
         variant="outlined"
         sx={{
+          minWidth: 350,
           width: "24%",
           position: "absolute",
           top: "20%",
@@ -129,6 +137,7 @@ export default function SignIn() {
             >
               Welcome Back!
             </h2>
+            {loginError  ? (<Typography textAlign="center" sx={{color:"red"}}>{loginError}</Typography>):null}
           </div>
           <HeightBox height={10} />
 
@@ -140,9 +149,10 @@ export default function SignIn() {
                 password: "",
               }}
               onSubmit={(values) => {
+                handleClick();
                 signInUser(values);
               }}
-              validationSchema={validationSchema}
+              //validationSchema={validationSchema}
             >
               {(formikProps) => {
                 const { errors, handleSubmit, handleChange, touched } =
@@ -187,6 +197,8 @@ export default function SignIn() {
                         Sign Up
                       </Button>
                       <CustomButton
+                        //loading={loading}
+                        // loadingIndicator="Signing in..."
                         type="submit"
                         variant="contained"
                         size="large"

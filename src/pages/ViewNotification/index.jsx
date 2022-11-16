@@ -6,8 +6,10 @@ import { Stack } from "@mui/system";
 import VIDEO_CLIP from "../../assets/video1.mp4";
 import { useNavigate } from "react-router-dom";
 import { Block } from "@mui/icons-material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { IconButton, Typography } from "@mui/material";
 
-const images = [INTRUDER_IMG1, INTRUDER_IMG2];
+const images = [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG2];
 const time = "09:34 pm";
 const date = "02/12/2021";
 
@@ -16,11 +18,32 @@ export default function ViewNotification(props) {
   return (
     <div>
       <Stack direction="column" spacing={1}>
-        <BlackHorizontalBar
+        {/* <BlackHorizontalBar
           title="Ninety Camera"
-          buttonText={"Dashboard"}
-          buttonAction={() => navigate("/dashboard/camera")}
-        />
+          buttonText={<ArrowBackIcon />}
+          buttonAction={() => navigate("/dashboard/intrusion")}
+        /> */}
+        <div>
+          <IconButton
+            type="submit"
+            variant="contained"
+            size="large"
+            sx={{
+              backgroundColor: "#6C63FF",
+              color: "white",
+              position: "fixed",
+              top: 20,
+              left: 20,
+              "&:hover": {
+                backgroundColor: "#5C53FF",
+                // boxShadow: 'none',
+              },
+            }}
+            onClick={() => navigate("/dashboard/intrusion")}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </div>
         <div
           style={{
             overflow: "hidden",
@@ -31,7 +54,7 @@ export default function ViewNotification(props) {
           }}
         >
           {" "}
-          <Stack direction="row" spacing={2}>
+          <Stack direction="column" spacing={2}>
             <img
               src={INTRUDER_IMG1}
               alt=""
@@ -43,13 +66,52 @@ export default function ViewNotification(props) {
                 padding: 10,
               }}
             ></img>
-            <h1>
+            <Typography
+              component={"h1"}
+              sx={{ fontSize: 30, textAlign: "center", fontWeight: 500 }}
+            >
               Someone intrudes your residence around {time} on {date}
-            </h1>
+            </Typography>
+            <div style={{ marginLeft: "auto", marginRight: "auto" }}>
+              {/* <Typography
+                component={"h2"}
+                sx={{ fontSize: 20, fontWeight: 500 }}
+              >
+                Screenshots of the intruder
+              </Typography> */}
+              <Stack direction="row" spacing={1}>
+                {images.map((image) => (
+                  <img
+                    src={image}
+                    alt=""
+                    style={{
+                      border: "1px solid #6C63FF",
+                      borderRadius: "4px",
+                      padding: "5px",
+                      width: "20vw",
+                    }}
+                  ></img>
+                ))}
+                {/* <img src={INTRUDER_IMG1} alt="" style={{ width: "20vw" }}></img>
+                <img src={INTRUDER_IMG2} alt="" style={{ width: "20vw" }}></img> */}
+              </Stack>
+            </div>
+            <div style={{
+              alignContent: "center",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }
+            }>
+              <video
+                src={VIDEO_CLIP}
+                width="320"
+                height="240"
+                controls
+                loop
+              ></video>
+            </div>
           </Stack>
-          <p>Here are some evidence for you !</p>
-          <h2>Screenshots of the intruder</h2>
-          <div
+          {/* <div
             style={{
               width: "90%",
               overflowX: "scroll",
@@ -61,17 +123,7 @@ export default function ViewNotification(props) {
               <img src={INTRUDER_IMG1} alt="" style={{ width: "20vw" }}></img>
               <img src={INTRUDER_IMG2} alt="" style={{ width: "20vw" }}></img>
             </Stack>
-          </div>
-          <div>
-            <h2> A video Clip of the intrder</h2>
-            <video
-              src={VIDEO_CLIP}
-              width="320"
-              height="240"
-              controls
-              loop
-            ></video>
-          </div>
+          </div> */}
         </div>
       </Stack>
     </div>
