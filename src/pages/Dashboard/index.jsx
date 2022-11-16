@@ -23,6 +23,7 @@ import CameraSection from "./sections/camera";
 import IntrusionSection from "./sections/intrusion";
 import Settings from "./sections/settings";
 import ProcessedVideo from "./sections/processedVideo";
+import { logOutUser } from "../../reducers/userSlice";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -71,9 +72,17 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const userState = useSelector((state) => state.user);
+  const disptach = useDispatch();
   const [open, setOpen] = React.useState(true);
   const [openPane, setOpenPane] = React.useState(<CameraSection />);
   const location = useLocation();
+
+  React.useEffect(() => {
+    if (!userState?.auth) {
+      navigate("/");
+    }
+  }, [userState]);
 
   React.useEffect(() => {
     const params = location.pathname.split("/");
@@ -133,6 +142,17 @@ export default function Dashboard() {
           >
             Dashboard
           </Typography>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ textTransform: "none" }}
+            onClick={() => {
+              disptach(logOutUser());
+            }}
+            data-testid="toggleBtn"
+          >
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
