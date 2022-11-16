@@ -16,6 +16,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemButton from "@mui/material/ListItemButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
+import api from "../../api";
 
 // const emails = ["username@gmail.com", "user02@gmail.com"];
 
@@ -26,10 +27,18 @@ function SimpleDialog(props) {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = (value) => {
-    setUsers(users.filter((user) => users.indexOf(user) !== value));
-    // onClose(value);
-  };
+  async function handleListItemClick(value) {
+    // When calling this function show a loading widget
+    try {
+      const response = await api.cctv.deleteSubscribedUser(value?.userId);
+      if (response?.data?.status == 200) {
+        setUsers(users.filter((user) => users.indexOf(user) !== value));
+      } else {
+        // Error occured while getting the responses
+        // Show the error snackbar
+      }
+    } catch (error) {}
+  }
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -42,9 +51,11 @@ function SimpleDialog(props) {
                 <PersonIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={user.email} />
+            <ListItemText primary={user.user.email} />
             <ListItemIcon>
-              <IconButton disabled={!(users.indexOf(user))}onClick={() => handleListItemClick(users.indexOf(user))}>
+              <IconButton
+                onClick={() => handleListItemClick(users.indexOf(user))}
+              >
                 <DeleteIcon />
               </IconButton>
             </ListItemIcon>
@@ -62,14 +73,10 @@ SimpleDialog.propTypes = {
 };
 
 export default function RemoveSubscriber(props) {
-
-  // const [users, setUsers] = React.useState(props.users);
-  React.useEffect(()=> {
-
-  },[props.users])
+  React.useEffect(() => {}, [props.users]);
 
   const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState(props.users[0].email);
+  const [selectedValue, setSelectedValue] = React.useState("");
 
   const handleClickOpen = () => {
     setOpen(true);

@@ -9,9 +9,23 @@ export const getSavedUser = createAsyncThunk(
 export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
   const response = await api.user.signinUser(data);
   console.log("Response is: ", response);
-  
+
   if (response?.data?.status === 200) {
-    // User logging success    
+    // User logging success
+    const user = response?.data?.data?.user;
+    console.log("In here", response);
+    try {
+      const localResponse = await api.local_user.sendUserDetails({
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        token: "Bearer " + response?.data?.data?.token,
+        role: user?.role,
+      });
+      console.log("Local response is: ", localResponse);
+    } catch (error) {
+      console.log("Error occured: ", error);
+    }
     return response?.data?.data?.user;
   }
   throw new Error("Login error!");
@@ -24,6 +38,7 @@ export const registerUser = createAsyncThunk(
     console.log(response);
     if (response?.data?.status === 201) {
       // User Registration success
+
       return response?.data?.data?.user;
     }
     throw new Error("Registration error!");

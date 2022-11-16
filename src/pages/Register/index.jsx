@@ -23,7 +23,6 @@ const CustomTextField = styled(TextField)({
 });
 
 const CustomButton = styled(Button)(({ theme }) => ({
-  // color: theme.palette.getContrastText([500]),
   width: "100%",
   backgroundColor: "#6C63FF",
   fontFamily: "Inter",

@@ -15,39 +15,37 @@ export default function Router() {
   const userState = useSelector((state) => state.user);
 
   return (
-    
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route
-            path="/dashboard/:page"
-            element={<Dashboard />}
-            //element={userState?.auth ? <Dashboard /> : <Navigate to="/" />}
-          />
-          <Route path="/register" element={<Register />} />
-          <Route path="/resetPW" element={<ResetPassword />} />
-          <Route
-            path="/viewVideos"
-            element={<ViewVideos />}
-            //element={userState?.auth ? <ViewVideos /> : <Navigate to="/" />}
-          />
-          <Route
-            path="/account"
-            element={<Account />}
-            //element={userState?.auth ? <Account /> : <Navigate to="/" />}
-          />
-          <Route
-            path="/viewNotification"
-            element={<ViewNotification />}
-            //element={userState?.auth ? <ViewNotification /> : <Navigate to="/" />}
-          />
-          <Route
-            path="/system"
-            element={<SystemConfigure />}
-            //element={userState?.auth ? <SystemConfigure /> : <Navigate to="/" />}
-          />
-        </Routes>
-      </BrowserRouter>
-    
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route
+          path="/dashboard/:page"
+          element= {<Dashboard />}
+         // element={userState?.auth ? <Dashboard /> : <Navigate to="/" />}
+        />
+        <Route path="/register" element={<Register />} />
+        <Route path="/resetPW" element={<ResetPassword />} />
+        <Route
+          path="/viewVideos"
+          element={<ViewVideos />}
+          //element={userState?.auth ? <ViewVideos /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/account"
+          element={<Account />}
+          //element={userState?.auth ? <Account /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/viewNotification"
+          element={<ViewNotification />}
+          //element={userState?.auth ? <ViewNotification /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/system"
+          element={<SystemConfigure />}
+          //element={userState?.auth ? <SystemConfigure /> : <Navigate to="/" />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
