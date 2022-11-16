@@ -9,8 +9,9 @@ export const getSavedUser = createAsyncThunk(
 export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
   const response = await api.user.signinUser(data);
   console.log("Response is: ", response);
+  
   if (response?.data?.status === 200) {
-    // User logging success
+    // User logging success    
     return response?.data?.data?.user;
   }
   throw new Error("Login error!");
@@ -20,6 +21,7 @@ export const registerUser = createAsyncThunk(
   "user/registerUser",
   async (data) => {
     const response = await api.user.registerUser(data);
+    console.log(response);
     if (response?.data?.status === 201) {
       // User Registration success
       return response?.data?.data?.user;
