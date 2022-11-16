@@ -16,12 +16,21 @@ import SETTING_IMG from "../../../assets/images/profile.svg";
 import SaveIcon from "@mui/icons-material/Save";
 import Paper from "@mui/material/Paper";
 import HeightBox from "../../../components/HeightBox";
+import axios from "axios";
+import IMAGE from "../../../assets/images/Intruder1.jpg";
+import { useEffect } from "react";
 
 const name = "Test User";
 const password = "12345";
 const username = "user@gmail.com";
 
 export default function Settings() {
+  const [profile, setProfile] = useState({
+    name: "",
+    deviceID: "",
+    password: "",
+    emails: [],
+  });
   const [editable, setEditable] = useState(false);
   const [editablePW, setEditablePW] = useState(false);
   const [open, setOpen] = useState(false);
@@ -32,6 +41,41 @@ export default function Settings() {
     { email: "user3@mail.com", role: "additional" },
     { email: "user4@mail.com", role: "additional" },
   ]);
+
+  useEffect(() => {
+    console.log("lll");
+    getData();
+  });
+
+  const [profileData, setProfileData] = useState(null);
+
+  function getData() {
+    axios
+      .get("http://localhost:5000/profile")
+      .then((response) => {
+        const res = response.data;
+        if (
+          profile === null ||
+          profile.name !== res.name ||
+          profile.password !== res.password
+        ) {
+          setProfile({
+            name: res.name,
+            password: res.password,
+            deviceID: res.deviceID,
+            emails: res.emails,
+          });
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+    console.log(profile);
+  }
 
   const handleBtnClick = () => {
     if (editable) {
@@ -96,7 +140,7 @@ export default function Settings() {
                 }}
               >
                 <Typography sx={{ fontSize: 20, fontWeight: 50 }}>
-                  Device Id : ahd123
+                  Device Id : {profile.deviceID}
                 </Typography>
               </Paper>
               <HeightBox height={10}></HeightBox>
@@ -185,21 +229,27 @@ export default function Settings() {
                         <Stack direction="column" spacing={2}>
                           {users.map((user) => {
                             return (
-                              <TextField
+                              <Typography
                                 type="email"
                                 key={users.indexOf(user)}
-                                InputProps={{ readOnly: true }}
-                                defaultValue={user.email}
+                                // InputProps={{ readOnly: true }}
+                                // defaultValue={user.email}
                                 sx={{ width: "90%" }}
-                                variant="standard"
-                              ></TextField>
+                                // variant="standard"
+                              >
+                                {user.email}
+                              </Typography>
                             );
                           })}
                         </Stack>
                       </div>
                       <div style={{ marginLeft: "auto", marginRight: "30%" }}>
                         <Stack direction="row" spacing={1}>
-                          <AddSubscriberBtn users={users} setUsers={setUsers} deviceID = "ahd1234"/>
+                          <AddSubscriberBtn
+                            users={users}
+                            setUsers={setUsers}
+                            deviceID="ahd1234"
+                          />
                           <RemoveSubscriber users={users} setUsers={setUsers} />
                         </Stack>
                       </div>
