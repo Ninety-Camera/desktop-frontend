@@ -93,7 +93,10 @@ export default function Settings() {
               <Stack direction="row" spacing={0}>
                 <div style={{ width: "90%", paddingLeft: "10%" }}>
                   <Stack direction="column" spacing={3}>
-                    <Typography>Other Accounts </Typography>
+                    <Typography variant="h5" gutterBottom>
+                      
+                      Other Accounts
+                    </Typography>
                     <div
                       style={{
                         overflow: "hidden",
@@ -115,7 +118,7 @@ export default function Settings() {
                         })}
                       </Stack>
                     </div>
-                    <div style={{marginLeft: "auto", marginRight: "1%"}}>
+                    <div style={{ marginLeft: "auto", marginRight: "1%" }}>
                       <Stack direction="row" spacing={1}>
                         <AddSubscriberBtn
                           users={users}

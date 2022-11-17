@@ -90,19 +90,16 @@ export default function RemoveSubscriber(props) {
   return (
     <div>
       <Button
-        variant="outlined"
+        variant="contained"
         onClick={handleClickOpen}
+        color="secondary"
+            style={{ textTransform: "none" }}
         sx={{
           width: 150,
           height: 50,
-          backgroundColor: "#F50057",
           fontFamily: "Inter",
-          color: "white",
           fontSize: 15,
           fontWeight: 700,
-          "&:hover": {
-            backgroundColor: "#D50057",
-          },
         }}
       >
         Remove

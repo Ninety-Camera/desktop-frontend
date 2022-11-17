@@ -9,7 +9,7 @@ import camera from "../../api/modules/camera";
 export default function VideoArea(props) {
   const cameras = useSelector((state) => state.camera);
   return (
-    <Grid container spacing={5} justifyContent="center">
+    <Grid container spacing={5} justifyContent="left">
       {cameras?.cameras.map((videoClip) => {
         return (
           <Grid item xs="auto" key={videoClip?.id}>

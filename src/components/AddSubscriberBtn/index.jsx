@@ -24,19 +24,15 @@ export default function AddSubscriberBtn(props) {
   return (
     <div data-testid="addSubscriberBtn">
       <Button
-        variant="outlined"
+        variant="contained"
         onClick={handleClickOpen}
         sx={{
           width: 200,
           height: 50,
-          backgroundColor: "#6C63FF",
+          color: "primary",
           fontFamily: "Inter",
-          color: "white",
           fontSize: 15,
           fontWeight: 700,
-          "&:hover": {
-            backgroundColor: "#6f63EE",
-          },
         }}
       >
         Add Subscriber
