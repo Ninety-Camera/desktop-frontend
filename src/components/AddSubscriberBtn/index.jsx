@@ -27,6 +27,8 @@ export default function AddSubscriberBtn(props) {
         variant="outlined"
         onClick={handleClickOpen}
         sx={{
+          width: 200,
+          height: 50,
           backgroundColor: "#6C63FF",
           fontFamily: "Inter",
           color: "white",

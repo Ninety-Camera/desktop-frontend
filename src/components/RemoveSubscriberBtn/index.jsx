@@ -93,12 +93,12 @@ export default function RemoveSubscriber(props) {
         variant="outlined"
         onClick={handleClickOpen}
         sx={{
-          width: 50,
-          // height: 100,
+          width: 150,
+          height: 50,
           backgroundColor: "#F50057",
           fontFamily: "Inter",
           color: "white",
-          fontSize: 12,
+          fontSize: 15,
           fontWeight: 700,
           "&:hover": {
             backgroundColor: "#D50057",

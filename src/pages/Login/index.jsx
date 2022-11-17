@@ -73,13 +73,14 @@ export default function SignIn() {
   }, []);
 
   useEffect(() => {
+    console.log("User state is: ", userState);
     if (
       userState?.auth &&
       userState?.CCTV_System?.id &&
       userState?.role === "OWNER"
     ) {
       navigate("/dashboard/camera");
-    } else if (userState?.auth && userState?.CCTV_System === null) {
+    } else if (userState?.auth && !userState?.CCTV_System?.id) {
       navigate("/system");
     }
   }, [userState]);
@@ -87,7 +88,11 @@ export default function SignIn() {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = useState(false);
   const [resetPWMail, setResetPWMail] = useState("");
-  const [loginError, setLoginError] = useState("");
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackMessage, setSnackMessage] = useState({
+    type: "success",
+    message: "",
+  });
 
   async function signInUser(data) {
     console.log(data);
@@ -96,8 +101,8 @@ export default function SignIn() {
     } catch (error) {
       console.log(error);
       setLoading(false);
-      setLoginError("Login Error!");
-      // alert(error.message);
+      setSnackMessage({ type: "error", message: error.message });
+      setOpenSnackBar(true);
     }
   }
 
@@ -144,11 +149,13 @@ export default function SignIn() {
             >
               Welcome Back!
             </h2>
-            {loginError ? (
-              <Typography textAlign="center" sx={{ color: "red" }}>
-                {loginError}
-              </Typography>
-            ) : null}
+            <SnackBarComponent
+              type={snackMessage.type}
+              message={snackMessage.message}
+              open={openSnackBar}
+              setOpen={setOpenSnackBar}
+            />
+            
           </div>
           <HeightBox height={10} />
 
@@ -208,7 +215,7 @@ export default function SignIn() {
                         Sign Up
                       </Button>
                       <CustomButton
-                        //loading={loading}
+                        // loading={loading}
                         // loadingIndicator="Signing in..."
                         type="submit"
                         variant="contained"
@@ -217,6 +224,7 @@ export default function SignIn() {
                         disabled={loading}
                         sx={{ backgroundColor: "#6C63FF" }}
                       >
+                        {/* Sign In */}
                         {loading ? <CircularProgress /> : "Sign In"}
                       </CustomButton>
                     </Stack>

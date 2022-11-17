@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Stack } from "@mui/system";
 import {
   FormControl,
@@ -25,6 +25,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import api from "../../api";
+import { useDispatch, useSelector } from "react-redux";
+import { updateSystemStatus } from "../../reducers/userSlice";
 
 const webCamValidationSchema = Yup.object().shape({
   cameraID: Yup.string().required().label("id"),
@@ -48,19 +51,34 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function SystemConfigure() {
+  const userState = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [cameraType, setCameraType] = React.useState("webCamera");
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
-  const [cameras, setCameras] = React.useState([
-    {
-      cameraID: "123",
-      cameraType: "Web Camera",
-    },
-    {
-      cameraID: "125",
-      cameraType: "Web Camera",
-    },
-  ]);
+  const [cameras, setCameras] = React.useState([]);
+  const [system, setSystem] = useState();
+
+  async function createTheSystem() {
+    try {
+      const response = await api.cctv.createSystem(
+        { cameraCount: 0 },
+        userState?.token
+      );
+      console.log("System creation response is: ", response);
+      if (response?.data?.status === 201) {
+        // system created succesfully
+        setSystem(response?.data?.data);
+        dispatch(updateSystemStatus(response?.data?.data));
+      } else {
+        // error occured in creating the system
+      }
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    createTheSystem();
+  }, []);
 
   const handleCancel = () => {
     if (cameraType === "webCamera") {
@@ -189,8 +207,8 @@ export default function SystemConfigure() {
                       </Stack>
                       <HeightBox height={15} />
 
-                      <div style={{ width: "50%" }}>
-                        <Stack direction="row">
+                      <div>
+                        <Stack direction="row" justifyContent="space-between">
                           <CustomButton
                             type="submit"
                             variant="contained"
@@ -211,6 +229,14 @@ export default function SystemConfigure() {
                           </Button>
                         </Stack>
                       </div>
+                      <CustomButton
+                        type="submit"
+                        variant="contained"
+                        size="large"
+                        sx={{ backgroundColor: "#6C63FF" }}
+                      >
+                        Next
+                      </CustomButton>
                     </Stack>
                   );
                 }}

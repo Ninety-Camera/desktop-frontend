@@ -65,7 +65,6 @@ export default function Register() {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const user={};
   const [loading, setLoading] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackMessage, setSnackMessage] = useState({
@@ -75,40 +74,27 @@ export default function Register() {
 
   useEffect(() => {
     if (userState?.auth) {
-      // call the flask backend with the user details
-      
       navigate("/system");
     } else if (userState?.dataStatus === "error") {
       // Error occured
       setSnackMessage({ type: "error", message: "Error occured!" });
+      setOpenSnackBar(true);
     }
-  }, [userState, user]);
+  }, [userState]);
 
   function handleClick() {
     setLoading(true);
   }
 
   async function signUpUser(user) {
-    console.log(user);
     try {
       await dispatch(registerUser(user)).unwrap();
     } catch (error) {
       console.log(error);
       setLoading(false);
-      // setLoginError("Login Error!");
-      alert(error.message);
+      setSnackMessage({ type: "error", message: error.message});
+      setOpenSnackBar(true);
     }
-    // if (user) {
-    //   console.log("Inside");
-    //   axios
-    //     .post("http://localhost:5000/registerUser", user)
-    //     .then(function (response) {
-    //       console.log(response);
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
-    // }
   }
 
   return (

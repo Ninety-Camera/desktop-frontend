@@ -25,7 +25,10 @@ export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
         role: user?.role,
       });
     } catch (error) {}
-    return response?.data?.data?.user;
+    return {
+      ...response?.data?.data?.user,
+      token: "Bearer " + response?.data?.data?.token,
+    };
   }
   throw new Error("Login error!");
 });

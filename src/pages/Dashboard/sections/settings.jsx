@@ -9,10 +9,17 @@ import HeightBox from "../../../components/HeightBox";
 import { useEffect } from "react";
 import api from "../../../api";
 import { useSelector } from "react-redux";
+import Alert from "@mui/material/Alert";
+import SnackBarComponent from "../../../components/SnackBarComponent";
 
 export default function Settings() {
   const userState = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackMessage, setSnackMessage] = useState({
+    type: "success",
+    message: "",
+  });
 
   async function getData() {
     try {
@@ -25,7 +32,8 @@ export default function Settings() {
       }
     } catch (error) {
       // Add a toast message in here to show that an error occured while fetching the data
-      alert("An error occured while fetching the data!")
+      setSnackMessage({ type: "error", message: error.message });
+      setOpenSnackBar(true);
     }
   }
 
@@ -45,6 +53,12 @@ export default function Settings() {
     <div>
       <Stack direction="row" spacing={2}>
         <div>
+          <SnackBarComponent
+            type={snackMessage.type}
+            message={snackMessage.message}
+            open={openSnackBar}
+            setOpen={setOpenSnackBar}
+          />
           <Paper
             variant="outlined"
             sx={{
@@ -68,52 +82,51 @@ export default function Settings() {
                   backgroundColor: "#6C63FF",
                   color: "white",
                   elevation: 15,
+                  textAlign: "center",
                 }}
               >
-                <Typography sx={{ fontSize: 20, fontWeight: 50 }}>
-                  Device Id : {userState?.CCTV_System?.id}
+                <Typography sx={{ fontSize: 25, fontWeight: 50 }}>
+                  <b>Device Id : {userState?.CCTV_System?.id}</b>
                 </Typography>
               </Paper>
               <HeightBox height={10}></HeightBox>
               <Stack direction="row" spacing={0}>
-                <div style={{ width: "50%", paddingLeft: "5%" }}>
-                  <div style={divStyles}>
-                    <Stack direction="column" spacing={3}>
-                      <Typography>Other Accounts </Typography>
-                      <div
-                        style={{
-                          overflow: "hidden",
-                          marginRight: "auto",
-                          paddingLeft: "5%",
-                        }}
-                      >
-                        <Stack direction="column" spacing={2}>
-                          {users.map((user, index) => {
-                            return (
-                              <Typography
-                                type="email"
-                                key={index}
-                                sx={{ width: "90%" }}
-                              >
-                                {user?.user?.email}
-                              </Typography>
-                            );
-                          })}
-                        </Stack>
-                      </div>
-                      <div style={{ marginLeft: "auto", marginRight: "30%" }}>
-                        <Stack direction="row" spacing={1}>
-                          <AddSubscriberBtn
-                            users={users}
-                            setUsers={setUsers}
-                            deviceID={userState?.CCTV_System?.id}
-                            cancelView={getData}
-                          />
-                          <RemoveSubscriber users={users} setUsers={setUsers} />
-                        </Stack>
-                      </div>
-                    </Stack>
-                  </div>
+                <div style={{ width: "90%", paddingLeft: "10%" }}>
+                  <Stack direction="column" spacing={3}>
+                    <Typography>Other Accounts </Typography>
+                    <div
+                      style={{
+                        overflow: "hidden",
+                        marginRight: "auto",
+                        paddingLeft: "5%",
+                      }}
+                    >
+                      <Stack direction="column" spacing={2}>
+                        {users.map((user, index) => {
+                          return (
+                            <Typography
+                              type="email"
+                              key={index}
+                              sx={{ width: "90%" }}
+                            >
+                              {user?.user?.email}
+                            </Typography>
+                          );
+                        })}
+                      </Stack>
+                    </div>
+                    <div style={{marginLeft: "auto", marginRight: "1%"}}>
+                      <Stack direction="row" spacing={1}>
+                        <AddSubscriberBtn
+                          users={users}
+                          setUsers={setUsers}
+                          deviceID={userState?.CCTV_System?.id}
+                          cancelView={getData}
+                        />
+                        <RemoveSubscriber users={users} setUsers={setUsers} />
+                      </Stack>
+                    </div>
+                  </Stack>
                 </div>
               </Stack>
               <HeightBox height={10}></HeightBox>

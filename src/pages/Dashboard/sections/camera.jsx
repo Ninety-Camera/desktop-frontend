@@ -11,12 +11,12 @@ import ToggleBtn from "../../../components/ToggleBtn";
 
 const videoList = [
   {
-    sourcePath: "http://localhost:5000/video_feed/cam1",
+    sourcePath: "http://10.10.14.63:5000/video_feed/cam1",
     date: "20/02/2022",
     hour: "12:00",
   },
   {
-    sourcePath: "http://localhost:5000/video_feed/cam2",
+    sourcePath: "http://10.10.14.63:5000/video_feed/cam2",
     date: "20/02/2022",
     hour: "12:00",
   },

@@ -42,8 +42,7 @@ export default function Router() {
         />
         <Route
           path="/system"
-          element={<SystemConfigure />}
-          //element={userState?.auth ? <SystemConfigure /> : <Navigate to="/" />}
+          element={userState?.auth ? <SystemConfigure /> : <Navigate to="/" />}
         />
       </Routes>
     </BrowserRouter>

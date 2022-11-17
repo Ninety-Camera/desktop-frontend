@@ -15,4 +15,13 @@ export default {
       await axiosClient.delete("cctv/subscribed/user", { userId: userId })
     );
   },
+  async createSystem(data, token) {
+    return resolver(
+      await axiosClient.post("cctv/add", data, {
+        headers: {
+          Authorization: token,
+        },
+      })
+    );
+  },
 };
