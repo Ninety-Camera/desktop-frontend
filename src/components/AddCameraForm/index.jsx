@@ -75,6 +75,7 @@ export default function AddCameraForm() {
   }
 
   async function addIpCamera(values) {
+    setLoading(true);
     const camera = {
       systemId: userState?.CCTV_System?.id,
       name: values?.name,
@@ -86,11 +87,29 @@ export default function AddCameraForm() {
       if (response?.data?.status === 201) {
         // Camera adding success
         console.log("Camera added succesfully");
+        const cameraRes = response?.data?.data?.camera;
+        const localResponse = await api.local_camera.addCamera({
+          id: cameraRes?.id,
+          name: camera.name,
+          type: "IP_CAMERA",
+          source: values.link,
+        });
+        if (localResponse?.status === 200) {
+          dispatch(
+            addCamera({
+              id: cameraRes?.id,
+              name: camera.name,
+              type: "IP_CAMERA",
+              source: values.link,
+            })
+          );
+        }
       }
     } catch (error) {
       // Error occured
       // Show snack bar
     }
+    setLoading(false);
   }
 
   const handleChange = (event) => {
@@ -236,8 +255,12 @@ export default function AddCameraForm() {
                             />
 
                             <HeightBox height={20} />
-                            <Button variant="contained" onClick={handleSubmit}>
-                              Add
+                            <Button
+                              variant="contained"
+                              onClick={handleSubmit}
+                              disabled={loading}
+                            >
+                              {loading ? <CircularProgress /> : "Add"}
                             </Button>
                           </React.Fragment>
                         );
