@@ -78,6 +78,7 @@ export default function Register() {
     } else if (userState?.dataStatus === "error") {
       // Error occured
       setSnackMessage({ type: "error", message: "Error occured!" });
+      setOpenSnackBar(true);
     }
   }, [userState]);
 
@@ -91,8 +92,8 @@ export default function Register() {
     } catch (error) {
       console.log(error);
       setLoading(false);
-      // setLoginError("Login Error!");
-      alert(error.message);
+      setSnackMessage({ type: "error", message: error.message});
+      setOpenSnackBar(true);
     }
   }
 

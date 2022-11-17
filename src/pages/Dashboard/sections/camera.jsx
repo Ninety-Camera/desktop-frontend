@@ -11,8 +11,8 @@ export default function CameraSection() {
 
   return (
     <div style={{ overflow: "hidden" }}>
-      <Stack direction="column">
-        <HeightBox height={10} />
+      <Stack direction="column" spacing={5}>
+        <HeightBox height={2} />
         <div
           style={{
             paddingLeft: 40,
