@@ -7,8 +7,12 @@ export default {
   async validateSystemId(systemId) {
     return resolver(await axiosClient.get(`cctv/validate/${systemId}`));
   },
-  async getSubscribedUsers(systemId) {
-    return resolver(await axiosClient.get(`cctv/subscribed/${systemId}`));
+  async getSubscribedUsers(systemId, token) {
+    return resolver(
+      await axiosClient.get(`cctv/subscribed/${systemId}`, {
+        headers: { Authorization: token },
+      })
+    );
   },
   async deleteSubscribedUser(userId) {
     return resolver(

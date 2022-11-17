@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,70 +9,9 @@ import Paper from "@mui/material/Paper";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import INTRUDER_IMG1 from "../../../assets/images/Intruder1.jpg";
-import INTRUDER_IMG2 from "../../../assets/images/intruder2.webp";
-
-const notifications = [
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-];
+import api from "../../../api";
+import * as moment from "moment";
+import HeightBox from "../../../components/HeightBox";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -96,20 +35,43 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function IntrusionSection() {
   const navigate = useNavigate();
+  const [intrusions, setIntrusions] = useState([]);
+
+  async function getPreviousIntrusions() {
+    try {
+      const response = await api.local_intrusions.getIntrusions();
+      if (response?.status === 200) {
+        setIntrusions(response?.data?.data);
+      } else {
+        // Error occured in getting the previous intrusions
+      }
+    } catch (error) {
+      // Error occured in getting the prevoius intrusions
+    }
+  }
+
+  useEffect(() => {
+    getPreviousIntrusions();
+  }, []);
+
   return (
     <div
       style={{
         overflow: "hidden",
-        width: "60%",
         marginLeft: "auto",
         marginRight: "auto",
       }}
     >
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }}>
+          <HeightBox height={10} />
+          <div style={{ paddingLeft: 10 }}>
+            <h3>Previous Intrusions</h3>
+          </div>
+
           <TableBody>
-            {notifications.map((notification) => (
-              <StyledTableRow key={notifications.indexOf(notification)}>
+            {intrusions.reverse().map((intrusion) => (
+              <StyledTableRow key={intrusion[0]}>
                 <StyledTableCell component="th" scope="row">
                   <Stack direction="row" spacing={5}>
                     <img
@@ -117,12 +79,18 @@ export default function IntrusionSection() {
                       alt=""
                       style={{ width: "2vw" }}
                     ></img>
-                    Intrusion Alert on {notification.date} at{" "}
-                    {notification.time}
+                    Intrusion Alert on
+                    {" " + moment(intrusion[1]).format("YYYY-MM-DD HH:MM")}
                   </Stack>
                 </StyledTableCell>
                 <StyledTableCell>
-                  <Button onClick={() => navigate("/viewNotification")}>
+                  <Button
+                    onClick={() =>
+                      navigate(
+                        "/viewNotification/" + intrusion[0] + "/" + intrusion[1]
+                      )
+                    }
+                  >
                     View more
                   </Button>
                 </StyledTableCell>

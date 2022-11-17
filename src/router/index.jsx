@@ -18,27 +18,14 @@ export default function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route
-          path="/dashboard/:page"
-          element= {<Dashboard />}
-         // element={userState?.auth ? <Dashboard /> : <Navigate to="/" />}
-        />
+        <Route path="/dashboard/:page" element={<Dashboard />} />
         <Route path="/register" element={<Register />} />
         <Route path="/resetPW" element={<ResetPassword />} />
+        <Route path="/viewVideos" element={<ViewVideos />} />
+        <Route path="/account" element={<Account />} />
         <Route
-          path="/viewVideos"
-          element={<ViewVideos />}
-          //element={userState?.auth ? <ViewVideos /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/account"
-          element={<Account />}
-          //element={userState?.auth ? <Account /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/viewNotification"
+          path="/viewNotification/:intrusionId/:time"
           element={<ViewNotification />}
-          //element={userState?.auth ? <ViewNotification /> : <Navigate to="/" />}
         />
         <Route
           path="/system"
