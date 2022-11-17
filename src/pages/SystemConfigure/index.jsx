@@ -19,7 +19,6 @@ import HeightBox from "../../components/HeightBox";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/system";
-import CircularProgress from "@mui/material/CircularProgress";
 import BGIMAGE from "../../assets/images/systemBG.jpg";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -28,13 +27,16 @@ import { Helmet } from "react-helmet";
 import api from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSystemStatus } from "../../reducers/userSlice";
+import { addCamera } from "../../reducers/cameraSlice";
 
 const webCamValidationSchema = Yup.object().shape({
+  name: Yup.string().required().label("Name"),
   cameraID: Yup.string().required().label("id"),
 });
 
 const iPCamValidationSchema = Yup.object().shape({
   link: Yup.string().required().label("Link"),
+  name: Yup.string().required().label("Name"),
   username: Yup.string().required().label("Username"),
   password: Yup.string().required().label("Password"),
 });
@@ -52,6 +54,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 
 export default function SystemConfigure() {
   const userState = useSelector((state) => state.user);
+  const cameraState = useSelector((state) => state.camera);
   const dispatch = useDispatch();
   const [cameraType, setCameraType] = React.useState("webCamera");
   const [loading, setLoading] = React.useState(false);
@@ -59,13 +62,17 @@ export default function SystemConfigure() {
   const [cameras, setCameras] = React.useState([]);
   const [system, setSystem] = useState();
 
+  useEffect(() => {
+    console.log("cameras are: ", cameraState);
+  }, [cameraState]);
+
   async function createTheSystem() {
     try {
       const response = await api.cctv.createSystem(
         { cameraCount: 0 },
         userState?.token
       );
-      console.log("System creation response is: ", response);
+
       if (response?.data?.status === 201) {
         // system created succesfully
         setSystem(response?.data?.data);
@@ -73,24 +80,67 @@ export default function SystemConfigure() {
       } else {
         // error occured in creating the system
       }
-    } catch (error) {}
+    } catch (error) {
+      // Add a snack message saying that error occured
+    }
+  }
+
+  async function addWebCamera(values) {
+    const camera = {
+      systemId: system?.id,
+      name: values?.name,
+      type: "WEB_CAMERA",
+      status: "STOP",
+    };
+
+    try {
+      const response = await api.camera.addCamera(camera, userState?.token);
+      if (response?.data?.status === 201) {
+        const cameraRes = response?.data?.data?.camera;
+        const localResponse = await api.local_camera.addCamera({
+          id: cameraRes?.id,
+          name: camera.name,
+          type: "WEB_CAMERA",
+          source: values.cameraId,
+        });
+        console.log("Local response", localResponse);
+        dispatch(addCamera(response?.data?.data?.camera));
+        setCameras((current) => [
+          ...current,
+          { ...response?.data?.data?.camera },
+        ]);
+      }
+    } catch (error) {
+      // Error occured
+      // Show snack bar
+    }
+  }
+
+  async function addIpCamera(values) {
+    const camera = {
+      systemId: system?.id,
+      name: values?.name,
+      type: "IP_CAMERA",
+      status: "STOP",
+    };
+    try {
+      const response = await api.camera.addCamera(camera, userState?.token);
+      if (response?.data?.status === 201) {
+        dispatch(addCamera(response?.data?.data?.camera));
+        setCameras((current) => [
+          ...current,
+          { ...response?.data?.data?.camera },
+        ]);
+      }
+    } catch (error) {
+      // Error occured
+      // Show snack bar
+    }
   }
 
   useEffect(() => {
     createTheSystem();
   }, []);
-
-  const handleCancel = () => {
-    if (cameraType === "webCamera") {
-      document.getElementById("cameraID").value = "";
-    } else {
-      document.getElementById("link").value = "";
-      document.getElementById("username").value = "";
-      document.getElementById("password").value = "";
-    }
-  };
-
-  
 
   const handleChange = (event) => {
     setCameraType(event.target.value);
@@ -118,7 +168,6 @@ export default function SystemConfigure() {
         <Typography variant="h3" gutterBottom sx={{ alignSelf: "center" }}>
           <b>Add your cameras here...</b>
         </Typography>
-        <Button onClick={()=>navigate("/dashboard/camera")}>Dashboard</Button>
       </div>
       <Stack direction="row" spacing={5}>
         <div style={{ width: "50%", alignContent: "center" }}>
@@ -166,20 +215,11 @@ export default function SystemConfigure() {
               <Formik
                 initialValues={{
                   cameraID: "",
+                  name: "",
                 }}
                 validationSchema={webCamValidationSchema}
                 onSubmit={(values) => {
-                  setCameras((current) => [
-                    ...current,
-                    { cameraID: values.cameraID, cameraType: "Web Camera" },
-                  ]);
-                  const webCam = {
-                    cameraID: values.cameraID,
-                    cameraType: cameraType,
-                  };
-                  console.log(webCam);
-                  document.getElementById("cameraID").value = "";
-                  values.cameraID = "";
+                  addWebCamera(values);
                 }}
               >
                 {(formikProps) => {
@@ -194,6 +234,16 @@ export default function SystemConfigure() {
                         </IconButton>
                         <TextField
                           variant="standard"
+                          id="Name"
+                          label="name"
+                          error={errors.name && touched.name}
+                          helperText={
+                            touched.name && errors.name ? errors.name : ""
+                          }
+                          onChange={handleChange("name")}
+                        />
+                        <TextField
+                          variant="standard"
                           id="cameraID"
                           label="id"
                           error={errors.cameraID && touched.cameraID}
@@ -202,33 +252,24 @@ export default function SystemConfigure() {
                               ? errors.cameraID
                               : ""
                           }
-                          onChange={(event) => handleChange("cameraID")(event)}
+                          onChange={handleChange("cameraID")}
                         />
                       </Stack>
                       <HeightBox height={15} />
 
-                      <div>
-                        <Stack direction="row" justifyContent="space-between">
-                          <CustomButton
-                            type="submit"
-                            variant="contained"
-                            size="large"
-                            onClick={handleSubmit}
-                            disabled={loading}
-                            sx={{ backgroundColor: "#6C63FF" }}
-                          >
-                            ADD
-                          </CustomButton>
-                          <Button
-                            sx={{ width: "100%" }}
-                            variant="text"
-                            style={{ textTransform: "none" }}
-                            onClick={handleCancel}
-                          >
-                            Cancel
-                          </Button>
-                        </Stack>
-                      </div>
+                      <Stack direction="row" justifyContent="space-between">
+                        <CustomButton
+                          type="submit"
+                          variant="contained"
+                          size="large"
+                          onClick={handleSubmit}
+                          disabled={loading}
+                          sx={{ backgroundColor: "#6C63FF" }}
+                        >
+                          ADD
+                        </CustomButton>
+                      </Stack>
+
                       <CustomButton
                         type="submit"
                         variant="contained"
@@ -244,34 +285,14 @@ export default function SystemConfigure() {
             ) : (
               <Formik
                 initialValues={{
+                  name: "",
                   link: "",
                   username: "",
                   password: "",
                 }}
-                validationSchema={Yup.object().shape({
-                  link: Yup.string().required().label("Link"),
-                  username: Yup.string().required().label("Username"),
-                  password: Yup.string().required().label("Password"),
-                })}
+                validationSchema={iPCamValidationSchema}
                 onSubmit={(values) => {
-                  setCameras((current) => [
-                    ...current,
-                    { cameraID: values.link, cameraType: "IP Camera" },
-                  ]);
-                  const iPCam = {
-                    cameraID: values.link,
-                    link: values.link,
-                    username: values.username,
-                    password: values.password,
-                    cameraType: cameraType,
-                  };
-                  console.log(iPCam);
-                  document.getElementById("link").value = "";
-                  document.getElementById("username").value = "";
-                  document.getElementById("password").value = "";
-                  values.link = "";
-                  values.password = "";
-                  values.username = "";
+                  addIpCamera(values);
                 }}
               >
                 {(formikProps) => {
@@ -281,6 +302,16 @@ export default function SystemConfigure() {
                     <Stack direction="column" spacing={1}>
                       <TextField
                         variant="standard"
+                        id="name"
+                        label="Camera Name"
+                        error={errors.name && touched.name}
+                        helperText={
+                          touched.name && errors.namw ? errors.namw : ""
+                        }
+                        onChange={handleChange("name")}
+                      />
+                      <TextField
+                        variant="standard"
                         id="link"
                         label="Link"
                         
@@ -288,7 +319,7 @@ export default function SystemConfigure() {
                         helperText={
                           touched.link && errors.link ? errors.link : ""
                         }
-                        onChange={(event) => handleChange("link")(event)}
+                        onChange={handleChange("link")}
                       />
                       <TextField
                         variant="standard"
@@ -300,7 +331,7 @@ export default function SystemConfigure() {
                             ? errors.username
                             : ""
                         }
-                        onChange={(event) => handleChange("username")(event)}
+                        onChange={handleChange("username")}
                       />
                       <TextField
                         variant="standard"
@@ -313,7 +344,7 @@ export default function SystemConfigure() {
                             ? errors.password
                             : ""
                         }
-                        onChange={(event) => handleChange("password")(event)}
+                        onChange={handleChange("password")}
                       />
                       <HeightBox height={15} />
                       <div style={{ width: "50%" }}>
@@ -328,16 +359,19 @@ export default function SystemConfigure() {
                           >
                             ADD
                           </CustomButton>
-                          <Button
-                            sx={{ width: "100%" }}
-                            variant="text"
-                            style={{ textTransform: "none" }}
-                            onClick={handleCancel}
-                          >
-                            Cancel
-                          </Button>
                         </Stack>
                       </div>
+                      <CustomButton
+                        type="submit"
+                        variant="contained"
+                        size="large"
+                        onClick={() => {
+                          navigate("/dashboard/camera");
+                        }}
+                        sx={{ backgroundColor: "#6C63FF" }}
+                      >
+                        Next
+                      </CustomButton>
                     </Stack>
                   );
                 }}
@@ -347,7 +381,7 @@ export default function SystemConfigure() {
         </div>
         <div
           style={{
-            width: "30%",
+            width: "40%",
             position: "absolute",
             top: "20%",
             left: "45%",
@@ -358,26 +392,26 @@ export default function SystemConfigure() {
           <Typography variant="h4" gutterBottom>
             Total number of cameras - {cameras.length}
           </Typography>
-          {/* <h2> Total number of cameras {cameras.length}</h2> */}
           <TableContainer component={Paper} sx={{ padding: "5%" }}>
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>Camera ID</TableCell>
+                  <TableCell align="right">Camera Name</TableCell>
                   <TableCell align="right">Camera Type</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {cameras.map((camera) => (
                   <TableRow
-                    key={camera.cameraID}
+                    key={camera.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {camera.cameraID}
+                      {camera.id}
                     </TableCell>
-
-                    <TableCell align="right">{camera.cameraType}</TableCell>
+                    <TableCell align="right">{camera.name}</TableCell>
+                    <TableCell align="right">{camera.type}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

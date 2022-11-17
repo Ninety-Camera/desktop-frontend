@@ -3,21 +3,17 @@ import { Box } from "@mui/system";
 import { Stack } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import VideoItem from "../VideoItem";
+import { useSelector } from "react-redux";
+import camera from "../../api/modules/camera";
 
 export default function VideoArea(props) {
-  const videosList = props.videosList;
-  const width = props.width;
-  const height = props.height;
-  const alignment = props.alignment;
+  const cameras = useSelector((state) => state.camera);
   return (
     <Grid container spacing={5} justifyContent="center">
-      {videosList.map((videoClip) => {
+      {cameras?.cameras.map((videoClip) => {
         return (
-          <Grid item xs="auto" key={videosList.indexOf(videoClip)}>
-            <VideoItem
-              videoClip={videoClip}
-              index={videosList.indexOf(videoClip)}
-            />
+          <Grid item xs="auto" key={videoClip?.id}>
+            <VideoItem videoClip={videoClip} index={videoClip?.id} />
           </Grid>
         );
       })}

@@ -45,15 +45,6 @@ export default function SettingsMenu() {
         <MenuItem component={AddCameraForm} onClick={handleClose}>
           ADD CAMERA
         </MenuItem>
-
-        <MenuItem
-          onClick={handleClose}
-          component={Link}
-          sx={{ color: "#6C63FF" }}
-          href="../"
-        >
-          LOG OUT
-        </MenuItem>
       </Menu>
     </div>
   );

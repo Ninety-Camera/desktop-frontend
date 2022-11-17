@@ -73,7 +73,6 @@ export default function SignIn() {
   }, []);
 
   useEffect(() => {
-    console.log("User state is: ", userState);
     if (
       userState?.auth &&
       userState?.CCTV_System?.id &&
@@ -170,7 +169,7 @@ export default function SignIn() {
                 handleClick();
                 signInUser(values);
               }}
-              //validationSchema={validationSchema}
+              validationSchema={validationSchema}
             >
               {(formikProps) => {
                 const { errors, handleSubmit, handleChange, touched } =

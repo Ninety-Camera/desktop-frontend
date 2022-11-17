@@ -24,6 +24,7 @@ import IntrusionSection from "./sections/intrusion";
 import Settings from "./sections/settings";
 import ProcessedVideo from "./sections/processedVideo";
 import { logOutUser } from "../../reducers/userSlice";
+import { getCameras } from "../../reducers/cameraSlice";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -73,14 +74,27 @@ const Drawer = styled(MuiDrawer, {
 export default function Dashboard() {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.user);
+  const cameraState = useSelector((state) => state.camera);
   const disptach = useDispatch();
   const [open, setOpen] = React.useState(true);
   const [openPane, setOpenPane] = React.useState(<CameraSection />);
   const location = useLocation();
 
+  console.log("Camera state is: ", cameraState);
+
   React.useEffect(() => {
     if (!userState?.auth) {
       navigate("/");
+    } else {
+      if (userState) {
+        console.log("User state", userState);
+        disptach(
+          getCameras({
+            systemId: userState?.CCTV_System?.id,
+            token: userState?.token,
+          })
+        );
+      }
     }
   }, [userState]);
 
