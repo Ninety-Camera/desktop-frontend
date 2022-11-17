@@ -1,25 +1,17 @@
 import React from "react";
 import { useState } from "react";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import StopIcon from "@mui/icons-material/Stop";
-import { Stack, Button, IconButton } from "@mui/material";
-import VIDEO_ERROR_IMAGE from "../../assets/images/notify.svg";
+import { Stack } from "@mui/material";
 import ToggleBtn from "../ToggleBtn";
+import { LOCAL_URL } from "../../constants";
 
 export default function VideoItem(props) {
   const videoClip = props.videoClip;
   const [state, setState] = useState("RUNNING");
-  const defaultImage = { VIDEO_ERROR_IMAGE };
-
-  const replaceImage = (error) => {
-    //replacement of broken Image
-    error.target.src = this.defaultImage;
-  };
 
   return (
     <React.Fragment>
       <img //should use video tag with controls
-        src={videoClip.sourcePath}
+        src={`${LOCAL_URL}video_feed/${videoClip?.id}`}
         width={320}
         height={240}
         alt="CCTV video"
@@ -38,7 +30,9 @@ export default function VideoItem(props) {
             textAlign: "center",
             fontWeight: 800,
           }}
-        >{`CCTV - ${props.index + 1}`}</p>
+        >
+          {videoClip?.name}
+        </p>
         <div
           style={{
             justifyContent: "center",

@@ -1,26 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "@fontsource/inter";
 import { Stack, Button } from "@mui/material";
-import VIDEOCLIP1 from "../../../assets/video1.mp4";
 import VideoArea from "../../../components/VideoArea";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import StopIcon from "@mui/icons-material/Stop";
 import SettingsMenu from "../../../components/SettingsMenu";
 import HeightBox from "../../../components/HeightBox";
 import ToggleBtn from "../../../components/ToggleBtn";
-
-const videoList = [
-  {
-    sourcePath: "http://localhost:5000/video_feed/cam1",
-    date: "20/02/2022",
-    hour: "12:00",
-  },
-  {
-    sourcePath: "http://localhost:5000/video_feed/cam2",
-    date: "20/02/2022",
-    hour: "12:00",
-  },
-];
 
 export default function CameraSection() {
   const [systemState, setSystemState] = useState("RUNNING");
@@ -43,7 +27,7 @@ export default function CameraSection() {
           </Stack>
         </div>
         <div style={{ paddingLeft: 40, paddingRight: 40 }}>
-          <VideoArea videosList={videoList} alignment={"row"} />
+          <VideoArea alignment={"row"} />
         </div>
         <HeightBox height={10} />
       </Stack>

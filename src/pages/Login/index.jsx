@@ -73,7 +73,6 @@ export default function SignIn() {
   }, []);
 
   useEffect(() => {
-    console.log("User state is: ", userState);
     if (
       userState?.auth &&
       userState?.CCTV_System?.id &&
