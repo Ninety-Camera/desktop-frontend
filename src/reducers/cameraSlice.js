@@ -9,6 +9,21 @@ export const getCameras = createAsyncThunk("user/getCameras", async (data) => {
   throw new Error("Camera getting error!");
 });
 
+export const deleteCamera = createAsyncThunk(
+  "user/deleteCamera",
+  async (data) => {
+    const cameraResponse = await api.camera.deleteCamera(
+      data.camId,
+      data.token
+    );
+    if (cameraResponse?.data?.status === 200) {
+      const localResponse = await api.local_camera.deleteCamera(data.camId);
+      return data.camId;
+    }
+    throw new Error("Camera getting error!");
+  }
+);
+
 const initialState = {
   cameras: [],
   dataStatus: "",
@@ -34,6 +49,21 @@ export const cameraSclice = createSlice({
       return { ...state, dataStatus: "success", cameras: payload };
     });
     builder.addCase(getCameras.rejected, (state, action) => {
+      return { ...state, dataStatus: "error" };
+    });
+
+    // For deleting the camers
+    builder.addCase(deleteCamera.pending, (state, action) => {
+      return { ...state, dataStatus: "loading" };
+    });
+    builder.addCase(deleteCamera.fulfilled, (state, { payload }) => {
+      return {
+        ...state,
+        dataStatus: "success",
+        cameras: state.cameras.filter((item) => item.id !== payload),
+      };
+    });
+    builder.addCase(deleteCamera.rejected, (state, action) => {
       return { ...state, dataStatus: "error" };
     });
   },

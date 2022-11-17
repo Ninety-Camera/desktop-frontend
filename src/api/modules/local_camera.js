@@ -4,4 +4,9 @@ export default {
   async addCamera(data) {
     return localResolver(await localAxiosClient.post("add/camera", data));
   },
+  async deleteCamera(camId) {
+    return localResolver(
+      await localAxiosClient.delete(`delete/camera/${camId}`)
+    );
+  },
 };
