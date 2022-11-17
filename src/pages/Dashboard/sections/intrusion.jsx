@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,6 +10,7 @@ import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import INTRUDER_IMG1 from "../../../assets/images/Intruder1.jpg";
 import INTRUDER_IMG2 from "../../../assets/images/intruder2.webp";
+import api from "../../../api";
 
 const notifications = [
   {
@@ -96,6 +97,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function IntrusionSection() {
   const navigate = useNavigate();
+  const [intrusions, setIntrusions] = useState([]);
+
+  async function getPreviousIntrusions() {
+    try {
+      const response = await api.local_intrusions.getIntrusions();
+      if (response?.status === 200) {
+        setIntrusions(response?.data?.data);
+      }
+      console.log("All intrusions are: ", response);
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    getPreviousIntrusions();
+  }, []);
+
   return (
     <div
       style={{
@@ -108,8 +125,8 @@ export default function IntrusionSection() {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }}>
           <TableBody>
-            {notifications.map((notification) => (
-              <StyledTableRow key={notifications.indexOf(notification)}>
+            {intrusions.map((intrusion) => (
+              <StyledTableRow key={intrusion[0]}>
                 <StyledTableCell component="th" scope="row">
                   <Stack direction="row" spacing={5}>
                     <img
@@ -117,8 +134,7 @@ export default function IntrusionSection() {
                       alt=""
                       style={{ width: "2vw" }}
                     ></img>
-                    Intrusion Alert on {notification.date} at{" "}
-                    {notification.time}
+                    Intrusion Alert on {intrusion[1]} at {intrusion[1]}
                   </Stack>
                 </StyledTableCell>
                 <StyledTableCell>
