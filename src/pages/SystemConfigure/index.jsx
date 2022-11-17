@@ -72,6 +72,8 @@ export default function SystemConfigure() {
     }
   };
 
+  
+
   const handleChange = (event) => {
     setCameraType(event.target.value);
   };
@@ -98,6 +100,7 @@ export default function SystemConfigure() {
         <Typography variant="h3" gutterBottom sx={{ alignSelf: "center" }}>
           <b>Add your cameras here...</b>
         </Typography>
+        <Button onClick={()=>navigate("/dashboard/camera")}>Dashboard</Button>
       </div>
       <Stack direction="row" spacing={5}>
         <div style={{ width: "50%", alignContent: "center" }}>
