@@ -9,71 +9,9 @@ import Paper from "@mui/material/Paper";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import INTRUDER_IMG1 from "../../../assets/images/Intruder1.jpg";
-import INTRUDER_IMG2 from "../../../assets/images/intruder2.webp";
 import api from "../../../api";
-
-const notifications = [
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-  {
-    date: "20/02/2022",
-    time: "09:34",
-    images: [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG1],
-  },
-];
+import * as moment from "moment";
+import HeightBox from "../../../components/HeightBox";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -104,9 +42,12 @@ export default function IntrusionSection() {
       const response = await api.local_intrusions.getIntrusions();
       if (response?.status === 200) {
         setIntrusions(response?.data?.data);
+      } else {
+        // Error occured in getting the previous intrusions
       }
-      console.log("All intrusions are: ", response);
-    } catch (error) {}
+    } catch (error) {
+      // Error occured in getting the prevoius intrusions
+    }
   }
 
   useEffect(() => {
@@ -117,15 +58,19 @@ export default function IntrusionSection() {
     <div
       style={{
         overflow: "hidden",
-        width: "60%",
         marginLeft: "auto",
         marginRight: "auto",
       }}
     >
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }}>
+          <HeightBox height={10} />
+          <div style={{ paddingLeft: 10 }}>
+            <h3>Previous Intrusions</h3>
+          </div>
+
           <TableBody>
-            {intrusions.map((intrusion) => (
+            {intrusions.reverse().map((intrusion) => (
               <StyledTableRow key={intrusion[0]}>
                 <StyledTableCell component="th" scope="row">
                   <Stack direction="row" spacing={5}>
@@ -134,11 +79,18 @@ export default function IntrusionSection() {
                       alt=""
                       style={{ width: "2vw" }}
                     ></img>
-                    Intrusion Alert on {intrusion[1]} at {intrusion[1]}
+                    Intrusion Alert on
+                    {" " + moment(intrusion[1]).format("YYYY-MM-DD HH:MM")}
                   </Stack>
                 </StyledTableCell>
                 <StyledTableCell>
-                  <Button onClick={() => navigate("/viewNotification")}>
+                  <Button
+                    onClick={() =>
+                      navigate(
+                        "/viewNotification/" + intrusion[0] + "/" + intrusion[1]
+                      )
+                    }
+                  >
                     View more
                   </Button>
                 </StyledTableCell>

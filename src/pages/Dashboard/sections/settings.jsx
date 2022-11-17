@@ -24,7 +24,8 @@ export default function Settings() {
   async function getData() {
     try {
       const response = await api.cctv.getSubscribedUsers(
-        userState?.CCTV_System?.id
+        userState?.CCTV_System?.id,
+        userState?.token
       );
 
       if (response?.data?.status === 200) {
@@ -94,7 +95,6 @@ export default function Settings() {
                 <div style={{ width: "90%", paddingLeft: "10%" }}>
                   <Stack direction="column" spacing={3}>
                     <Typography variant="h5" gutterBottom>
-                      
                       Other Accounts
                     </Typography>
                     <div

@@ -1,28 +1,48 @@
-import React from "react";
-import BlackHorizontalBar from "../../components/BlackHorizontalBar";
+import React, { useState } from "react";
 import INTRUDER_IMG1 from "../../assets/images/Intruder1.jpg";
-import INTRUDER_IMG2 from "../../assets/images/intruder2.webp";
 import { Stack } from "@mui/system";
-import VIDEO_CLIP from "../../assets/video1.mp4";
-import { useNavigate } from "react-router-dom";
-import { Block } from "@mui/icons-material";
+import { useLocation, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { IconButton, Typography } from "@mui/material";
-
-const images = [INTRUDER_IMG1, INTRUDER_IMG2, INTRUDER_IMG2];
-const time = "09:34 pm";
-const date = "02/12/2021";
+import {
+  Button,
+  CircularProgress,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import api from "../../api";
+import { LOCAL_URL } from "../../constants";
+import * as moment from "moment";
+import HeightBox from "../../components/HeightBox";
 
 export default function ViewNotification(props) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = location?.pathname;
+  const params = path.split("/");
+  const intrusionId = params[params.length - 2];
+  const time = params[params.length - 1];
+  const images = [
+    `${LOCAL_URL}get/image/${intrusionId}/1`,
+    `${LOCAL_URL}get/image/${intrusionId}/2`,
+    `${LOCAL_URL}get/image/${intrusionId}/3`,
+  ];
+  const [loading, setLoading] = useState(false);
+
+  async function openVideo() {
+    setLoading(true);
+    try {
+      const response = await api.local_intrusions.openIntrusionVideo(
+        intrusionId
+      );
+      if (response?.status === 200) {
+      }
+    } catch (error) {}
+    setLoading(false);
+  }
+
   return (
     <div>
       <Stack direction="column" spacing={1}>
-        {/* <BlackHorizontalBar
-          title="Ninety Camera"
-          buttonText={<ArrowBackIcon />}
-          buttonAction={() => navigate("/dashboard/intrusion")}
-        /> */}
         <div>
           <IconButton
             type="submit"
@@ -53,7 +73,6 @@ export default function ViewNotification(props) {
             marginRight: "auto",
           }}
         >
-          {" "}
           <Stack direction="column" spacing={2}>
             <img
               src={INTRUDER_IMG1}
@@ -65,20 +84,22 @@ export default function ViewNotification(props) {
                 width: "20%",
                 padding: 10,
               }}
-            ></img>
+            />
             <Typography
               component={"h1"}
               sx={{ fontSize: 30, textAlign: "center", fontWeight: 500 }}
             >
-              Someone intrudes your residence around {time} on {date}
+              Someone intrudes your residence around{" "}
+              {moment(time).format("HH:MM")} on{" "}
+              {moment(time).format("YYYY-MM-DD")}
             </Typography>
-            <div style={{ marginLeft: "auto", marginRight: "auto" }}>
-              {/* <Typography
-                component={"h2"}
-                sx={{ fontSize: 20, fontWeight: 500 }}
-              >
-                Screenshots of the intruder
-              </Typography> */}
+            <div
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                alignItems: "center",
+              }}
+            >
               <Stack direction="row" spacing={1}>
                 {images.map((image) => (
                   <img
@@ -92,38 +113,20 @@ export default function ViewNotification(props) {
                     }}
                   ></img>
                 ))}
-                {/* <img src={INTRUDER_IMG1} alt="" style={{ width: "20vw" }}></img>
-                <img src={INTRUDER_IMG2} alt="" style={{ width: "20vw" }}></img> */}
               </Stack>
             </div>
-            <div style={{
-              alignContent: "center",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }
-            }>
-              <video
-                src={VIDEO_CLIP}
-                width="320"
-                height="240"
-                controls
-                loop
-              ></video>
-            </div>
-          </Stack>
-          {/* <div
-            style={{
-              width: "90%",
-              overflowX: "scroll",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Stack direction="row" spacing={1}>
-              <img src={INTRUDER_IMG1} alt="" style={{ width: "20vw" }}></img>
-              <img src={INTRUDER_IMG2} alt="" style={{ width: "20vw" }}></img>
+            <HeightBox height={10} />
+            <Stack direction="row" justifyContent="center">
+              <Button
+                variant="contained"
+                sx={{ width: 500 }}
+                disabled={loading}
+                onClick={openVideo}
+              >
+                {loading ? <CircularProgress /> : "Open Video"}
+              </Button>
             </Stack>
-          </div> */}
+          </Stack>
         </div>
       </Stack>
     </div>
