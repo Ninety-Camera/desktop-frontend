@@ -15,4 +15,11 @@ export default {
       })
     );
   },
+  async deleteCamera(cameraId, token) {
+    return resolver(
+      await axiosClient.delete(`camera/${cameraId}`, {
+        headers: { Authorization: token },
+      })
+    );
+  },
 };

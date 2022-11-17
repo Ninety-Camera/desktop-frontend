@@ -80,14 +80,11 @@ export default function Dashboard() {
   const [openPane, setOpenPane] = React.useState(<CameraSection />);
   const location = useLocation();
 
-  console.log("Camera state is: ", cameraState);
-
   React.useEffect(() => {
     if (!userState?.auth) {
       navigate("/");
     } else {
       if (userState) {
-        console.log("User state", userState);
         disptach(
           getCameras({
             systemId: userState?.CCTV_System?.id,
