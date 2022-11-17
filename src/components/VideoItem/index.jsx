@@ -25,8 +25,15 @@ export default function VideoItem(props) {
   }
 
   return (
-    <React.Fragment>
-      <img //should use video tag with controls
+    <div
+      style={{
+        backgroundColor: "white",
+        boxShadow:
+          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        marginBottom: "25px",
+      }}
+    >
+      <img
         src={`${LOCAL_URL}video_feed/${videoClip?.id}`}
         width={320}
         height={240}
@@ -36,19 +43,48 @@ export default function VideoItem(props) {
             "https://www.svgrepo.com/show/343419/computer-error.svg";
           event.onerror = null;
         }}
+        style={{
+          borderRadius: "8px",
+          padding: "5px",
+          width: "95%",
+          margin: "10px",
+        }}
       />
-      <Stack direction="column" spacing={0} sx={{ alignContent: "justify" }}>
-        <p
-          style={{
-            color: "#6C63FF",
-            fontSize: 20,
-            margin: 0,
-            textAlign: "center",
-            fontWeight: 800,
-          }}
-        >
-          {videoClip?.name}
-        </p>
+
+      <div>
+        <Stack direction="column" spacing={2} sx={{ alignContent: "justify" }}>
+          <p
+            style={{
+              color: "black",
+              fontSize: 20,
+              margin: 0,
+              textAlign: "center",
+              fontWeight: 800,
+            }}
+          >
+            {videoClip?.name}
+          </p>
+          <div
+            style={{
+              justifyContent: "center",
+              marginLeft: "auto",
+              marginRight: "auto",
+              textAlign: "center",
+              padding: "10px 20px",
+            }}
+          >
+            <Stack direction="row" spacing={1}>
+              <ToggleBtn state={state} setState={setState} />
+              <Button
+                variant="contained"
+                onClick={delCamera}
+                disabled={loading}
+              >
+                {loading ? <CircularProgress /> : "Delete Camera"}
+              </Button>
+            </Stack>
+          </div>
+          {/* <HeightBox height={10} />
         <div
           style={{
             justifyContent: "center",
@@ -56,21 +92,10 @@ export default function VideoItem(props) {
             marginRight: "auto",
           }}
         >
-          <ToggleBtn state={state} setState={setState} />
-        </div>
-        <HeightBox height={10} />
-        <div
-          style={{
-            justifyContent: "center",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
-          <Button variant="contained" onClick={delCamera} disabled={loading}>
-            {loading ? <CircularProgress /> : "Delete Camera"}
-          </Button>
-        </div>
-      </Stack>
-    </React.Fragment>
+          
+        </div> */}
+        </Stack>
+      </div>
+    </div>
   );
 }

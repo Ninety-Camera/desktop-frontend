@@ -160,7 +160,6 @@ export default function Dashboard() {
             onClick={() => {
               disptach(logOutUser());
             }}
-            data-testid="toggleBtn"
           >
             Logout
           </Button>

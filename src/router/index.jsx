@@ -20,7 +20,8 @@ export default function Router() {
         <Route path="/" element={<Login />} />
         <Route
           path="/dashboard/:page"
-          element={userState?.auth ? <Dashboard /> : <Navigate to="/" />}
+          element= {<Dashboard />}
+         // element={userState?.auth ? <Dashboard /> : <Navigate to="/" />}
         />
         <Route path="/register" element={<Register />} />
         <Route path="/resetPW" element={<ResetPassword />} />
