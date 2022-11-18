@@ -34,8 +34,6 @@ export default function ViewNotification(props) {
       const response = await api.local_intrusions.openIntrusionVideo(
         intrusionId
       );
-      if (response?.status === 200) {
-      }
     } catch (error) {}
     setLoading(false);
   }
