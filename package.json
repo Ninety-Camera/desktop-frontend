@@ -2,6 +2,10 @@
   "name": "desktop-frontend",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Ninety Camera"
+  },
+  "description": "CCTV Smart monitoring system",
   "dependencies": {
     "@electron-forge/maker-dmg": "^6.0.3",
     "@emotion/react": "^11.10.5",

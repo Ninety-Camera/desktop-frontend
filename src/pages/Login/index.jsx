@@ -67,10 +67,10 @@ export default function SignIn() {
   const [timeoutAded, setTimeOutAdded] = useState(false);
   const [loading, setLoading] = React.useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    dispatch(getLocalUser());
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   dispatch(getLocalUser());
+  // }, []);
 
   useEffect(() => {
     if (
