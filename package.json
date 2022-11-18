@@ -6,6 +6,13 @@
     "name": "Ninety Camera"
   },
   "description": "CCTV Smart monitoring system",
+  "homepage": "./",
+  "build": {
+    "appId": "com.todo_app",
+    "win": {
+      "target": "nsis"
+    }
+  },
   "dependencies": {
     "@electron-forge/maker-dmg": "^6.0.3",
     "@emotion/react": "^11.10.5",
@@ -45,7 +52,8 @@
     "package": "react-scripts build && electron-forge package",
     "make-mac": "react-scripts build && electron-forge make --platform darwin",
     "make-linux": "react-scripts build && electron-forge make --platform linux",
-    "make": "react-scripts build && electron-forge make"
+    "make": "react-scripts build && electron-forge make",
+    "release": "react-scripts build && electron-builder --publish=always"
   },
   "eslintConfig": {
     "extends": [
