@@ -28,4 +28,13 @@ export default {
       })
     );
   },
+  async changeMonitoringStatus(data, token) {
+    return resolver(
+      await axiosClient.put("cctv/settings/change", data, {
+        headers: {
+          Authorization: token,
+        },
+      })
+    );
+  },
 };

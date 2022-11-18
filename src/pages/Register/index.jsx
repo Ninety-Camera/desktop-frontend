@@ -6,7 +6,6 @@ import { Formik } from "formik";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import REGISTER_IMAGE from "../../assets/images/loginBG.svg";
 import { Stack } from "@mui/material";
@@ -14,9 +13,9 @@ import HeightBox from "../../components/HeightBox";
 import * as Yup from "yup";
 import SnackBarComponent from "../../components/SnackBarComponent";
 import "@fontsource/inter";
-import { registerUser } from "../../reducers/userSlice";
+import { registerUser, updateSystemStatus } from "../../reducers/userSlice";
 import { Helmet } from "react-helmet";
-import axios from "axios";
+import api from "../../api";
 
 const CustomTextField = styled(TextField)({
   width: "100%",
@@ -72,11 +71,39 @@ export default function Register() {
     message: "",
   });
 
+  // useEffect(() => {
+  //   dispatch(logOutUser());
+  // }, []);
+
+  async function createTheSystem() {
+    if (!userState?.token) {
+      return;
+    }
+    try {
+      const response = await api.cctv.createSystem(
+        { cameraCount: 0 },
+        userState?.token
+      );
+
+      if (response?.data?.status === 201) {
+        dispatch(updateSystemStatus(response?.data?.data));
+      } else {
+        // error occured in creating the system
+      }
+    } catch (error) {
+      // Add a snack message saying that error occured
+    }
+  }
+
   useEffect(() => {
-    if (userState?.auth) {
-      navigate("/system");
+    if (userState?.auth && !userState?.CCTV_System) {
+      createTheSystem();
+    } else if (userState?.auth && userState?.CCTV_System?.id) {
+      setLoading(false);
+      navigate("/dashboard/camera");
     } else if (userState?.dataStatus === "error") {
       // Error occured
+      setLoading(false);
       setSnackMessage({ type: "error", message: "Error occured!" });
       setOpenSnackBar(true);
     }
@@ -87,12 +114,18 @@ export default function Register() {
   }
 
   async function signUpUser(user) {
+    setLoading(true);
+    setTimeout(() => {
+      setSnackMessage({ type: "error", message: "An unknown error occured!" });
+      setOpenSnackBar(true);
+      setLoading(false);
+    }, 10000);
     try {
-      await dispatch(registerUser(user)).unwrap();
+      dispatch(registerUser(user));
     } catch (error) {
       console.log(error);
       setLoading(false);
-      setSnackMessage({ type: "error", message: error.message});
+      setSnackMessage({ type: "error", message: error.message });
       setOpenSnackBar(true);
     }
   }
@@ -197,7 +230,7 @@ export default function Register() {
                         />
 
                         <CustomTextField
-                          label="email"
+                          label="Email"
                           variant="outlined"
                           error={errors.email && touched.email}
                           helperText={
