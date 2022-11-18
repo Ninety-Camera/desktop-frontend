@@ -1,28 +1,36 @@
 import React, { useState, useEffect, useRef } from "react";
 import "@fontsource/inter";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 
 export default function ToggleBtn(props) {
   //const [systemState, setSystemState] = useState("RUNNING");
-
+  const { loading, disabled = false } = props;
   return (
     <Button
       variant="contained"
       color={props.state === "RUNNING" ? "secondary" : "primary"}
       startIcon={props.state === "RUNNING" ? <StopIcon /> : <PlayArrowIcon />}
       style={{ textTransform: "none" }}
+      disabled={loading || disabled}
+      sx={{ width: 170 }}
       onClick={() => {
         if (props.state === "RUNNING") {
           props.setState("STOP");
         } else {
-            props.setState("RUNNING");
+          props.setState("RUNNING");
         }
       }}
       data-testid="toggleBtn"
     >
-      {props.state === "RUNNING" ? "Stop Monitoring" : "Start Monitoring"}
+      {loading ? (
+        <CircularProgress />
+      ) : props.state === "RUNNING" ? (
+        "Stop Monitoring"
+      ) : (
+        "Start Monitoring"
+      )}
     </Button>
   );
 }

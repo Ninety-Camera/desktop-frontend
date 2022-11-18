@@ -9,7 +9,6 @@ import HeightBox from "../../../components/HeightBox";
 import { useEffect } from "react";
 import api from "../../../api";
 import { useSelector } from "react-redux";
-import Alert from "@mui/material/Alert";
 import SnackBarComponent from "../../../components/SnackBarComponent";
 
 export default function Settings() {
@@ -30,6 +29,7 @@ export default function Settings() {
 
       if (response?.data?.status === 200) {
         setUsers(response?.data?.data?.users);
+        console.log(response?.data?.data?.users);
       }
     } catch (error) {
       // Add a toast message in here to show that an error occured while fetching the data
@@ -95,7 +95,7 @@ export default function Settings() {
                 <div style={{ width: "90%", paddingLeft: "10%" }}>
                   <Stack direction="column" spacing={3}>
                     <Typography variant="h5" gutterBottom>
-                      Other Accounts
+                      Other Subscribed Users
                     </Typography>
                     <div
                       style={{

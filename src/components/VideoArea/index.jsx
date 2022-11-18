@@ -4,7 +4,6 @@ import { Stack } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import VideoItem from "../VideoItem";
 import { useSelector } from "react-redux";
-import camera from "../../api/modules/camera";
 
 export default function VideoArea(props) {
   const cameras = useSelector((state) => state.camera);
@@ -17,6 +16,14 @@ export default function VideoArea(props) {
           </Grid>
         );
       })}
+      {cameras?.cameras?.length === 0 && (
+        <div style={{ paddingLeft: 40, paddingTop: 20, color: "red" }}>
+          <h3 style={{ maginBottom: 0 }}>No any cameras found</h3>
+          <p style={{ color: "black" }}>
+            Add cameras by clicking the settings icon
+          </p>
+        </div>
+      )}
     </Grid>
   );
 }

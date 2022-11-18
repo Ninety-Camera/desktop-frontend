@@ -6,7 +6,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Form, Formik } from "formik";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import LOGIN_IMAGE from "../../assets/images/loginBG.svg";
 import { Stack, Typography } from "@mui/material";
@@ -20,10 +19,8 @@ import {
   DialogActions,
   DialogContentText,
 } from "@mui/material";
-import { getLocalUser, loginUser } from "../../reducers/userSlice";
-import LoadingButton from "@mui/lab/LoadingButton";
+import { getLocalUser, loginUser, logOutUser } from "../../reducers/userSlice";
 import { Helmet } from "react-helmet";
-import Alert from "@mui/material/Alert";
 
 const CustomTextField = styled(TextField)({
   width: "100%",
@@ -67,8 +64,11 @@ export default function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
+  const [timeoutAded, setTimeOutAdded] = useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(getLocalUser());
   }, []);
 
@@ -78,15 +78,24 @@ export default function SignIn() {
       userState?.CCTV_System?.id &&
       userState?.role === "OWNER"
     ) {
+      setLoading(false);
       navigate("/dashboard/camera");
-    } else if (userState?.auth && !userState?.CCTV_System?.id) {
-      navigate("/system");
+    } else if (userState?.dataStatus === "error") {
+      setLoading(false);
+    } else if (userState?.auth && userState?.CCTV_System?.id) {
+      // Not allowed to sign in
+      setLoading(false);
+    } else if (!userState?.auth) {
+      if (!timeoutAded) {
+        setTimeOutAdded(true);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
+      }
     }
   }, [userState]);
 
-  const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = useState(false);
-  const [resetPWMail, setResetPWMail] = useState("");
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackMessage, setSnackMessage] = useState({
     type: "success",
@@ -94,13 +103,14 @@ export default function SignIn() {
   });
 
   async function signInUser(data) {
-    console.log(data);
     try {
       await dispatch(loginUser(data)).unwrap();
     } catch (error) {
-      console.log(error);
       setLoading(false);
-      setSnackMessage({ type: "error", message: error.message });
+      setSnackMessage({
+        type: "error",
+        message: "Invalid username or password!",
+      });
       setOpenSnackBar(true);
     }
   }
@@ -154,7 +164,6 @@ export default function SignIn() {
               open={openSnackBar}
               setOpen={setOpenSnackBar}
             />
-            
           </div>
           <HeightBox height={10} />
 

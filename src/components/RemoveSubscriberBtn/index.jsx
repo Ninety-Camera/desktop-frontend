@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
@@ -17,11 +17,15 @@ import ListItemButton from "@mui/material/ListItemButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 import api from "../../api";
-
-// const emails = ["username@gmail.com", "user02@gmail.com"];
+import { useSelector } from "react-redux";
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open, users, setUsers } = props;
+
+  const userState = useSelector((state) => state.user);
+  const [subUsers, setSubUsers] = useState(
+    users.map((item) => item?.userId !== userState?.id)
+  );
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -29,6 +33,7 @@ function SimpleDialog(props) {
 
   async function handleListItemClick(value) {
     // When calling this function show a loading widget
+
     try {
       const response = await api.cctv.deleteSubscribedUser(value?.userId);
       if (response?.data?.status == 200) {
@@ -43,8 +48,9 @@ function SimpleDialog(props) {
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>Remove Subscriber</DialogTitle>
+
       <List sx={{ pt: 0 }}>
-        {users.map((user) => (
+        {subUsers.map((user) => (
           <ListItem key={users.indexOf(user)}>
             <ListItemAvatar>
               <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
@@ -93,7 +99,7 @@ export default function RemoveSubscriber(props) {
         variant="contained"
         onClick={handleClickOpen}
         color="secondary"
-            style={{ textTransform: "none" }}
+        style={{ textTransform: "none" }}
         sx={{
           width: 150,
           height: 50,

@@ -4,15 +4,47 @@ import { Button, CircularProgress, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import ToggleBtn from "../ToggleBtn";
 import { LOCAL_URL } from "../../constants";
-import { deleteCamera } from "../../reducers/cameraSlice";
+import {
+  deleteCamera,
+  updateCameraRunningStatus,
+} from "../../reducers/cameraSlice";
 import HeightBox from "../HeightBox";
+import api from "../../api";
 
 export default function VideoItem(props) {
   const videoClip = props.videoClip;
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
-  const [state, setState] = useState("RUNNING");
   const [loading, setLoading] = useState(false);
+
+  async function updateCameraStatus(status) {
+    const newState = videoClip?.status === "RUNNING" ? "STOP" : "RUNNING";
+    const data = {
+      id: videoClip?.id,
+      systemId: userState?.CCTV_System?.id,
+      status: newState,
+    };
+    setLoading(true);
+    try {
+      const camResponse = await api.camera.changeCameraMonitoringStatus(
+        data,
+        userState?.token
+      );
+      if (camResponse?.data?.status === 200) {
+        dispatch(
+          updateCameraRunningStatus({
+            id: videoClip?.id,
+            status: newState,
+          })
+        );
+      } else {
+        // Error occured while updating the system
+      }
+    } catch (error) {
+      // Error occured
+    }
+    setLoading(false);
+  }
 
   async function delCamera() {
     setLoading(true);
@@ -74,26 +106,22 @@ export default function VideoItem(props) {
             }}
           >
             <Stack direction="row" spacing={1}>
-              <ToggleBtn state={state} setState={setState} />
+              <ToggleBtn
+                state={videoClip?.status}
+                setState={updateCameraStatus}
+                loading={loading}
+              />
               <Button
                 variant="contained"
                 onClick={delCamera}
+                color="error"
                 disabled={loading}
+                sx={{ width: 170 }}
               >
                 {loading ? <CircularProgress /> : "Delete Camera"}
               </Button>
             </Stack>
           </div>
-          {/* <HeightBox height={10} />
-        <div
-          style={{
-            justifyContent: "center",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
-          
-        </div> */}
         </Stack>
       </div>
     </div>

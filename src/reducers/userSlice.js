@@ -13,18 +13,21 @@ export const logOutUser = createAsyncThunk("user/logout", async () => {
 
 export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
   const response = await api.user.signinUser(data);
+
   if (response?.data?.status === 200) {
     const user = response?.data?.data?.user;
-    try {
-      const localResponse = await api.local_user.sendUserDetails({
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        token: "Bearer " + response?.data?.data?.token,
-        role: user?.role,
-      });
-    } catch (error) {}
+    if (user?.role === "OWNER") {
+      try {
+        const localResponse = await api.local_user.sendUserDetails({
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          token: "Bearer " + response?.data?.data?.token,
+          role: user?.role,
+        });
+      } catch (error) {}
+    }
     return {
       ...response?.data?.data?.user,
       token: "Bearer " + response?.data?.data?.token,
@@ -47,7 +50,8 @@ export const getLocalUser = createAsyncThunk(
         if (system?.data?.status === 200) {
           return {
             ...response.data,
-            CCTV_System: { ...system.data?.data?.system },
+
+            token: "Bearer " + response?.data?.data?.token,
           };
         }
       } else {
@@ -72,13 +76,16 @@ export const registerUser = createAsyncThunk(
           firstName: user.firstName,
           lastName: user.lastName,
           token: "Bearer " + response?.data?.data?.token,
-          role: user?.role,
+          role: "OWNER",
         });
       } catch (error) {
         console.log("Error occured: ", error);
       }
 
-      return response?.data?.data?.user;
+      return {
+        ...response?.data?.data?.user,
+        token: "Bearer " + response?.data?.data?.token,
+      };
     }
     throw new Error("Registration error!");
   }
@@ -90,8 +97,8 @@ const initialState = {
   lastName: "",
   email: "",
   role: "",
-  systemId: "",
   dataStatus: null,
+  CCTV_System: null,
 };
 
 export const userSlice = createSlice({
@@ -102,7 +109,17 @@ export const userSlice = createSlice({
       return { ...initialState };
     },
     updateSystemStatus: (state, { payload }) => {
-      return { ...state, CCTV_System: { ...payload } };
+      return { ...state, CCTV_System: { ...payload }, role: "OWNER" };
+    },
+    updateSystemRunningState: (state, { payload }) => {
+      console.log("Payload is: ", payload);
+      return {
+        ...state,
+        CCTV_System: {
+          ...state.CCTV_System,
+          status: payload,
+        },
+      };
     },
   },
   extraReducers: (builder) => {
@@ -147,7 +164,7 @@ export const userSlice = createSlice({
       return { ...state, dataStatus: "success", ...payload, auth: true };
     });
     builder.addCase(getLocalUser.rejected, (state, action) => {
-      return { ...state, dataStatus: "error", auth: false };
+      return { ...state, dataStatus: "", auth: false };
     });
 
     // Logout user
@@ -164,6 +181,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { clearUser, updateSystemStatus } = userSlice.actions;
+export const { clearUser, updateSystemStatus, updateSystemRunningState } =
+  userSlice.actions;
 
 export default userSlice.reducer;

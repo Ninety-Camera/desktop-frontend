@@ -39,6 +39,30 @@ export const cameraSclice = createSlice({
     addCamera: (state, { payload }) => {
       return { cameras: [...state.cameras, payload] };
     },
+    updateCameraRunningStatus: (state, { payload }) => {
+      return {
+        ...state,
+        cameras: state.cameras.map((item) =>
+          item.id === payload.id
+            ? {
+                ...item,
+                status: payload.status,
+              }
+            : item
+        ),
+      };
+    },
+    updateAllCameraRunningStatus: (state, { payload }) => {
+      return {
+        ...state,
+        cameras: state.cameras.map((item) => {
+          return {
+            ...item,
+            status: payload,
+          };
+        }),
+      };
+    },
   },
   extraReducers: (builder) => {
     // For getting the camers
@@ -70,6 +94,11 @@ export const cameraSclice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addCamera, clearCamera } = cameraSclice.actions;
+export const {
+  addCamera,
+  clearCamera,
+  updateCameraRunningStatus,
+  updateAllCameraRunningStatus,
+} = cameraSclice.actions;
 
 export default cameraSclice.reducer;

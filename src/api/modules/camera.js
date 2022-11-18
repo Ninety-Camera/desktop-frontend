@@ -22,4 +22,13 @@ export default {
       })
     );
   },
+  async changeCameraMonitoringStatus(data, token) {
+    return resolver(
+      await axiosClient.put("camera/update", data, {
+        headers: {
+          Authorization: token,
+        },
+      })
+    );
+  },
 };
