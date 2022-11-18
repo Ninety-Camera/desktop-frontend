@@ -60,6 +60,7 @@ export default function VideoItem(props) {
     <div
       style={{
         backgroundColor: "white",
+        width: 380,
         boxShadow:
           "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
         marginBottom: "25px",
@@ -67,19 +68,13 @@ export default function VideoItem(props) {
     >
       <img
         src={`${LOCAL_URL}video_feed/${videoClip?.id}`}
-        width={320}
+        width={380}
         height={240}
         alt="CCTV video"
         onError={(event) => {
           event.target.src =
             "https://www.svgrepo.com/show/343419/computer-error.svg";
           event.onerror = null;
-        }}
-        style={{
-          borderRadius: "8px",
-          padding: "5px",
-          width: "95%",
-          margin: "10px",
         }}
       />
 

@@ -7,6 +7,9 @@ import { IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AddCameraForm from "../AddCameraForm";
 import Link from "@mui/material/Link";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
 
 export default function SettingsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,10 +43,12 @@ export default function SettingsMenu() {
         MenuListProps={{
           "aria-labelledby": "settings-button",
         }}
-        sx={{ color: "#6C63FF" }}
       >
         <MenuItem component={AddCameraForm} onClick={handleClose}>
-          ADD CAMERA
+          <ListItemIcon>
+            <AddCircleIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Add Camera</ListItemText>
         </MenuItem>
       </Menu>
     </div>

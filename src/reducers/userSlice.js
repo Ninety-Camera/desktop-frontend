@@ -7,7 +7,7 @@ export const getSavedUser = createAsyncThunk(
 );
 
 export const logOutUser = createAsyncThunk("user/logout", async () => {
-  const deleteResponse = await api.local_user.deleteUserDetails();
+  // const deleteResponse = await api.local_user.deleteUserDetails();
   return;
 });
 
@@ -161,7 +161,7 @@ export const userSlice = createSlice({
       return { ...state, dataStatus: "loading" };
     });
     builder.addCase(getLocalUser.fulfilled, (state, { payload }) => {
-      return { ...state, dataStatus: "success", ...payload, auth: true };
+      return { ...state, dataStatus: "success", ...payload, auth: false };
     });
     builder.addCase(getLocalUser.rejected, (state, action) => {
       return { ...state, dataStatus: "", auth: false };

@@ -29,11 +29,16 @@ export default function Settings() {
 
       if (response?.data?.status === 200) {
         setUsers(response?.data?.data?.users);
-        console.log(response?.data?.data?.users);
+      } else {
+        setSnackMessage({
+          type: "error",
+          message: "Error occured while getting the subscribed users",
+        });
+        setOpenSnackBar(true);
       }
     } catch (error) {
       // Add a toast message in here to show that an error occured while fetching the data
-      setSnackMessage({ type: "error", message: error.message });
+      setSnackMessage({ type: "error", message: "Network error occured" });
       setOpenSnackBar(true);
     }
   }

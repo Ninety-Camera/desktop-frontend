@@ -3,12 +3,12 @@ import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import LOGIN_IMAGE from "../../assets/images/loginBG.svg";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import HeightBox from "../../components/HeightBox";
 import * as Yup from "yup";
 import SnackBarComponent from "../../components/SnackBarComponent";
@@ -19,7 +19,7 @@ import {
   DialogActions,
   DialogContentText,
 } from "@mui/material";
-import { getLocalUser, loginUser, logOutUser } from "../../reducers/userSlice";
+import { getLocalUser, loginUser } from "../../reducers/userSlice";
 import { Helmet } from "react-helmet";
 
 const CustomTextField = styled(TextField)({
@@ -217,14 +217,13 @@ export default function SignIn() {
                       <Button
                         sx={{ width: "100%" }}
                         variant="text"
+                        disabled={userState?.id !== ""}
                         style={{ textTransform: "none" }}
                         onClick={() => navigate("/register")}
                       >
                         Sign Up
                       </Button>
                       <CustomButton
-                        // loading={loading}
-                        // loadingIndicator="Signing in..."
                         type="submit"
                         variant="contained"
                         size="large"
@@ -232,7 +231,6 @@ export default function SignIn() {
                         disabled={loading}
                         sx={{ backgroundColor: "#6C63FF" }}
                       >
-                        {/* Sign In */}
                         {loading ? <CircularProgress /> : "Sign In"}
                       </CustomButton>
                     </Stack>
@@ -254,8 +252,6 @@ export default function SignIn() {
                   .max(36),
               })}
               onSubmit={(values) => {
-                // setResetPWMail(values.resetPasswordMail);
-                console.log(values.resetPasswordMail);
                 navigate("/resetPW");
               }}
             >

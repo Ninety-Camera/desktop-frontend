@@ -74,7 +74,6 @@ const Drawer = styled(MuiDrawer, {
 export default function Dashboard() {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.user);
-  const cameraState = useSelector((state) => state.camera);
   const disptach = useDispatch();
   const [open, setOpen] = React.useState(true);
   const [openPane, setOpenPane] = React.useState(<CameraSection />);

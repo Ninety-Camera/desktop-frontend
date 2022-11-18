@@ -9,6 +9,7 @@ import api from "../../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSystemRunningState } from "../../../reducers/userSlice";
 import { updateAllCameraRunningStatus } from "../../../reducers/cameraSlice";
+import SnackBarComponent from "../../../components/SnackBarComponent";
 
 export default function CameraSection() {
   const userState = useSelector((state) => state.user);
@@ -18,6 +19,12 @@ export default function CameraSection() {
     userState?.CCTV_System?.status
   );
   const [loading, setLoading] = useState(false);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackMessage, setSnackMessage] = useState({
+    type: "success",
+    message: "",
+  });
+
   async function changeSystemMonitoringStatus() {
     var newState = systemState === "RUNNING" ? "STOP" : "RUNNING";
     setLoading(true);
@@ -32,13 +39,27 @@ export default function CameraSection() {
         dispatch(updateSystemRunningState(newState));
       } else {
         // Error occured
+        setSnackMessage({
+          type: "error",
+          message: "Error occured while changing the status",
+        });
+        setOpenSnackBar(true);
       }
       setLoading(false);
-    } catch (error) {}
+    } catch (error) {
+      setSnackMessage({ type: "error", message: "A network error occured" });
+      setOpenSnackBar(true);
+    }
   }
 
   return (
     <div style={{ overflowX: "hidden", overflowY: "scroll" }}>
+      <SnackBarComponent
+        type={snackMessage.type}
+        message={snackMessage.message}
+        open={openSnackBar}
+        setOpen={setOpenSnackBar}
+      />
       <Stack direction="column" spacing={5}>
         <HeightBox height={2} />
         <div

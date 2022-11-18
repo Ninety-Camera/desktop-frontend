@@ -71,10 +71,6 @@ export default function Register() {
     message: "",
   });
 
-  // useEffect(() => {
-  //   dispatch(logOutUser());
-  // }, []);
-
   async function createTheSystem() {
     if (!userState?.token) {
       return;
@@ -89,9 +85,16 @@ export default function Register() {
         dispatch(updateSystemStatus(response?.data?.data));
       } else {
         // error occured in creating the system
+        setSnackMessage({
+          type: "error",
+          message: "Error occured while creating the system",
+        });
+        setOpenSnackBar(true);
       }
     } catch (error) {
       // Add a snack message saying that error occured
+      setSnackMessage({ type: "error", message: "A network error occured" });
+      setOpenSnackBar(true);
     }
   }
 
@@ -123,7 +126,6 @@ export default function Register() {
     try {
       dispatch(registerUser(user));
     } catch (error) {
-      console.log(error);
       setLoading(false);
       setSnackMessage({ type: "error", message: error.message });
       setOpenSnackBar(true);
@@ -140,12 +142,7 @@ export default function Register() {
         </style>
       </Helmet>
       <Stack direction="column">
-        <Stack
-          direction="row"
-          // spacing={15}
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Stack direction="row" justifyContent="center" alignItems="center">
           <Paper
             variant="outlined"
             sx={{

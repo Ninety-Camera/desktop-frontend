@@ -12,6 +12,7 @@ import INTRUDER_IMG1 from "../../../assets/images/Intruder1.jpg";
 import api from "../../../api";
 import * as moment from "moment";
 import HeightBox from "../../../components/HeightBox";
+import SnackBarComponent from "../../../components/SnackBarComponent";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,6 +37,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function IntrusionSection() {
   const navigate = useNavigate();
   const [intrusions, setIntrusions] = useState([]);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackMessage, setSnackMessage] = useState({
+    type: "success",
+    message: "",
+  });
 
   async function getPreviousIntrusions() {
     try {
@@ -44,9 +50,16 @@ export default function IntrusionSection() {
         setIntrusions(response?.data?.data);
       } else {
         // Error occured in getting the previous intrusions
+        setSnackMessage({
+          type: "error",
+          message: "Error in getting the intrusions",
+        });
+        setOpenSnackBar(true);
       }
     } catch (error) {
       // Error occured in getting the prevoius intrusions
+      setSnackMessage({ type: "error", message: "Network error occured" });
+      setOpenSnackBar(true);
     }
   }
 
@@ -62,6 +75,12 @@ export default function IntrusionSection() {
         marginRight: "auto",
       }}
     >
+      <SnackBarComponent
+        type={snackMessage.type}
+        message={snackMessage.message}
+        open={openSnackBar}
+        setOpen={setOpenSnackBar}
+      />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }}>
           <HeightBox height={10} />
