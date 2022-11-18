@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, HashRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
@@ -8,14 +8,13 @@ import ViewVideos from "../pages/ViewVideos";
 import Account from "../pages/Account";
 import SystemConfigure from "../pages/SystemConfigure";
 import ViewNotification from "../pages/ViewNotification";
-import Provider from "react-redux";
 import ResetPassword from "../pages/ResetPW";
 
 export default function Router() {
   const userState = useSelector((state) => state.user);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard/:page" element={<Dashboard />} />
@@ -32,6 +31,6 @@ export default function Router() {
           element={userState?.auth ? <SystemConfigure /> : <Navigate to="/" />}
         />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
