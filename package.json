@@ -68,6 +68,7 @@
     ]
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.3",
     "@testing-library/jest-dom": "^5.16.5",
     "concurrently": "^7.4.0",
     "electron": "^20.2.0",
