@@ -49,6 +49,9 @@ export default function ProcessedVideo() {
         {recordVideos.map((item) => (
           <RecordVideoItem id={item[0]} date={item[1]} />
         ))}
+        {recordVideos.length === 0 && (
+          <p style={{ color: "red" }}>No any recorded videos found</p>
+        )}
       </Grid>
     </div>
   );

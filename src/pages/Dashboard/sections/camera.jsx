@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import "@fontsource/inter";
-import { Stack, Button } from "@mui/material";
+import { Stack } from "@mui/material";
 import VideoArea from "../../../components/VideoArea";
 import SettingsMenu from "../../../components/SettingsMenu";
 import HeightBox from "../../../components/HeightBox";

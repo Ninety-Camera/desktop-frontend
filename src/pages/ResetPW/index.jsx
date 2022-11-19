@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Formik } from "formik";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
-import Link from "@mui/material/Link";
+import { useLocation, useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import REGISTER_IMAGE from "../../assets/images/loginBG.svg";
 import { Stack } from "@mui/material";
@@ -14,14 +13,13 @@ import HeightBox from "../../components/HeightBox";
 import * as Yup from "yup";
 import SnackBarComponent from "../../components/SnackBarComponent";
 import "@fontsource/inter";
-import { registerUser } from "../../reducers/userSlice";
+import api from "../../api";
 
 const CustomTextField = styled(TextField)({
   width: "100%",
 });
 
 const CustomButton = styled(Button)(({ theme }) => ({
-  // color: theme.palette.getContrastText([500]),
   width: "100%",
   backgroundColor: "#6C63FF",
   fontFamily: "Inter",
@@ -33,7 +31,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 const validationSchema = Yup.object().shape({
-  code: Yup.number().positive().required('Validation code is required.'),
+  code: Yup.number().positive().required("Validation code is required."),
   password: Yup.string()
     .required()
     .min(8)
@@ -60,7 +58,36 @@ const validationSchema = Yup.object().shape({
 
 export default function ResetPassword() {
   const navigate = useNavigate();
-  
+  const location = useLocation();
+  const [userData, setUserData] = useState();
+  const [requestNewCode, setRequestNeCode] = useState(false);
+
+  function createTimer() {
+    setTimeout(() => {
+      setRequestNeCode(true);
+    }, 1000 * 60 * 5);
+  }
+
+  useEffect(() => {
+    createTimer();
+  }, []);
+
+  async function resendNewCode() {
+    const data = { email: userData?.email };
+    try {
+      const response = await api.user.sendResetPasswordEmail(data);
+      if (response?.data?.status === 200) {
+        createTimer();
+      }
+    } catch (error) {}
+  }
+
+  const { state } = location;
+
+  useEffect(() => {
+    setUserData(state);
+  }, [state]);
+
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
@@ -70,25 +97,50 @@ export default function ResetPassword() {
     message: "",
   });
 
+  async function resetPassword(data) {
+    setLoading(true);
+    const resetData = {
+      token: data.code,
+      userId: userData?.id,
+      password: data.password,
+    };
+
+    try {
+      const response = await api.user.resetUserPassword(resetData);
+      if (response?.data?.status === 200) {
+        setSnackMessage({ type: "success", message: response?.data?.data });
+        setOpenSnackBar(true);
+      } else {
+        setSnackMessage({ type: "error", message: response?.data?.data });
+        setOpenSnackBar(true);
+      }
+    } catch (error) {
+      setSnackMessage({ type: "error", message: "An unknown error occured" });
+      setOpenSnackBar(true);
+    }
+    setLoading(false);
+  }
+
   return (
     <div
       style={{
         overflow: "hidden",
         background: "6C63FF",
         backgroundImage: `url(${REGISTER_IMAGE})`,
-        // backgroundRepeat: "no-repeat",
+
         backgroundSize: "contain",
         height: 775,
         width: 1550,
       }}
     >
+      <SnackBarComponent
+        type={snackMessage.type}
+        message={snackMessage.message}
+        open={openSnackBar}
+        setOpen={setOpenSnackBar}
+      />
       <Stack direction="column">
-        <Stack
-          direction="row"
-          // spacing={15}
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Stack direction="row" justifyContent="center" alignItems="center">
           <Paper
             variant="outlined"
             sx={{
@@ -121,12 +173,7 @@ export default function ResetPassword() {
                     confirmPassword: "",
                   }}
                   onSubmit={(values) => {
-                    // const user = {
-                    //   code: values.code,
-                    //   password: values.password,
-                    // };
-                    console.log(values);
-                    // dispatch(resetPassword(user));
+                    resetPassword(values);
                   }}
                   validationSchema={validationSchema}
                 >
@@ -136,7 +183,6 @@ export default function ResetPassword() {
 
                     return (
                       <React.Fragment>
-
                         <CustomTextField
                           label="Verification Code"
                           variant="outlined"
@@ -177,16 +223,16 @@ export default function ResetPassword() {
                           }
                         />
                         <Stack directon="row">
-                      
-                      <Button
-                        sx={{ width: "100%" }}
-                        variant="text"
-                        style={{ textTransform: "none" }}
-                        // onClick={resendValidationCode}
-                      >
-                        Resend Validation Code
-                      </Button>
-                    </Stack>
+                          <Button
+                            sx={{ width: "100%" }}
+                            variant="text"
+                            disabled={!requestNewCode}
+                            style={{ textTransform: "none" }}
+                            onClick={resendNewCode}
+                          >
+                            Resend Validation Code
+                          </Button>
+                        </Stack>
                         <Stack direction="row">
                           <Button
                             sx={{ width: "100%" }}
