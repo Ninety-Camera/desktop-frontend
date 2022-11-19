@@ -6,6 +6,7 @@ function createWindow() {
     width: 1280,
     height: 720,
     icon: "icon.ico",
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
     },

@@ -8,8 +8,10 @@ import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import LOGIN_IMAGE from "../../assets/images/loginBG.svg";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import HeightBox from "../../components/HeightBox";
+import DialogTitle from "@mui/material/DialogTitle";
+
 import * as Yup from "yup";
 import SnackBarComponent from "../../components/SnackBarComponent";
 import "@fontsource/inter";
@@ -67,8 +69,35 @@ export default function SignIn() {
   const userState = useSelector((state) => state.user);
   const [timeoutAded, setTimeOutAdded] = useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackMessage, setSnackMessage] = useState({
+    type: "success",
+    message: "",
+  });
+  const [openDialog, setOpenDialog] = useState(true);
+  const [rechecking, setRecheking] = useState(false);
+
+  async function checkServer() {
+    setRecheking(true);
+    try {
+      const response = await api.local_user.checkServer();
+      if (response?.status === 200) {
+        // Server running success
+        setOpenDialog(false);
+      } else {
+        // Show thedialog
+        setOpenDialog(true);
+      }
+    } catch (error) {
+      // show the dialog
+      setOpenDialog(true);
+    }
+    setRecheking(false);
+  }
 
   useEffect(() => {
+    checkServer();
     setLoading(true);
     dispatch(getLocalUser());
   }, []);
@@ -112,15 +141,8 @@ export default function SignIn() {
     }
   }, [userState]);
 
-  const [open, setOpen] = useState(false);
-  const [openSnackBar, setOpenSnackBar] = useState(false);
-  const [snackMessage, setSnackMessage] = useState({
-    type: "success",
-    message: "",
-  });
-
   async function signInUser(data) {
-    if (userState?.email !== data.email) {
+    if (userState?.id !== "" && userState?.email !== data.email) {
       setSnackMessage({
         type: "error",
         message: "You cannot log in to this system",
@@ -155,6 +177,31 @@ export default function SignIn() {
 
   return (
     <div>
+      <Dialog
+        onClose={() => {
+          setOpenDialog(true);
+          checkServer();
+        }}
+        open={openDialog}
+      >
+        <DialogTitle>Server not found</DialogTitle>
+        <DialogContent>
+          <Typography variant="p">
+            Please run Ninety Camera server package to run this
+          </Typography>
+          <HeightBox height={20} />
+          <Stack direction="row" alignItems="center" justifyContent="center">
+            <Button
+              variant="contained"
+              onClick={checkServer}
+              disabled={rechecking}
+              sx={{ width: 200 }}
+            >
+              {rechecking ? <CircularProgress /> : "Recheck"}
+            </Button>
+          </Stack>
+        </DialogContent>
+      </Dialog>
       <Helmet>
         <style>
           {"body { background-image: " +
@@ -243,7 +290,7 @@ export default function SignIn() {
                       <Button
                         sx={{ width: "100%" }}
                         variant="text"
-                        disabled={userState?.id !== ""}
+                        disabled={userState?.email !== ""}
                         style={{ textTransform: "none" }}
                         onClick={() => navigate("/register")}
                       >
