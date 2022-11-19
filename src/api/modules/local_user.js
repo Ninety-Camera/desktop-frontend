@@ -10,4 +10,7 @@ export default {
   async deleteUserDetails() {
     return localResolver(await localAxiosClient.delete("delete/user"));
   },
+  async checkServer() {
+    return localResolver(await localAxiosClient.get("check"));
+  },
 };
