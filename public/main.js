@@ -5,7 +5,7 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
     height: 720,
-    icon: "icon.ico",
+    icon: path.resolve(__dirname,"icon.ico"),
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
