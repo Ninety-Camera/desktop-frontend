@@ -77,27 +77,40 @@
   },
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "public/icon.ico"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "ninety_camera"
+            "name": "ninety_camera",
+            "setupIcon": "public/icon.ico"
           }
         },
         {
           "name": "@electron-forge/maker-zip",
+          "config": {
+            "name": "ninety_camera",
+            "setupIcon": "public/icon.ico"
+          },
           "platforms": [
             "darwin"
           ]
         },
         {
           "name": "@electron-forge/maker-deb",
-          "config": {}
+          "config": {
+            "name": "ninety_camera",
+            "setupIcon": "public/icon.ico"
+          }
         },
         {
           "name": "@electron-forge/maker-rpm",
-          "config": {}
+          "config": {
+            "name": "ninety_camera",
+            "setupIcon": "public/icon.ico"
+          }
         }
       ]
     }
