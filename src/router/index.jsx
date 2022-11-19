@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import Register from "../pages/Register";
@@ -9,7 +9,7 @@ import ResetPassword from "../pages/ResetPW";
 
 export default function Router() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard/:page" element={<Dashboard />} />
@@ -21,6 +21,6 @@ export default function Router() {
           element={<ViewNotification />}
         />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

@@ -36,3 +36,5 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+app.on("closed", () => (app = null));
