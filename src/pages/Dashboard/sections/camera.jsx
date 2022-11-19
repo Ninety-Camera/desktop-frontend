@@ -47,9 +47,11 @@ export default function CameraSection() {
       }
       setLoading(false);
     } catch (error) {
+      console.log(error);
       setSnackMessage({ type: "error", message: "A network error occured" });
       setOpenSnackBar(true);
     }
+    setLoading(false);
   }
 
   return (

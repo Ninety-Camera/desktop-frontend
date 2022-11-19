@@ -77,6 +77,15 @@ export default function SignIn() {
   });
   const [openDialog, setOpenDialog] = useState(true);
   const [rechecking, setRecheking] = useState(false);
+  const [disableSignUp, setDisableSignup] = useState(true);
+
+  useEffect(() => {
+    if (userState?.dataStatus === "success" || userState?.dataStatus == "") {
+      if (!userState?.email) {
+        setDisableSignup(false);
+      }
+    }
+  }, [userState]);
 
   async function checkServer() {
     setRecheking(true);
@@ -142,7 +151,7 @@ export default function SignIn() {
   }, [userState]);
 
   async function signInUser(data) {
-    if (userState?.id !== "" && userState?.email !== data.email) {
+    if (userState?.email !== "" && userState?.email !== data.email) {
       setSnackMessage({
         type: "error",
         message: "You cannot log in to this system",
@@ -290,7 +299,7 @@ export default function SignIn() {
                       <Button
                         sx={{ width: "100%" }}
                         variant="text"
-                        disabled={userState?.email !== ""}
+                        disabled={disableSignUp || userState?.email !== ""}
                         style={{ textTransform: "none" }}
                         onClick={() => navigate("/register")}
                       >

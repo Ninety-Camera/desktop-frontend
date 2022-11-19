@@ -9,4 +9,9 @@ export default {
       await localAxiosClient.delete(`delete/camera/${camId}`)
     );
   },
+  async sendSystemId(systemId) {
+    return localResolver(
+      await localAxiosClient.post("/system", { id: systemId })
+    );
+  },
 };
