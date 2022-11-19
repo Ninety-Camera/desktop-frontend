@@ -7,7 +7,6 @@ export const getSavedUser = createAsyncThunk(
 );
 
 export const logOutUser = createAsyncThunk("user/logout", async () => {
-  // const deleteResponse = await api.local_user.deleteUserDetails();
   return;
 });
 

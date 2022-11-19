@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { getLocalUser, loginUser } from "../../reducers/userSlice";
 import { Helmet } from "react-helmet";
+import api from "../../api";
 
 const CustomTextField = styled(TextField)({
   width: "100%",
@@ -72,6 +73,23 @@ export default function SignIn() {
     dispatch(getLocalUser());
   }, []);
 
+  async function sendForgotPasswordEmail(values) {
+    setLoading(true);
+    const data = { email: values?.resetPasswordMail };
+    try {
+      const response = await api.user.sendResetPasswordEmail(data);
+      if (response?.data?.status === 200) {
+        navigate("/resetPW", {
+          state: {
+            id: response?.data?.data?.user?.id,
+            email: data.email,
+          },
+        });
+      }
+    } catch (error) {}
+    setLoading(false);
+  }
+
   useEffect(() => {
     if (
       userState?.auth &&
@@ -83,7 +101,6 @@ export default function SignIn() {
     } else if (userState?.dataStatus === "error") {
       setLoading(false);
     } else if (userState?.auth && userState?.CCTV_System?.id) {
-      // Not allowed to sign in
       setLoading(false);
     } else if (!userState?.auth) {
       if (!timeoutAded) {
@@ -103,6 +120,16 @@ export default function SignIn() {
   });
 
   async function signInUser(data) {
+    if (userState?.email !== data.email) {
+      setSnackMessage({
+        type: "error",
+        message: "You cannot log in to this system",
+      });
+      setOpenSnackBar(true);
+
+      return;
+    }
+    setLoading(true);
     try {
       await dispatch(loginUser(data)).unwrap();
     } catch (error) {
@@ -175,7 +202,6 @@ export default function SignIn() {
                 password: "",
               }}
               onSubmit={(values) => {
-                handleClick();
                 signInUser(values);
               }}
               validationSchema={validationSchema}
@@ -252,7 +278,7 @@ export default function SignIn() {
                   .max(36),
               })}
               onSubmit={(values) => {
-                navigate("/resetPW");
+                sendForgotPasswordEmail(values);
               }}
             >
               {(formikProps) => {
@@ -270,7 +296,7 @@ export default function SignIn() {
                           autoFocus
                           margin="dense"
                           id="resetPasswordMail"
-                          label="e-mail Address"
+                          label="E-mail"
                           type="email"
                           fullWidth
                           variant="standard"
@@ -290,8 +316,12 @@ export default function SignIn() {
                       </DialogContent>
                       <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit" onClick={handleSubmit}>
-                          Continue
+                        <Button
+                          type="submit"
+                          onClick={handleSubmit}
+                          disabled={loading}
+                        >
+                          {loading ? <CircularProgress /> : "Continue"}
                         </Button>
                       </DialogActions>
                     </Dialog>

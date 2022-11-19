@@ -24,4 +24,10 @@ export default {
       })
     );
   },
+  async sendResetPasswordEmail(data) {
+    return resolver(await axiosClient.post("user/reset", data));
+  },
+  async resetUserPassword(data) {
+    return resolver(await axiosClient.put("user/reset", data));
+  },
 };

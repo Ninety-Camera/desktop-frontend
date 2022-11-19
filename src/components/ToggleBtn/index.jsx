@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import "@fontsource/inter";
 import { Button, CircularProgress } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 
 export default function ToggleBtn(props) {
-  //const [systemState, setSystemState] = useState("RUNNING");
   const { loading, disabled = false } = props;
   return (
     <Button
