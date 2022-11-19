@@ -25,3 +25,5 @@ npm i -D concurrently wait-on
 ```
 
 ### `npm run dev` Command to execute the programme
+
+You can find the backend of this application in [here](https://github.com/Ninety-Camera/flask-backend)
