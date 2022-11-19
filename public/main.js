@@ -1,11 +1,12 @@
 const { app, BrowserWindow } = require("electron");
+const path = require("path");
 
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
     width: 1280,
     height: 720,
-    icon: path.resolve(__dirname,"icon.ico"),
+    icon: path.resolve(__dirname, "icon.ico"),
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
