@@ -26,6 +26,7 @@ export default function AddSubscriberBtn(props) {
       <Button
         variant="contained"
         onClick={handleClickOpen}
+        style={{ textTransform: "none" }}
         sx={{
           width: 200,
           height: 50,
