@@ -78,7 +78,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "public/icon.ico"
+        "icon": "./src/icons/win/camera.ico"
       },
       "makers": [
         {
