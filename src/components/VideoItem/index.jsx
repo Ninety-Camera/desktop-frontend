@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Button, CircularProgress, Stack } from "@mui/material";
+import { Button, CircularProgress, IconButton, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import ToggleBtn from "../ToggleBtn";
 import { LOCAL_URL } from "../../constants";
@@ -9,6 +9,7 @@ import {
   updateCameraRunningStatus,
 } from "../../reducers/cameraSlice";
 import HeightBox from "../HeightBox";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import api from "../../api";
 
 export default function VideoItem(props) {
@@ -16,6 +17,7 @@ export default function VideoItem(props) {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
+  const [reloadImage, setReloadImage] = useState(false);
 
   async function updateCameraStatus(status) {
     const newState = videoClip?.status === "RUNNING" ? "STOP" : "RUNNING";
@@ -56,6 +58,13 @@ export default function VideoItem(props) {
     );
   }
 
+  function reloadImageAgain() {
+    setReloadImage(true);
+    setTimeout(() => {
+      setReloadImage(false);
+    }, 1000);
+  }
+
   return (
     <div
       style={{
@@ -66,20 +75,35 @@ export default function VideoItem(props) {
         marginBottom: "25px",
       }}
     >
-      <img
-        src={`${LOCAL_URL}video_feed/${videoClip?.id}`}
-        width={380}
-        height={240}
-        alt="CCTV video"
-        onError={(event) => {
-          event.target.src =
-            "https://www.svgrepo.com/show/343419/computer-error.svg";
-          event.onerror = null;
-        }}
-      />
+      {!reloadImage && (
+        <img
+          src={`${LOCAL_URL}video_feed/${videoClip?.id}`}
+          width={380}
+          height={240}
+          alt="CCTV video"
+          onError={(event) => {
+            event.target.src =
+              "https://www.svgrepo.com/show/343419/computer-error.svg";
+            event.onerror = null;
+          }}
+        />
+      )}
+      {reloadImage && (
+        <div
+          style={{
+            width: 380,
+            height: 260,
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
 
       <div>
-        <Stack direction="column" spacing={2} sx={{ alignContent: "justify" }}>
+        <Stack direction="column" spacing={2} sx={{ alignItems: "center" }}>
           <p
             style={{
               color: "black",
@@ -91,13 +115,20 @@ export default function VideoItem(props) {
           >
             {videoClip?.name}
           </p>
+          {!reloadImage && (
+            <IconButton
+              sx={{ width: 50, height: 50 }}
+              onClick={reloadImageAgain}
+            >
+              <RefreshIcon />
+            </IconButton>
+          )}
           <div
             style={{
               justifyContent: "center",
               marginLeft: "auto",
               marginRight: "auto",
               textAlign: "center",
-              padding: "10px 20px",
             }}
           >
             <Stack direction="row" spacing={1}>
@@ -116,6 +147,7 @@ export default function VideoItem(props) {
                 {loading ? <CircularProgress /> : "Delete Camera"}
               </Button>
             </Stack>
+            <HeightBox height={10} />
           </div>
         </Stack>
       </div>

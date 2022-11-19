@@ -101,14 +101,15 @@ export default function RemoveSubscriber(props) {
         color="secondary"
         style={{ textTransform: "none" }}
         sx={{
-          width: 150,
+          width: 200,
           height: 50,
+          color: "primary",
           fontFamily: "Inter",
           fontSize: 15,
           fontWeight: 700,
         }}
       >
-        Remove
+        Remove Subscriber
       </Button>
       <SimpleDialog
         selectedValue={selectedValue}

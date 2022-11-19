@@ -99,9 +99,6 @@ export default function Settings() {
               <Stack direction="row" spacing={0}>
                 <div style={{ width: "90%", paddingLeft: "10%" }}>
                   <Stack direction="column" spacing={3}>
-                    <Typography variant="h5" gutterBottom>
-                      Other Subscribed Users
-                    </Typography>
                     <div
                       style={{
                         overflow: "hidden",
@@ -109,14 +106,17 @@ export default function Settings() {
                         paddingLeft: "5%",
                       }}
                     >
-                      <Stack direction="column" spacing={2}>
+                      <Stack
+                        direction="column"
+                        alignItems="start"
+                        justifyContent="start"
+                      >
+                        <Typography variant="h5" gutterBottom>
+                          Other Subscribed Users
+                        </Typography>
                         {users.map((user, index) => {
                           return (
-                            <Typography
-                              type="email"
-                              key={index}
-                              sx={{ width: "90%" }}
-                            >
+                            <Typography type="email" key={index} variant="p">
                               {user?.user?.email}
                             </Typography>
                           );

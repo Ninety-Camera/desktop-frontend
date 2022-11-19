@@ -6,7 +6,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import INTRUDER_IMG1 from "../../../assets/images/Intruder1.jpg";
 import api from "../../../api";
@@ -115,6 +115,13 @@ export default function IntrusionSection() {
                 </StyledTableCell>
               </StyledTableRow>
             ))}
+            {intrusions.length === 0 && (
+              <div style={{ paddingLeft: 10 }}>
+                <Typography variant="p" color="red">
+                  Intrusions are empty
+                </Typography>
+              </div>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
