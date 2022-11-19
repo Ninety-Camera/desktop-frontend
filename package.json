@@ -2,7 +2,11 @@
   "name": "ninety-camera",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "homepage": "./",
+  "author": {
+    "name": "Ninety Camera"
+  },
+  "description": "CCTV Smart monitoring system",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -63,6 +67,36 @@
     "electron": "^20.2.0",
     "electron-is-dev": "^2.0.0",
     "jest-dom": "^4.0.0",
-    "wait-on": "^6.0.1"
+    "wait-on": "^6.0.1",
+    "@electron-forge/cli": "^6.0.3",
+    "electron-prebuilt-compile": "8.2.0",
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "ninety_camera"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
