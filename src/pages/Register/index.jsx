@@ -83,6 +83,9 @@ export default function Register() {
 
       if (response?.data?.status === 201) {
         dispatch(updateSystemStatus(response?.data?.data));
+        const systemResponse = await api.local_camera.sendSystemId(
+          response?.data?.data?.CCTV_System?.id
+        );
       } else {
         // error occured in creating the system
         setSnackMessage({
@@ -97,6 +100,12 @@ export default function Register() {
       setOpenSnackBar(true);
     }
   }
+
+  useEffect(() => {
+    if (userState?.email) {
+      navigate("/");
+    }
+  }, []);
 
   useEffect(() => {
     if (userState?.auth && !userState?.CCTV_System) {
@@ -117,6 +126,9 @@ export default function Register() {
   }
 
   async function signUpUser(user) {
+    if (userState?.email) {
+      navigate("/");
+    }
     setLoading(true);
     setTimeout(() => {
       setSnackMessage({ type: "error", message: "An unknown error occured!" });

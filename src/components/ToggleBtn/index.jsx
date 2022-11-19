@@ -10,7 +10,9 @@ export default function ToggleBtn(props) {
     <Button
       variant="contained"
       color={props.state === "RUNNING" ? "secondary" : "primary"}
-      startIcon={props.state === "RUNNING" ? <StopIcon /> : <PlayArrowIcon />}
+      startIcon={
+        !loading && props.state === "RUNNING" ? <StopIcon /> : <PlayArrowIcon />
+      }
       style={{ textTransform: "none" }}
       disabled={loading || disabled}
       sx={{ width: 170 }}

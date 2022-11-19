@@ -25,6 +25,9 @@ export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
           token: "Bearer " + response?.data?.data?.token,
           role: user?.role,
         });
+        const systemResponse = await api.local_camera.sendSystemId(
+          user?.CCTV_System?.id
+        );
       } catch (error) {}
     }
     return {
