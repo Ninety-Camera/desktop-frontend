@@ -270,6 +270,7 @@ export default function SignIn() {
                   <React.Fragment>
                     <CustomTextField
                       label="Email"
+                      id="Email"
                       variant="outlined"
                       error={errors.email && touched.email}
                       helperText={touched.email ? errors.email : ""}
@@ -278,6 +279,7 @@ export default function SignIn() {
 
                     <CustomTextField
                       label="Password"
+                      id="Password"
                       variant="outlined"
                       type="password"
                       error={errors.password && touched.password}

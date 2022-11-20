@@ -216,6 +216,7 @@ export default function Register() {
                       <React.Fragment>
                         <CustomTextField
                           label="First Name"
+                          id="firstName"
                           variant="outlined"
                           error={errors.firstName && touched.firstName}
                           helperText={
@@ -228,6 +229,7 @@ export default function Register() {
 
                         <CustomTextField
                           label="Last Name"
+                          id="lastName"
                           variant="outlined"
                           error={errors.lastName && touched.lastName}
                           helperText={
@@ -240,6 +242,7 @@ export default function Register() {
 
                         <CustomTextField
                           label="Email"
+                          id="email"
                           variant="outlined"
                           error={errors.email && touched.email}
                           helperText={
@@ -251,6 +254,7 @@ export default function Register() {
                         <CustomTextField
                           label="Password"
                           variant="outlined"
+                          id="password"
                           type="password"
                           error={errors.password && touched.password}
                           helperText={
@@ -264,6 +268,7 @@ export default function Register() {
                         <CustomTextField
                           label="Confirm Password"
                           variant="outlined"
+                          id="confirmPassword"
                           type="password"
                           error={
                             errors.confirmPassword && touched.confirmPassword
