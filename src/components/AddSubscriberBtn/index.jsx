@@ -1,17 +1,15 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import ADD_SUB from "../../assets/images/addSubscriber.svg";
+import QRCode from "react-qr-code";
+import HeightBox from "../HeightBox";
 
 export default function AddSubscriberBtn(props) {
-  const [email, setEmail] = React.useState("");
   const [open, setOpen] = React.useState(false);
- 
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -19,59 +17,43 @@ export default function AddSubscriberBtn(props) {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleAdd = () => {
-    // this.newUsers.push({email: {email}, role: "additional"})
-    props.setUsers((current) => [
-      ...current,
-      { email: email, role: "additional" },
-    ]);
-    handleClose();
+    props.cancelView();
   };
 
   return (
     <div data-testid="addSubscriberBtn">
       <Button
-        variant="outlined"
+        variant="contained"
         onClick={handleClickOpen}
+        style={{ textTransform: "none" }}
         sx={{
-          width: 50,
-          // height: 100,
-          backgroundColor: "#6C63FF",
+          width: 200,
+          height: 50,
+          color: "primary",
           fontFamily: "Inter",
-          color: "white",
-          fontSize: 12,
+          fontSize: 15,
           fontWeight: 700,
-          "&:hover": {
-            backgroundColor: "#6f63EE",
-          },
         }}
       >
-        Add
+        Add Subscriber
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add Subscriber</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To add new subscriber to this software, please enter the email
-            address here.
+            {"Scan the QR code using the mobile app"}
           </DialogContentText>
-          <img src={ADD_SUB} style={{ width: "20vw", alignSelf: "center" }} />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="email"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setEmail(e.target.value)}
+          <HeightBox height={20} />
+
+          <QRCode
+            size={256}
+            style={{ height: "auto", width: 300, height: 300 }}
+            value={props.deviceID}
+            viewBox={`0 0 256 256`}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleAdd}>Add</Button>
         </DialogActions>
       </Dialog>
     </div>

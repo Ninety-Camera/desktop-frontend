@@ -1,17 +1,18 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
+import React, { useState } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { IconButton } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import AddCameraForm from "../AddCameraForm";
-import Link from "@mui/material/Link";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
 
 export default function SettingsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState(false);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -19,10 +20,9 @@ export default function SettingsMenu() {
     setAnchorEl(null);
   };
 
-  const handleAddCamera = () => {};
-
   return (
     <div>
+      <AddCameraForm openDialog={openDialog} setOpenDialog={setOpenDialog} />
       <IconButton
         id="basic-button"
         aria-controls={open ? "settings-menu" : undefined}
@@ -40,19 +40,17 @@ export default function SettingsMenu() {
         MenuListProps={{
           "aria-labelledby": "settings-button",
         }}
-        sx={{ color: "#6C63FF" }}
       >
-        <MenuItem component={AddCameraForm} onClick={handleClose}>
-          ADD CAMERA
-        </MenuItem>
-
         <MenuItem
-          onClick={handleClose}
-          component={Link}
-          sx={{ color: "#6C63FF" }}
-          href="../"
+          onClick={() => {
+            setOpenDialog(true);
+            handleClose();
+          }}
         >
-          LOG OUT
+          <ListItemIcon>
+            <AddCircleIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Add new camera</ListItemText>
         </MenuItem>
       </Menu>
     </div>

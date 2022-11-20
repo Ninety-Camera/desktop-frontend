@@ -12,10 +12,8 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MainListItems from "./listItems";
 import { Button } from "@mui/material";
 import { DASHBOARD_ROUTES } from "../../constants";
@@ -23,6 +21,8 @@ import CameraSection from "./sections/camera";
 import IntrusionSection from "./sections/intrusion";
 import Settings from "./sections/settings";
 import ProcessedVideo from "./sections/processedVideo";
+import { logOutUser } from "../../reducers/userSlice";
+import { getCameras } from "../../reducers/cameraSlice";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -71,9 +71,26 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const userState = useSelector((state) => state.user);
+  const disptach = useDispatch();
   const [open, setOpen] = React.useState(true);
   const [openPane, setOpenPane] = React.useState(<CameraSection />);
   const location = useLocation();
+
+  React.useEffect(() => {
+    if (!userState?.auth) {
+      navigate("/");
+    } else {
+      if (userState) {
+        disptach(
+          getCameras({
+            systemId: userState?.CCTV_System?.id,
+            token: userState?.token,
+          })
+        );
+      }
+    }
+  }, [userState]);
 
   React.useEffect(() => {
     const params = location.pathname.split("/");
@@ -133,6 +150,16 @@ export default function Dashboard() {
           >
             Dashboard
           </Typography>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ textTransform: "none" }}
+            onClick={() => {
+              disptach(logOutUser());
+            }}
+          >
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

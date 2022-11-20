@@ -1,33 +1,69 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import "@fontsource/inter";
-import { Stack, Button } from "@mui/material";
-import VIDEOCLIP1 from "../../../assets/video1.mp4";
+import { Stack } from "@mui/material";
 import VideoArea from "../../../components/VideoArea";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import StopIcon from "@mui/icons-material/Stop";
 import SettingsMenu from "../../../components/SettingsMenu";
 import HeightBox from "../../../components/HeightBox";
-
-const videoList = [
-  {
-    sourcePath: "http://localhost:5000/video_feed/cam1",
-    date: "20/02/2022",
-    hour: "12:00",
-  },
-  {
-    sourcePath: "http://localhost:5000/video_feed/cam2",
-    date: "20/02/2022",
-    hour: "12:00",
-  },
-];
+import ToggleBtn from "../../../components/ToggleBtn";
+import api from "../../../api";
+import { useDispatch, useSelector } from "react-redux";
+import { updateSystemRunningState } from "../../../reducers/userSlice";
+import { updateAllCameraRunningStatus } from "../../../reducers/cameraSlice";
+import SnackBarComponent from "../../../components/SnackBarComponent";
 
 export default function CameraSection() {
-  const [systemState, setSystemState] = useState("RUNNING");
+  const userState = useSelector((state) => state.user);
+  const cameraState = useSelector((state) => state.camera);
+  const dispatch = useDispatch();
+  const [systemState, setSystemState] = useState(
+    userState?.CCTV_System?.status
+  );
+  const [loading, setLoading] = useState(false);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackMessage, setSnackMessage] = useState({
+    type: "success",
+    message: "",
+  });
+
+  async function changeSystemMonitoringStatus() {
+    var newState = systemState === "RUNNING" ? "STOP" : "RUNNING";
+    setLoading(true);
+    try {
+      const response = await api.cctv.changeMonitoringStatus(
+        { newStatus: newState, systemId: userState?.CCTV_System?.id },
+        userState?.token
+      );
+      if (response?.data?.status === 200) {
+        setSystemState(newState);
+        dispatch(updateAllCameraRunningStatus(newState));
+        dispatch(updateSystemRunningState(newState));
+      } else {
+        // Error occured
+        setSnackMessage({
+          type: "error",
+          message: "Error occured while changing the status",
+        });
+        setOpenSnackBar(true);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setSnackMessage({ type: "error", message: "A network error occured" });
+      setOpenSnackBar(true);
+    }
+    setLoading(false);
+  }
 
   return (
-    <div style={{ overflow: "hidden" }}>
-      <Stack direction="column">
-        <HeightBox height={10} />
+    <div style={{ overflowX: "hidden", overflowY: "scroll" }}>
+      <SnackBarComponent
+        type={snackMessage.type}
+        message={snackMessage.message}
+        open={openSnackBar}
+        setOpen={setOpenSnackBar}
+      />
+      <Stack direction="column" spacing={5}>
+        <HeightBox height={2} />
         <div
           style={{
             paddingLeft: 40,
@@ -36,32 +72,20 @@ export default function CameraSection() {
         >
           <Stack direction="row" spacing={5} alignItems="center">
             <div>
-              <Button
-                variant="contained"
-                color={systemState === "RUNNING" ? "secondary" : "primary"}
-                startIcon={
-                  systemState === "RUNNING" ? <StopIcon /> : <PlayArrowIcon />
-                }
-                style={{ textTransform: "none" }}
-                onClick={() => {
-                  if (systemState === "RUNNING") {
-                    setSystemState("STOP");
-                  } else {
-                    setSystemState("RUNNING");
-                  }
+              <ToggleBtn
+                state={systemState}
+                loading={loading}
+                disabled={cameraState?.cameras.length === 0}
+                setState={(status) => {
+                  changeSystemMonitoringStatus();
                 }}
-              >
-                {systemState === "RUNNING"
-                  ? "Stop Monitoring"
-                  : "Start Monitoring"}
-              </Button>
+              />
             </div>
-
             <SettingsMenu />
           </Stack>
         </div>
         <div style={{ paddingLeft: 40, paddingRight: 40 }}>
-          <VideoArea videosList={videoList} alignment={"row"} />
+          <VideoArea alignment={"row"} />
         </div>
         <HeightBox height={10} />
       </Stack>

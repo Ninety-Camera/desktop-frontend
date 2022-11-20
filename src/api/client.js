@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios from "axios";
 import { HOSTED_URL, LOCAL_URL } from "../constants";
 
 export const localAxiosClient = axios.create({
@@ -9,15 +9,6 @@ export const localAxiosClient = axios.create({
 // eslint-disable-next-line import/prefer-default-export
 export const axiosClient = axios.create({
   baseURL: HOSTED_URL,
-});
-
-axiosClient.interceptors.request.use(async (config) => {
-  const token = "";
-  if (token !== "") {
-    config.headers.Authorization = token;
-  }
-
-  return config;
 });
 
 // eslint-disable-next-line import/prefer-default-export

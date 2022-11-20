@@ -6,15 +6,63 @@ export const getSavedUser = createAsyncThunk(
   async () => {}
 );
 
+export const logOutUser = createAsyncThunk("user/logout", async () => {
+  return;
+});
+
 export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
   const response = await api.user.signinUser(data);
-  console.log("Response is: ", response);
+
   if (response?.data?.status === 200) {
-    // User logging success
-    return response?.data?.data?.user;
+    const user = response?.data?.data?.user;
+    if (user?.role === "OWNER") {
+      try {
+        const localResponse = await api.local_user.sendUserDetails({
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          token: "Bearer " + response?.data?.data?.token,
+          role: user?.role,
+        });
+        const systemResponse = await api.local_camera.sendSystemId(
+          user?.CCTV_System?.id
+        );
+      } catch (error) {}
+    }
+    return {
+      ...response?.data?.data?.user,
+      token: "Bearer " + response?.data?.data?.token,
+    };
   }
   throw new Error("Login error!");
 });
+
+export const getLocalUser = createAsyncThunk(
+  "user/getLocalUser",
+  async (data) => {
+    const response = await api.local_user.getLoogedInUserDetails();
+    if (response?.status === 200) {
+      const validResponse = await api.user.checkUserToken(response.data?.token);
+      if (validResponse?.status == 200) {
+        const system = await api.user.getCCTVSystem(
+          response?.data?.userId,
+          response.data?.token
+        );
+        if (system?.data?.status === 200) {
+          return {
+            ...response.data,
+
+            token: "Bearer " + response?.data?.data?.token,
+          };
+        }
+      } else {
+        const deleteResponse = await api.local_user.deleteUserDetails();
+      }
+    }
+    throw new Error("Registration error!");
+  }
+);
 
 export const registerUser = createAsyncThunk(
   "user/registerUser",
@@ -22,7 +70,24 @@ export const registerUser = createAsyncThunk(
     const response = await api.user.registerUser(data);
     if (response?.data?.status === 201) {
       // User Registration success
-      return response?.data?.data?.user;
+      const user = response?.data?.data?.user;
+      try {
+        const localResponse = await api.local_user.sendUserDetails({
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          token: "Bearer " + response?.data?.data?.token,
+          role: "OWNER",
+        });
+      } catch (error) {
+        console.log("Error occured: ", error);
+      }
+
+      return {
+        ...response?.data?.data?.user,
+        token: "Bearer " + response?.data?.data?.token,
+      };
     }
     throw new Error("Registration error!");
   }
@@ -34,8 +99,8 @@ const initialState = {
   lastName: "",
   email: "",
   role: "",
-  systemId: "",
   dataStatus: null,
+  CCTV_System: null,
 };
 
 export const userSlice = createSlice({
@@ -46,7 +111,17 @@ export const userSlice = createSlice({
       return { ...initialState };
     },
     updateSystemStatus: (state, { payload }) => {
-      return { ...state, CCTV_System: { ...payload } };
+      return { ...state, CCTV_System: { ...payload }, role: "OWNER" };
+    },
+    updateSystemRunningState: (state, { payload }) => {
+      console.log("Payload is: ", payload);
+      return {
+        ...state,
+        CCTV_System: {
+          ...state.CCTV_System,
+          status: payload,
+        },
+      };
     },
   },
   extraReducers: (builder) => {
@@ -82,10 +157,33 @@ export const userSlice = createSlice({
     builder.addCase(registerUser.rejected, (state, action) => {
       return { ...state, dataStatus: "error" };
     });
+
+    // Getting the local user
+    builder.addCase(getLocalUser.pending, (state, action) => {
+      return { ...state, dataStatus: "loading" };
+    });
+    builder.addCase(getLocalUser.fulfilled, (state, { payload }) => {
+      return { ...state, dataStatus: "success", ...payload, auth: false };
+    });
+    builder.addCase(getLocalUser.rejected, (state, action) => {
+      return { ...state, dataStatus: "", auth: false };
+    });
+
+    // Logout user
+    builder.addCase(logOutUser.pending, (state, action) => {
+      return { ...state, dataStatus: "loading" };
+    });
+    builder.addCase(logOutUser.fulfilled, (state, action) => {
+      return { ...initialState, dataStatus: "success" };
+    });
+    builder.addCase(logOutUser.rejected, (state, action) => {
+      return { ...initialState, auth: false, dataStatus: "error" };
+    });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { clearUser, updateSystemStatus } = userSlice.actions;
+export const { clearUser, updateSystemStatus, updateSystemRunningState } =
+  userSlice.actions;
 
 export default userSlice.reducer;

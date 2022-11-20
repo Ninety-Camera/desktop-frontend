@@ -7,7 +7,7 @@ import renderer from "react-test-renderer";
 
 afterEach(cleanup);
 
-it("renders without crashing", () => {
+it("Add camera form renders without crashing", () => {
   const div = document.createElement("div");
   ReactDom.render(<AddCameraForm />, div);
 });

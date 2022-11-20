@@ -6,7 +6,6 @@ import { Formik } from "formik";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import REGISTER_IMAGE from "../../assets/images/loginBG.svg";
 import { Stack } from "@mui/material";
@@ -14,14 +13,15 @@ import HeightBox from "../../components/HeightBox";
 import * as Yup from "yup";
 import SnackBarComponent from "../../components/SnackBarComponent";
 import "@fontsource/inter";
-import { registerUser } from "../../reducers/userSlice";
+import { registerUser, updateSystemStatus } from "../../reducers/userSlice";
+import { Helmet } from "react-helmet";
+import api from "../../api";
 
 const CustomTextField = styled(TextField)({
   width: "100%",
 });
 
 const CustomButton = styled(Button)(({ theme }) => ({
-  // color: theme.palette.getContrastText([500]),
   width: "100%",
   backgroundColor: "#6C63FF",
   fontFamily: "Inter",
@@ -64,7 +64,6 @@ export default function Register() {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
   const [loading, setLoading] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackMessage, setSnackMessage] = useState({
@@ -72,37 +71,94 @@ export default function Register() {
     message: "",
   });
 
+  async function createTheSystem() {
+    if (!userState?.token) {
+      return;
+    }
+    try {
+      const response = await api.cctv.createSystem(
+        { cameraCount: 0 },
+        userState?.token
+      );
+
+      if (response?.data?.status === 201) {
+        dispatch(updateSystemStatus(response?.data?.data));
+        const systemResponse = await api.local_camera.sendSystemId(
+          response?.data?.data?.CCTV_System?.id
+        );
+      } else {
+        // error occured in creating the system
+        setSnackMessage({
+          type: "error",
+          message: "Error occured while creating the system",
+        });
+        setOpenSnackBar(true);
+      }
+    } catch (error) {
+      // Add a snack message saying that error occured
+      setSnackMessage({ type: "error", message: "A network error occured" });
+      setOpenSnackBar(true);
+    }
+  }
+
   useEffect(() => {
-    if (userState?.auth) {
-      navigate("/system");
+    if (userState?.email) {
+      navigate("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userState?.auth && !userState?.CCTV_System) {
+      createTheSystem();
+    } else if (userState?.auth && userState?.CCTV_System?.id) {
+      setLoading(false);
+      navigate("/dashboard/camera");
     } else if (userState?.dataStatus === "error") {
       // Error occured
-      // Show the snack error message
+      setLoading(false);
+      setSnackMessage({ type: "error", message: "Error occured!" });
+      setOpenSnackBar(true);
     }
   }, [userState]);
 
+  function handleClick() {
+    setLoading(true);
+  }
+
+  async function signUpUser(user) {
+    if (userState?.email) {
+      navigate("/");
+    }
+    setLoading(true);
+    setTimeout(() => {
+      setSnackMessage({ type: "error", message: "An unknown error occured!" });
+      setOpenSnackBar(true);
+      setLoading(false);
+    }, 10000);
+    try {
+      dispatch(registerUser(user));
+    } catch (error) {
+      setLoading(false);
+      setSnackMessage({ type: "error", message: error.message });
+      setOpenSnackBar(true);
+    }
+  }
+
   return (
-    <div
-      style={{
-        overflow: "hidden",
-        background: "6C63FF",
-        backgroundImage: `url(${REGISTER_IMAGE})`,
-        // backgroundRepeat: "no-repeat",
-        backgroundSize: "contain",
-        height: 775,
-        width: 1550,
-      }}
-    >
+    <div>
+      <Helmet>
+        <style>
+          {"body { background-image: " +
+            `url(${REGISTER_IMAGE})` +
+            "; overflow: hidden; background-repeat: no-repeat; background-size: cover}"}
+        </style>
+      </Helmet>
       <Stack direction="column">
-        <Stack
-          direction="row"
-          // spacing={15}
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Stack direction="row" justifyContent="center" alignItems="center">
           <Paper
             variant="outlined"
             sx={{
+              minWidth: 400,
               width: "30%",
               position: "absolute",
               top: "10%",
@@ -122,6 +178,12 @@ export default function Register() {
                 >
                   Register With Us
                 </h2>
+                <SnackBarComponent
+                  type={snackMessage.type}
+                  message={snackMessage.message}
+                  open={openSnackBar}
+                  setOpen={setOpenSnackBar}
+                />
               </div>
               <HeightBox height={30} />
               <Stack direction="column" spacing={2}>
@@ -134,13 +196,15 @@ export default function Register() {
                     confirmPassword: "",
                   }}
                   onSubmit={(values) => {
+                    handleClick();
                     const user = {
                       firstName: values.firstName,
                       lastName: values.lastName,
                       email: values.email,
                       password: values.password,
                     };
-                    dispatch(registerUser(user));
+                    signUpUser(user);
+                    console.log(user);
                   }}
                   validationSchema={validationSchema}
                 >
@@ -152,6 +216,7 @@ export default function Register() {
                       <React.Fragment>
                         <CustomTextField
                           label="First Name"
+                          id="firstName"
                           variant="outlined"
                           error={errors.firstName && touched.firstName}
                           helperText={
@@ -164,6 +229,7 @@ export default function Register() {
 
                         <CustomTextField
                           label="Last Name"
+                          id="lastName"
                           variant="outlined"
                           error={errors.lastName && touched.lastName}
                           helperText={
@@ -175,7 +241,8 @@ export default function Register() {
                         />
 
                         <CustomTextField
-                          label="email"
+                          label="Email"
+                          id="email"
                           variant="outlined"
                           error={errors.email && touched.email}
                           helperText={
@@ -187,6 +254,7 @@ export default function Register() {
                         <CustomTextField
                           label="Password"
                           variant="outlined"
+                          id="password"
                           type="password"
                           error={errors.password && touched.password}
                           helperText={
@@ -200,6 +268,7 @@ export default function Register() {
                         <CustomTextField
                           label="Confirm Password"
                           variant="outlined"
+                          id="confirmPassword"
                           type="password"
                           error={
                             errors.confirmPassword && touched.confirmPassword

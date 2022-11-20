@@ -1,6 +1,6 @@
 const path = require("path");
 
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, net } = require("electron");
 const isDev = require("electron-is-dev");
 
 function createWindow() {
@@ -8,6 +8,7 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
     height: 720,
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -35,9 +36,25 @@ app.whenReady().then(createWindow);
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  const request = net.request({
+    method: "GET",
+    protocol: "http:",
+    hostname: "10.10.14.63",
+    port: 5000,
+    path: "/close",
+  });
+
+  request.on("response", (response) => {});
+  request.on("finish", () => {
+    if (process.platform !== "darwin") {
+      app.quit();
+    }
+  });
+  request.on("abort", () => {});
+  request.on("error", (error) => {});
+  request.on("close", (error) => {});
+  request.setHeader("Content-Type", "application/json");
+  request.end();
 });
 
 app.on("activate", () => {
